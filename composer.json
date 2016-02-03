@@ -1,7 +1,7 @@
 {
     "name": "africastalking/africastalking",
     "description": "One liner description",
-    "keywords": ["sms", "voice", "ussd", "text message", ""],
+    "keywords": ["sms", "voice", "ussd", "text message", "airtime", "api", "africastalking"],
     "homepage": "http://github.com/AfricasTalkingLtd/africastalking-php",
     "type": "library",
     "license": "MIT",
