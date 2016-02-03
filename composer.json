@@ -8,7 +8,7 @@
     "authors": [{
         "name": "Ian Juma",
         "email": "ijuma@africastalking.com",
-        "homepage": "www.africastalking.com"
+        "homepage": "https://www.africastalking.com"
     }],
     "require": {
         "php": ">=5.3.0"
