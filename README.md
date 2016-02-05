@@ -15,7 +15,7 @@ composer require africastalking/africastalking
 
 ```php
 <?php
-require_once('AfricasTalkingGateway.php');
+require_once('AfricasTalkingGateway');
 
 // Specify your login credentials
 $username   = "MyAfricasTalkingUsername";
@@ -56,7 +56,7 @@ catch ( AfricasTalkingGatewayException $e )
 ```php
 <?php
 // Include the helper gateway class
-require_once('AfricasTalkingGateway.php');
+require_once('AfricasTalkingGateway');
 
 // Specify your login credentials
 $username   = "MyAfricasTalkingUsername";
@@ -106,7 +106,7 @@ catch ( AfricasTalkingGatewayException $e )
 ```php
 <?php
 // Be sure to include our gateway class
-require_once('AfricasTalkingGateway.php');
+require_once('AfricastalkingGateway');
 
 // Specify your login credentials
 $username   = "MyAfricasTalking_Username";
@@ -146,7 +146,7 @@ catch ( AfricasTalkingGatewayException $e )
 ```php
 <?php
 
-    require_once "AfricasTalkingGateway.php";
+    require_once "AfricastalkingGateway";
     
     //Specify your credentials
     $username = "myAfricasTalkingUsername";
@@ -184,7 +184,7 @@ catch ( AfricasTalkingGatewayException $e )
 
 ```php
 <?php
-require_once('AfricasTalkingGateway.php');
+require_once('AfricastalkingGateway');
 
 $username   = "MyAfricasTalkingUsername";
 $apikey     = "MyAfricasTalkingApiKey";
