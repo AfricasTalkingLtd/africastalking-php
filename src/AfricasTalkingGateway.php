@@ -49,7 +49,7 @@ class AfricasTalkingGateway
     $this->_responseInfo = null;    
   }
   
-  
+
   
   //Messaging methods
   public function sendMessage($to_, $message_, $from_ = null, $bulkSMSMode_ = 1, Array $options_ = array())
@@ -291,12 +291,12 @@ class AfricasTalkingGateway
             $providerChannel_,
             $metadata_) {
     $this->_requestBody = json_encode(array("username"     => $this->_username,
-              "productName"  => $productName_,
-              "phoneNumber"  => $phoneNumber_,
-              "currencyCode" => $currencyCode_,
+              "productName"     => $productName_,
+              "phoneNumber"     => $phoneNumber_,
+              "currencyCode"    => $currencyCode_,
               "providerChannel" => $providerChannel_,
-              "amount"       => $amount_,
-              "metadata"     => $metadata_));
+              "amount"          => $amount_,
+              "metadata"        => $metadata_));
     $this->_requestUrl  = $this->getMobilePaymentCheckoutUrl();
     
     $this->executeJsonPOST();
