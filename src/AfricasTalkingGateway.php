@@ -50,6 +50,7 @@ class AfricasTalkingGateway
   }
   
   
+  
   //Messaging methods
   public function sendMessage($to_, $message_, $from_ = null, $bulkSMSMode_ = 1, Array $options_ = array())
   {
