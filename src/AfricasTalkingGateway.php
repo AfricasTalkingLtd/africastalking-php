@@ -290,6 +290,7 @@ class AfricasTalkingGateway
             $amount_,
             $providerChannel_,
             $metadata_) {
+
     $this->_requestBody = json_encode(array("username"     => $this->_username,
               "productName"     => $productName_,
               "phoneNumber"     => $phoneNumber_,
@@ -297,6 +298,7 @@ class AfricasTalkingGateway
               "providerChannel" => $providerChannel_,
               "amount"          => $amount_,
               "metadata"        => $metadata_));
+    
     $this->_requestUrl  = $this->getMobilePaymentCheckoutUrl();
     
     $this->executeJsonPOST();
