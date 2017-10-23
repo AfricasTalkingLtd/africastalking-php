@@ -77,7 +77,7 @@ class SMS extends Service
 		}	
 
 		$data = [
-			'username' 	=> $this->username,
+			'username' 			=> $this->username,
 			'lastReceivedId' 	=> $options['lastReceivedId']
 		];
 

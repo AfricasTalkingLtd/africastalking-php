@@ -9,11 +9,11 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function setup()
 	{
 		$this->username = $_ENV['TEST_USERNAME'];
-		$this->apiKey = $_ENV['TEST_API_KEY'];
+		$this->apiKey 	= $_ENV['TEST_API_KEY'];
 
 		$at 			= new AfricasTalking($this->username, $this->apiKey);
 
-		$this->client 	= $at->SMS();		
+		$this->client 	= $at->sms();		
 	}
 
 	public function testSMSWithEmptyMessage()
@@ -163,7 +163,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 
 	public function testFetchSMSWithLastReceived()
 	{
-		$response = $this->client->fetchMessages(['lastReceivedId' => 8796]);
+		$response = $this->client->fetchMessages(['lastReceivedId' => '8796']);
 
 		$response_array = json_decode($response['data']->getBody()->getContents(), true);
 
@@ -251,8 +251,6 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		]);
 
 		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		print_r($response_array);
 
 		$this->assertArrayHasKey('responses', $response_array);
 	}
