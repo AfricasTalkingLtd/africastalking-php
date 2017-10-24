@@ -2,8 +2,6 @@
 
 namespace AfricasTalking;
 
-require __DIR__ . '/../vendor/autoload.php';
-
 use GuzzleHttp\Client;
 
 class AfricasTalking
