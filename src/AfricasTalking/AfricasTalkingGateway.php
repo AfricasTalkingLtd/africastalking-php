@@ -16,7 +16,7 @@
  
 */
 
-class AfricasTalkingGatewayException extends Exception  {}
+namespace AfricasTalking;
 
 class AfricasTalkingGateway
 {
