@@ -15,6 +15,6 @@
     </testsuites>
     <php>
         <env name="TEST_USERNAME" value="sandbox"/>
-        <env name="TEST_API_KEY" value="9bdd9f7bb3f775ffc5263d4c8b47a028c343c9cf45a8c1c3c2a82e949041cd2e"/>
+        <env name="TEST_API_KEY" value="ff6cce1576d00573b667bd793cc94a7591672066b3331709bdc32c18b653d62c"/>
     </php>
 </phpunit>

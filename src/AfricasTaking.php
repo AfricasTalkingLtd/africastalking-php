@@ -1,5 +1,4 @@
 <?php
-
 namespace AfricasTalking;
 
 use GuzzleHttp\Client;
