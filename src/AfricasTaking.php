@@ -5,26 +5,56 @@ use GuzzleHttp\Client;
 
 class AfricasTalking
 {
+	const BASE_DOMAIN        = "africastalking.com";
+	const BASE_SANDBOX_DOMAIN = "sandbox." + BASE_DOMAIN;
+	
 	protected $username;
 	protected $apiKey;
 
 	protected $client;
 
+	protected $voiceUrl;
+	protected $paymentUrl;
+
 	protected $SMS;
 
 	public function __construct($username, $apiKey)
 	{
+		
+		if($username === 'sandbox') {
+			$this->baseDomain = BASE_SANDBOX_DOMAIN;
+		} else {
+			$this->baseDomain = BASE_DOMAIN;
+		}
 
-		$this->baseUrl = "http://api.africastalking.com/version1/";
-
-		if($username === 'sandbox')
-			$this->baseUrl = "http://api.sandbox.africastalking.com/version1/";
-
+		$this->baseUrl = "https://api." . $this->baseDomain . "/version1";
+		$this->voiceUrl = "https://voice." . $this->baseDomain . "/version1";
+		$this->paymentsUrl = "https://payment." . $this->baseDomain . "/version1";
+		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . "/checkout/token/create";
+		
 		$this->username = $username;
 		$this->apiKey = $apiKey;
 
 		$this->client = new Client([
 			'base_uri' => $this->baseUrl,
+			'headers' => [
+				'apikey' => $this->apiKey,
+				'Content-Type' => 'application/x-www-form-urlencoded',
+				'Accept' => 'application/json'
+			]
+		]);
+
+		$this->voiceClient = new Client([
+			'base_uri' => $this->voiceUrl,
+			'headers' => [
+				'apikey' => $this->apiKey,
+				'Content-Type' => 'application/x-www-form-urlencoded',
+				'Accept' => 'application/json'
+			]
+		]);
+
+		$this->paymentsClient = new Client([
+			'base_uri' => $this->paymentUrl,
 			'headers' => [
 				'apikey' => $this->apiKey,
 				'Content-Type' => 'application/x-www-form-urlencoded',
@@ -53,7 +83,7 @@ class AfricasTalking
 
 	public function voice()
 	{
-		$voice = new Voice($this->client, $this->username, $this->apiKey);		
+		$voice = new Voice($this->voiceClient, $this->username, $this->apiKey);
 		return $voice;
 	}
 
