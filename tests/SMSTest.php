@@ -8,12 +8,12 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 {
 	public function setup()
 	{
-		$this->username = $_ENV['TEST_USERNAME'];
-		$this->apiKey 	= $_ENV['TEST_API_KEY'];
+		$this->username = Fixtures::$username;
+		$this->apiKey 	= Fixtures::$apiKey;
 
 		$at 			= new AfricasTalking($this->username, $this->apiKey);
 
-		$this->client 	= $at->sms();		
+		$this->client 	= $at->sms();
 	}
 
 	public function testSMSWithEmptyMessage()
@@ -21,7 +21,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$this->assertArraySubset(
 			['status' => 'error'],
 			$this->client->send([
-				'to' 		=> ['+2348068364334', '+2347038157749'], 
+				'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
 			])
 		);
 	}
@@ -39,8 +39,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testSingleSMSSending()
 	{
 		$response = $this->client->send([
-			'to' 		=> ['+2348068364334'], 
-			'message' 	=> 'Testing...'
+			'to' 		=> [Fixtures::$phoneNumber], 
+			'message' 	=> 'Testing SMS...'
 		]);
 
 		$response_array = json_decode($response['data']->getBody()->getContents(), true);
@@ -51,8 +51,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testMultipleSMSSending()
 	{
 		$response = $this->client->send([
-			'to' 		=> ['+2348068364334', '+2347038157749'], 
-			'message' 	=> 'Testing...'
+			'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
+			'message' 	=> 'Testing multiple sending...'
 		]);
 
 		$response_array = json_decode($response['data']->getBody()->getContents(), true);
@@ -63,8 +63,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testSMSSendingWithShortcode()
 	{
 		$response = $this->client->send([
-			'to' 		=> ['+2348068364334'], 
-			'message' 	=> 'Testing...',
+			'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
+			'message' 	=> 'Testing with short code...',
 			'from'		=> '12345'
 		]);
 
@@ -76,8 +76,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testSMSSendingWithAlphanumeric()
 	{
 		$response = $this->client->send([
-			'to' 		=> ['+2348068364334'], 
-			'message' 	=> 'Testing...',
+			'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
+			'message' 	=> 'Testing with AlphaNumeric...',
 			'from'		=> 'TEST'
 		]);
 
@@ -89,8 +89,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testBulkSMSSending()
 	{
 		$response = $this->client->sendBulk([
-			'to' 		=> ['+2348068364334', '+2347038157749'], 
-			'message' 	=> 'Testing...'
+			'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
+			'message' 	=> 'Testing bulk sending...'
 		]);
 
 		$response_array = json_decode($response['data']->getBody()->getContents(), true);
@@ -103,10 +103,10 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$this->assertArraySubset(
 			['status' => 'error'],
 			$response = $this->client->sendPremium([
-				'to' 		=> ['+2348068364334', '+2347038157749'], 
+				'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
 				'linkId'	=> 'messageLinkId',
 				'from'		=> '12345',
-				'message' 	=> 'Testing...'
+				'message' 	=> 'Testing SMS without keyword...'
 			])
 		);
 	}
@@ -116,7 +116,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$this->assertArraySubset(
 			['status' => 'error'],
 			$response = $this->client->sendPremium([
-				'to' 		=> ['+2348068364334', '+2347038157749'], 
+				'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
 				'keyword'	=> 'Test',
 				'from'		=> '12345',
 				'message' 	=> 'Testing...'
@@ -129,7 +129,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$this->assertArraySubset(
 			['status' => 'error'],
 			$response = $this->client->sendPremium([
-				'to' 		=> ['+2348068364334', '+2347038157749'], 
+				'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
 				'linkId'	=> 'messageLinkId',
 				'keyword'	=> 'Test',
 				'message' 	=> 'Testing...'
@@ -140,7 +140,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testPremiumSMSSending()
 	{
 		$response = $this->client->sendPremium([
-			'to' 		=> ['+2348068364334', '+2347038157749'], 
+			'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
 			'linkId'	=> 'messageLinkId',
 			'keyword'	=> 'Test',
 			'from'		=> '12345',
@@ -194,8 +194,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$this->assertArraySubset(
 			['status' => 'error'],
 			$response = $this->client->createSubscription([
-				'phoneNumber' 	=> '+2348068364334',
-				'keyword'		=> 'Test'
+				'phoneNumber' 	=> Fixtures::$phoneNumber,
+				'keyword'		=> 'BOOM'
 			])
 		);
 	}
@@ -205,7 +205,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$this->assertArraySubset(
 			['status' => 'error'],
 			$response = $this->client->createSubscription([
-				'phoneNumber' 	=> '+2348068364334',
+				'phoneNumber' 	=> Fixtures::$phoneNumber,
 				'shortCode'		=> '12345'
 			])
 		);
@@ -214,8 +214,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testCreateSubscription()
 	{
 		$response = $this->client->createSubscription([
-			'phoneNumber' 	=> '+2348068364334',
-			'shortCode'		=> '12345',
+			'phoneNumber' 	=> Fixtures::$phoneNumber,
+			'shortCode'		=> Fixtures::$shortCode,
 			'keyword'		=> 'Test'
 		]);
 
@@ -230,8 +230,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testDeleteSubscription()
 	{
 		$response = $this->client->deleteSubscription([
-			'phoneNumber' 	=> '+2348068364334', 
-			'shortCode'		=> '12345',
+			'phoneNumber' 	=> Fixtures::$phoneNumber, 
+			'shortCode'		=> Fixtures::$shortCode,
 			'keyword'		=> 'Test'
 		]);
 
@@ -246,7 +246,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testFetchSubscriptions()
 	{
 		$response = $this->client->fetchSubscriptions([
-			'shortCode'		=> '12345',
+			'shortCode'		=> Fixtures::$shortCode,
 			'keyword'		=> 'Test'
 		]);
 

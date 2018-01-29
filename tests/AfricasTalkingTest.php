@@ -8,8 +8,8 @@ class AfricasTalkingTest extends \PHPUnit\Framework\TestCase
 {
 	public function setup()
 	{
-		$this->username = $_ENV['TEST_USERNAME'];
-		$this->apiKey 	= $_ENV['TEST_API_KEY'];
+		$this->username = Fixtures::$username;
+		$this->apiKey 	= Fixtures::$apiKey;
 
 		$this->client 	= new AfricasTalking($this->username, $this->apiKey);
 	}

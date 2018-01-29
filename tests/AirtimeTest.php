@@ -8,8 +8,8 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 {
 	public function setup()
 	{
-		$this->username = $_ENV['TEST_USERNAME'];
-		$this->apiKey 	= $_ENV['TEST_API_KEY'];
+		$this->username = Fixtures::$username;
+		$this->apiKey 	= Fixtures::$apiKey;
 
 		$at 			= new AfricasTalking($this->username, $this->apiKey);
 
@@ -20,7 +20,7 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 	{
 		$response = $this->client->send([
 			'recipients'	=> [
-				['phoneNumber' => '+2348068364334', 'amount' => 'NGN 100'],
+				['phoneNumber' => Fixtures::$phoneNumber, 'amount' => Fixtures::$airtimeAmount],
 			]
 		]);
 
@@ -33,7 +33,7 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 	{
 		$response = $this->client->send([
 			'recipients'	=> [
-				['phoneNumber' => '+2348068364334', 'amount' => 'NGN 10'],
+				['phoneNumber' => Fixtures::$phoneNumber, 'amount' => Fixtures::$airtimeAmount],
 				['phoneNumber' => '+2347038151149', 'amount' => 'NGN 10000'],
 			]
 		]);
@@ -49,7 +49,7 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 			['status' 		=> 'error'],
 			$response = $this->client->send([
 				'recipients'	=> [
-					['phoneNumber' => '+2348068364334', 'amount' => 'NGN 9'],
+					[Fixtures::$phoneNumber, 'amount' => 'KES 9'],
 				]
 			])
 		);
@@ -58,7 +58,7 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 			['status'		=> 'error'],
 			$response = $this->client->send([
 				'recipients'	=> [
-					['phoneNumber' => '+2348068364334', 'amount' => 'NGN 10001'],
+					['phoneNumber' => Fixtures::$phoneNumber, 'amount' => 'KES 10001'],
 				]
 			])
 		);
@@ -67,7 +67,7 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 			['status'		=> 'error'],
 			$response = $this->client->send([
 				'recipients'	=> [
-					['phoneNumber' => '+2348068364334', 'amount' => '1000'],
+					['phoneNumber' => Fixtures::$phoneNumber, 'amount' => '1000'],
 				]
 			])
 		);
@@ -79,7 +79,7 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 			['status' 		=> 'error'],
 			$response = $this->client->send([
 				'recipients'	=> [
-					['phoneNumber' => '+2348068364334'],
+					['phoneNumber' => Fixtures::$phoneNumber],
 				]
 			])
 		);
