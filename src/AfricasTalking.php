@@ -6,13 +6,17 @@ use GuzzleHttp\Client;
 class AfricasTalking
 {
 	const BASE_DOMAIN        = "africastalking.com";
-	const BASE_SANDBOX_DOMAIN = "sandbox." + BASE_DOMAIN;
+	const BASE_SANDBOX_DOMAIN = "sandbox." . self::BASE_DOMAIN;
 	
 	protected $username;
 	protected $apiKey;
 
 	protected $client;
+	protected $paymentClient;
+	protected $voiceClient;
+	protected $tokenClient;
 
+	public $baseUrl;
 	protected $voiceUrl;
 	protected $paymentUrl;
 
@@ -22,14 +26,14 @@ class AfricasTalking
 	{
 		
 		if($username === 'sandbox') {
-			$this->baseDomain = BASE_SANDBOX_DOMAIN;
+			$this->baseDomain = self::BASE_SANDBOX_DOMAIN;
 		} else {
-			$this->baseDomain = BASE_DOMAIN;
+			$this->baseDomain = self::BASE_DOMAIN;
 		}
 
-		$this->baseUrl = "https://api." . $this->baseDomain . "/version1";
-		$this->voiceUrl = "https://voice." . $this->baseDomain . "/version1";
-		$this->paymentsUrl = "https://payment." . $this->baseDomain . "/version1";
+		$this->baseUrl = "https://api." . $this->baseDomain . "/version1/";
+		$this->voiceUrl = "https://voice." . $this->baseDomain . "/";
+		$this->paymentsUrl = "https://payments." . $this->baseDomain . '/';
 		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . "/checkout/token/create";
 		
 		$this->username = $username;
@@ -42,7 +46,7 @@ class AfricasTalking
 				'Content-Type' => 'application/x-www-form-urlencoded',
 				'Accept' => 'application/json'
 			]
-		]);
+		]) ;
 
 		$this->voiceClient = new Client([
 			'base_uri' => $this->voiceUrl,
@@ -54,7 +58,16 @@ class AfricasTalking
 		]);
 
 		$this->paymentsClient = new Client([
-			'base_uri' => $this->paymentUrl,
+			'base_uri' => $this->paymentsUrl,
+			'headers' => [
+				'apikey' => $this->apiKey,
+				'Content-Type' => 'application/json',
+				'Accept' => 'application/json'
+			]
+		]);
+
+		$this->tokenClient = new Client([
+			'base_uri' => $this->checkoutTokenUrl,
 			'headers' => [
 				'apikey' => $this->apiKey,
 				'Content-Type' => 'application/x-www-form-urlencoded',
@@ -65,7 +78,7 @@ class AfricasTalking
 
 	public function sms()
 	{
-		$sms = new SMS($this->client, $this->username, $this->apiKey);		
+		$sms = new SMS($this->client, $this->username, $this->apiKey);
 		return $sms;
 	}
 
@@ -95,8 +108,14 @@ class AfricasTalking
 
 	public function payments()
 	{
-		$payments = new Payments($this->client, $this->username, $this->apiKey);		
+		$payments = new Payments($this->paymentsClient, $this->username, $this->apiKey);		
 		return $payments;
+	}
+
+	public function token()
+	{
+		$token = new Token($this->tokenClient, $this->username, $this->apiKey);
+		return $token;
 	}
 
 
