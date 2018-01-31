@@ -10,12 +10,23 @@ class Voice extends Service
     {
         // First check if method exists
         if (method_exists($this, 'build' . $method)) {
-            return $this->stringBuilder('build'. $method, $args);
+			if (!isset($args[0])) {
+				$args = [ 0 => ''];
+			}
+            return $this->stringBuilder('build'. $method, $args[0]);
         } else if (method_exists($this, 'do' . $method)) {
-            return $this->apiCall('do' . $method, $args);
+			if (!isset($args[0])) {
+				$args = [ 0 => ''];
+			}
+            return $this->apiCall('do' . $method, $args[0]);
         } else {
             return $this->error($method .' is an invalid Voice SDK Method');
         }
+    }
+
+    public function messageBuilder()
+    {
+        return $this;
     }
 
     private function stringBuilder($method, $args)
@@ -23,7 +34,7 @@ class Voice extends Service
         $result = $this->$method($args);
 
         if (empty($this->xmlString)) {
-            $this->xmlString = $result;
+            $this->xmlString = '<?xml version="1.0" encoding="UTF-8"?><Response>'. $result;
         } else {
             $this->xmlString .= $result;
         }
@@ -49,7 +60,7 @@ class Voice extends Service
         if (empty($this->xmlString)) {
             return null;
         }
-        return $this->xmlString;
+        return $this->xmlString . '</Response>';
     }
     
     protected function doCall($options)
@@ -143,22 +154,22 @@ class Voice extends Service
 
         // Check if read out voice has been set
         if (!isset($options['voice'])) {
-            $voice = 'man';
+            $options['voice'] = 'man';
         }
         $voice = $options['voice'];
 
         // Check if playBeep option has been set
-        if (!isset($options['playBeep']) || !is_bool($options['playBeep'])) {
-            $playBeep = false;
+        if (!isset($options['playBeep'])) {
+            $options['playBeep'] = 'false';
         }
         $playBeep = $options['playBeep'];
 
-        $sayString = '<Say voice="' . $voice . '" playBeep="'. $playBeep .'" >'. $text .'</Say>';
+        $sayString = '<Say voice="' . $voice . '" playBeep="'. $playBeep .'">'. $text .'</Say>';
         
         return $sayString;
     }
 
-    protected function buildPay($url)
+    protected function buildPlay($url)
     {
         if (!$this->isValidURL($url))
             return $this->error('Play URL is not valid');
@@ -314,7 +325,7 @@ class Voice extends Service
         $dialString .= '>';
 
 
-        return '<Response>' . $dialString . '</Response>';
+        return $dialString;
         
     }
 
@@ -325,7 +336,7 @@ class Voice extends Service
         /** Terminal Recording **/
 
         if (empty($options)) {
-            return '<Response><Record /></Response>';            
+            return '<Record />';            
         }
         
         /** Partial Recording **/
@@ -416,7 +427,7 @@ class Voice extends Service
         }
         $enqueueString .= '>';
         
-        return '<Response>' . $enqueueString . '</Response>';
+        return $enqueueString;
         
     }
 
@@ -437,23 +448,23 @@ class Voice extends Service
         }
         $dequeueString .= '>';
         
-        return '<Response>' . $dequeueString . '</Response>';
+        return $dequeueString;
         
     }
 
     protected function buildConference()
     {
-        return '<Response><Conference /></Response>';
+        return '<Conference />';
     }
 
     protected function buildRedirect($url)
     {
-        return '<Response><Redirect>'. $url.'</Redirect></Response>';
+        return '<Redirect>'. $url.'</Redirect>';
     }
 
     protected function buildReject($url)
     {
-        return '<Response><Reject /></Response>';
+        return '<Reject />';
     }
 
     private function isValidURL($url)
