@@ -44,10 +44,7 @@ class Voice extends Service
 
     private function apiCall($method, $args)
     {
-        if (!isset($args[0])) {
-            $args = [0 => ''];
-        }
-        return $this->$method($args[0]);
+        return $this->$method($args);
     } 
 
     /**
@@ -72,13 +69,13 @@ class Voice extends Service
         // Validate callTo
         $checkCallTo = strpos($options['to'], '+');
         if ($checkCallTo === false || $checkCallTo !== 0) {
-            return $this->error('callTo must be in the format \'+2XXYYYYYYYYY\'');
+            return $this->error('to must be in the format \'+2XXYYYYYYYYY\'');
         }
         
         // Validate callFrom
         $checkCallFrom = strpos($options['from'], '+');
         if ($checkCallFrom === false || $checkCallFrom !== 0) {
-            return $this->error('callFrom must be in the format \'+2XXYYYYYYYYY\'');
+            return $this->error('from must be in the format \'+2XXYYYYYYYYY\'');
         }
 
 
