@@ -396,7 +396,7 @@ class Payments extends Service
 					name, phoneNumber, currencyCode, amount');
 				}
 
-				if (!isset($r['reason'])) {
+				if (isset($r['reason'])) {
 					if (!in_array($r['reason'], ['SalaryPayment', 'SalaryPaymentWithWithdrawalChargePaid',
 					 'BusinessPayment', 'BusinessPaymentWithWithdrawalChargePaid', 'PromotionPayment'])) {
 

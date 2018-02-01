@@ -10,7 +10,7 @@ class SMS extends Service
 		}
 
 		if (!is_array($options['to'])) {
-			return $this->error('recipients must be an array');
+			$options['to'] = [$options['to']];
 		}
 
 		$data = [
@@ -46,7 +46,7 @@ class SMS extends Service
 			$data['from'] = $options['from'];
 		}
 
-		$response = $this->client->post('messaging', ['form_params' => $data ] );
+		$response = $this->client->post('messaging', ['form_params' => $data ]);
 
 		return $this->success($response);
 	}

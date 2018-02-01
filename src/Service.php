@@ -27,7 +27,7 @@ abstract class Service
 	protected static function success($data) {
 		return [
 			'status' 	=> 'success',
-			'data'		=> $data
+			'data'		=> json_decode($data->getBody()->getContents())
 		];
 	}
 }
