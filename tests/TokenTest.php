@@ -20,9 +20,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
     {
 		$response = $this->client->createCheckoutToken(Fixtures::$phoneNumber);
 
-        $response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertEquals('Success', $response_array['description']);
+		$this->assertEquals('Success', $response['data']->description);
     }
 
     

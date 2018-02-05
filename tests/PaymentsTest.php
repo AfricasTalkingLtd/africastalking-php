@@ -28,9 +28,7 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'metadata' => Fixtures::$metadata
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertEquals('PendingValidation', $response_array['status']);
+		$this->assertEquals('success', $response['status']);
     }
 
     public function testCardCheckoutCannotBeEmpty()
@@ -58,9 +56,7 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'otp' => Fixtures::$otp
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('status', $response_array);        
+		$this->assertArrayHasKey('status', $response);
 	}
 	
 	public function testValidateCardCheckoutCannotBeEmpty()
@@ -87,14 +83,12 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'productName' => Fixtures::$productName,
 			'bankAccount' => Fixtures::$bankAccount,
 			'currencyCode' => Fixtures::$currencyCode,
-			'amount' => 1000,
+			'amount' => rand(1000, 2000),
 			'narration' => Fixtures::$narration,
 			'metadata' => Fixtures::$metadata
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertEquals('PendingValidation', $response_array['status']);
+		$this->assertEquals('PendingValidation', $response['data']->status);
 	}
 	
 	public function testBankCheckoutCannotBeEmpty()
@@ -122,9 +116,7 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'otp' => Fixtures::$bankCheckoutToken
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('status', $response_array);    
+		$this->assertArrayHasKey('status', $response);
 	}
 	
 	public function testValidateBankCheckoutCannotBeEmpty()
@@ -160,9 +152,8 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			]
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertEquals('Queued', $response_array['entries'][0]['status']);
+		$this->assertEquals('Queued', $response['data']->entries[0]->status);
+		
 	}
 
 	public function testBankTransferMustHaveRequiredAttributes()
@@ -184,9 +175,7 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'currencyCode' => Fixtures::$currencyCode
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertEquals('PendingConfirmation', $response_array['status']);
+		$this->assertEquals('PendingConfirmation', $response['data']->status);
 	}
 
 
@@ -207,10 +196,8 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'productName' => Fixtures::$productName,
 			'recipients' => Fixtures::$B2CRecipients,
 		]);
-
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArraySubset(['numQueued' => 1], $response_array);    
+		
+		$this->assertEquals(1, $response['data']->numQueued);
 	}
 
 	public function testMobileB2CMustHaveRequiredAttributes()
@@ -255,9 +242,7 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'metadata' => Fixtures::$metadata
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('status', $response_array);
+		$this->assertArrayHasKey('status', $response);
 	}
 
 	public function testMobileB2BCannotBeEmpty()

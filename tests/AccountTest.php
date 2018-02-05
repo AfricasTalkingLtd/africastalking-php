@@ -19,9 +19,6 @@ class AccountTest extends \PHPUnit\Framework\TestCase
     public function testFetchAccount()
     {
 		$response = $this->client->fetchAccount();
-
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('UserData', $response_array);        
+		$this->assertObjectHasAttribute('UserData', $response['data']);
     }
 }

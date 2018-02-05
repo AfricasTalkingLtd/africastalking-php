@@ -43,9 +43,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing SMS...'
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('SMSMessageData', $response_array);
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
 	public function testMultipleSMSSending()
@@ -55,9 +53,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing multiple sending...'
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('SMSMessageData', $response_array);
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
 	public function testSMSSendingWithShortcode()
@@ -68,9 +64,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'from'		=> '12345'
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('SMSMessageData', $response_array);
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
 	public function testSMSSendingWithAlphanumeric()
@@ -81,9 +75,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'from'		=> 'TEST'
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('SMSMessageData', $response_array);
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
 	public function testBulkSMSSending()
@@ -93,9 +85,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing bulk sending...'
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('SMSMessageData', $response_array);
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
 	public function testPremiumSMSWithoutKeyword()
@@ -147,27 +137,21 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing Premium...'
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('SMSMessageData', $response_array);
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
 	public function testFetchSMS()
 	{
 		$response = $this->client->fetchMessages();
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('SMSMessageData', $response_array);
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
 	public function testFetchSMSWithLastReceived()
 	{
 		$response = $this->client->fetchMessages(['lastReceivedId' => '8796']);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('SMSMessageData', $response_array);
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
 	public function testFetchSMSWithNonNumericLastReceived()
@@ -219,11 +203,9 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'keyword'		=> 'Test'
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
 		$this->assertArraySubset(
-			['status' => 'Success'],
-			$response_array
+			['status' => 'success'],
+			$response
 		);
 	}
 
@@ -235,11 +217,9 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'keyword'		=> 'Test'
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
 		$this->assertArraySubset(
-			['status' => 'Success'],
-			$response_array
+			['status' => 'success'],
+			$response
 		);
 	}
 
@@ -250,8 +230,6 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'keyword'		=> 'Test'
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('responses', $response_array);
+		$this->assertObjectHasAttribute('responses', $response['data']);
 	}
 }

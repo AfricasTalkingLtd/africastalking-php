@@ -22,11 +22,7 @@ class VoiceTest extends \PHPUnit\Framework\TestCase
 			'from' => Fixtures::$voicePhoneNumber,
 			'to' => Fixtures::$voicePhoneNumber2
 		]);
-
-		
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('entries', $response_array);
+		$this->assertObjectHasAttribute('entries', $response['data']);
         
     }
 
@@ -44,9 +40,7 @@ class VoiceTest extends \PHPUnit\Framework\TestCase
     {
 		$response = $this->client->fetchQueuedCalls(Fixtures::$voicePhoneNumber);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('status', $response_array);
+		$this->assertArrayHasKey('status', $response);
     }
     
     public function testFetchQueuedCallsMustHaveRequiredAttributes()
@@ -65,9 +59,7 @@ class VoiceTest extends \PHPUnit\Framework\TestCase
 			'url' => Fixtures::$mediaUrl
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('status', $response_array);
+		$this->assertArrayHasKey('status', $response);
     }
 
     public function testuploadMediaFileMustHaveRequiredAttributes()

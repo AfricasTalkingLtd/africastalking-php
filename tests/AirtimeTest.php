@@ -24,9 +24,7 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 			]
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('responses', $response_array);
+		$this->assertObjectHasAttribute('responses', $response['data']);
 	}
 
 	public function testSendAirtimeToMany()
@@ -38,9 +36,7 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 			]
 		]);
 
-		$response_array = json_decode($response['data']->getBody()->getContents(), true);
-
-		$this->assertArrayHasKey('responses', $response_array);
+		$this->assertObjectHasAttribute('responses', $response['data']);
 	}
 
 	public function testSendAirtimeToWrongAmounts()
