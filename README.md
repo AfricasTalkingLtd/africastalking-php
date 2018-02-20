@@ -18,20 +18,19 @@ $ composer require africastalking/africastalking
 
 ## Usage
 
-The SDK needs to be instantiated using your username and API key (which you can get from the dashboard). 
+The SDK needs to be instantiated using your username and API key (which you can get from the [dashboard](https://account/africastalking.com)). 
 
 ```php
-
 <?php
 
     use AfricasTalking;
 
-    $username = 'YOUR_USERNAME';
-    $apiKey 	= 'YOUR_API_KE';
+    $username = 'YOUR_USERNAME'; // use 'sandbox' for development in the test environment
+    $apiKey 	= 'YOUR_API_KEY'; // use your sandbox app API key for development in the test environment
     $AT = new AfricasTalking($username, $apiKey);
 
 ```
-You can now use the API to make calls using the $AT object we have just initiated.
+You can now use the API to make calls using the $AT object we have just initiated.  See [example](example/) for more usage examples.
 
 ### Airtime
 
@@ -58,11 +57,12 @@ $SMS = $AT->sms();
 ```php
 $SMS->send($options);
 ```
+
 The options array `$options` has the following keys:
-    - `to`: A single recipient or an array of recipients. `REQUIRED`
-        - array of recipients contains 
-    - `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
-    - `message`: SMS content. `REQUIRED`
+- `to`: A single recipient or an array of recipients. `REQUIRED`
+    - array of recipients contains 
+- `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
+- `message`: SMS content. `REQUIRED`
 
 #### Send Premium SMS
 
@@ -475,11 +475,6 @@ $ phpunit
 ``` 
 
 
-## Documentation
-
-The documentation for the API is available [here](http://docs.africastalking.com/).
-
-
 ## Issues
 
-If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/AfricasTalkingLtd/africastalking-node.js/issues).
+If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/AfricasTalkingLtd/africastalking-php/issues).
