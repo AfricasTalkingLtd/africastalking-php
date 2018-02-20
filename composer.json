@@ -20,6 +20,11 @@
             "name": "Paul Bombo",
             "email": "pbombo@africastalking.com",
             "homepage": "https://www.africastalking.com"
+        },
+        {
+            "name": "Salama Balekage",
+            "email": "sbalekage@africastalking.com",
+            "homepage": "https://www.africastalking.com"
         }
     ],
     "require": {
