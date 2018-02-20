@@ -1,2 +1,2 @@
 vendor/
-test/Fixtures.php
+tests/Fixtures.php
