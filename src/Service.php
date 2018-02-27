@@ -1,5 +1,5 @@
 <?php
-namespace AfricasTalking;
+namespace AfricasTalking\SDK;
 
 abstract class Service 
 {

@@ -1,5 +1,5 @@
 <?php
-namespace AfricasTalkingTest;
+namespace AfricasTalking\SDK\Tests;
 
 class Fixtures
 {

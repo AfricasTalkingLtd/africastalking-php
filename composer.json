@@ -31,8 +31,8 @@
     },
     "autoload": {
         "psr-4": {
-          "AfricasTalking\\": "src/",
-          "AfricasTalkingTest\\": "tests"
+          "AfricasTalking\\SDK\\": "src/",
+          "AfricasTalking\\SDK\\Tests\\": "tests"
       }
   }
 }

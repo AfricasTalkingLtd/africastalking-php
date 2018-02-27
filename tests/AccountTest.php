@@ -1,7 +1,7 @@
 <?php
-namespace AfricasTalkingTest;
+namespace AfricasTalking\SDK\Tests;
 
-use AfricasTalking\AfricasTalking;
+use AfricasTalking\SDK\AfricasTalking;
 use GuzzleHttp\Exception\GuzzleException;
 
 class AccountTest extends \PHPUnit\Framework\TestCase
@@ -14,11 +14,11 @@ class AccountTest extends \PHPUnit\Framework\TestCase
 		$at 			= new AfricasTalking($this->username, $this->apiKey);
 
 		$this->client 	= $at->account();		
-    }
+	}
     
-    public function testFetchAccount()
-    {
+	public function testFetchAccount()
+	{
 		$response = $this->client->fetchAccount();
 		$this->assertObjectHasAttribute('UserData', $response['data']);
-    }
+	}
 }

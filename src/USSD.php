@@ -1,6 +1,6 @@
 <?php
 
-namespace AfricasTalking;
+namespace AfricasTalking\SDK;
 
 class USSD extends Service
 {

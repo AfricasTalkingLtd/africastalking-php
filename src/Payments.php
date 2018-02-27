@@ -1,5 +1,5 @@
 <?php
-namespace AfricasTalking;
+namespace AfricasTalking\SDK;
 
 class Payments extends Service
 {

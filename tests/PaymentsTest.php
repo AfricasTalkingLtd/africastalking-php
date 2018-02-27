@@ -1,8 +1,8 @@
 <?php
-namespace AfricasTalkingTest;
+namespace AfricasTalking\SDK\Tests;
 
-use AfricasTalking\AfricasTalking;
-use AfricasTalking\Payments;
+use AfricasTalking\SDK\AfricasTalking;
+use AfricasTalking\SDK\Payments;
 use GuzzleHttp\Exception\GuzzleException;
 
 class PaymentsTest extends \PHPUnit\Framework\TestCase

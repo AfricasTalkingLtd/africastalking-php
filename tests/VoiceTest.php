@@ -1,7 +1,7 @@
 <?php
-namespace AfricasTalkingTest;
+namespace AfricasTalking\SDK\Tests;
 
-use AfricasTalking\AfricasTalking;
+use AfricasTalking\SDK\AfricasTalking;
 use GuzzleHttp\Exception\GuzzleException;
 
 class VoiceTest extends \PHPUnit\Framework\TestCase

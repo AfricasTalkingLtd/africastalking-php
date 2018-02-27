@@ -1,7 +1,7 @@
 <?php
-namespace AfricasTalkingTest;
+namespace AfricasTalking\SDK\Tests;
 
-use AfricasTalking\AfricasTalking;
+use AfricasTalking\SDK\AfricasTalking;
 use GuzzleHttp\Exception\GuzzleException;
 
 class AfricasTalkingTest extends \PHPUnit\Framework\TestCase
@@ -16,32 +16,32 @@ class AfricasTalkingTest extends \PHPUnit\Framework\TestCase
 	
 	public function testSMSClass()
 	{
-		$this->assertInstanceOf(\AfricasTalking\SMS::class, $this->client->sms());
+		$this->assertInstanceOf(\AfricasTalking\SDK\SMS::class, $this->client->sms());
 	}
 	
 	public function testUSSDClass()
 	{
-		$this->assertInstanceOf(\AfricasTalking\USSD::class, $this->client->ussd());
+		$this->assertInstanceOf(\AfricasTalking\SDK\USSD::class, $this->client->ussd());
 	}
 	
 	public function testAirtimeClass()
 	{
-		$this->assertInstanceOf(\AfricasTalking\Airtime::class, $this->client->airtime());
+		$this->assertInstanceOf(\AfricasTalking\SDK\Airtime::class, $this->client->airtime());
 	}
 	
 	public function testVoiceClass()
 	{
-		$this->assertInstanceOf(\AfricasTalking\Voice::class, $this->client->voice());
+		$this->assertInstanceOf(\AfricasTalking\SDK\Voice::class, $this->client->voice());
 	}
 	
 	public function testAccountClass()
 	{
-		$this->assertInstanceOf(\AfricasTalking\Account::class, $this->client->account());
+		$this->assertInstanceOf(\AfricasTalking\SDK\Account::class, $this->client->account());
 	}
 	
 	public function testPaymentsClass()
 	{
-		$this->assertInstanceOf(\AfricasTalking\Payments::class, $this->client->payments());
+		$this->assertInstanceOf(\AfricasTalking\SDK\Payments::class, $this->client->payments());
 	}
 
 }
