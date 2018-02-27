@@ -18,20 +18,19 @@ $ composer require africastalking/africastalking
 
 ## Usage
 
-The SDK needs to be instantiated using your username and API key (which you can get from the dashboard). 
+The SDK needs to be instantiated using your username and API key (which you can get from the [dashboard](https://account/africastalking.com)). 
 
 ```php
-
 <?php
 
     use AfricasTalking;
 
-    $username = 'YOUR_USERNAME';
-    $apiKey 	= 'YOUR_API_KE';
+    $username = 'YOUR_USERNAME'; // use 'sandbox' for development in the test environment
+    $apiKey 	= 'YOUR_API_KEY'; // use your sandbox app API key for development in the test environment
     $AT = new AfricasTalking($username, $apiKey);
 
 ```
-You can now use the API to make calls using the $AT object we have just initiated.
+You can now use the API to make calls using the $AT object we have just initiated.  See [example](example/) for more usage examples.
 
 ### Airtime
 
@@ -42,6 +41,7 @@ $airtime = $AT->airtime();
 $airtime->send($options);
 ```
  The options array `$options` must contain the following keys:
+
 - `recipients`: Contains an array of arrays containing the following keys
     - `phoneNumber`: Recipient of airtime
     - `amount`: Amount sent `>= 10 && <= 10K` with currency e.g `KES 100`
@@ -58,11 +58,12 @@ $SMS = $AT->sms();
 ```php
 $SMS->send($options);
 ```
+
 The options array `$options` has the following keys:
-    - `to`: A single recipient or an array of recipients. `REQUIRED`
-        - array of recipients contains 
-    - `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
-    - `message`: SMS content. `REQUIRED`
+- `to`: A single recipient or an array of recipients. `REQUIRED`
+    - array of recipients contains 
+- `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
+- `message`: SMS content. `REQUIRED`
 
 #### Send Premium SMS
 
@@ -210,20 +211,24 @@ Send mobile money to customers
 $payments->mobileB2C($options);
 ```
 The options array `$options` has the following keys:
+
 - `productName`: Your Payment Product. `REQUIRED`
 - `recipients`: A list of **up to 10** recipients. Each recipient has:
+
     - `phoneNumber`: The payee phone number (in international format; e.g. `25471xxxxxxx`). `REQUIRED`
     - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc.) `REQUIRED`
     - `amount`: Payment amount. `REQUIRED`
     - `reason`: This field contains a string showing the purpose for the payment. If set, it should be one of the following
-        - ```
+        
+        ```
         payments.REASON.SALARY
         payments.REASON.SALARY_WITH_CHARGE
         payments.REASON.BUSINESS
         payments.REASON.BUSINESS_WITH_CHARGE
         payments.REASON.PROMOTION
         ```
-- `metadata`: Some optional data to associate with transaction.
+
+    - `metadata`: Some optional data to associate with transaction.
 
 
 #### Mobile B2B
@@ -236,17 +241,19 @@ $payments->mobileB2B($options);
 The options array `$options` has the following keys:
 - `productName`: Your Payment Product as setup on your account. `REQUIRED`
 - `provider`: This contains the payment provider that is facilitating this transaction. Supported providers at the moment are:
-    - ```
+    
+    ```
       payments.PROVIDER.ATHENA
       payments.PROVIDER.MPESA
-      ```
+    ```
 - `transferType`: This contains the payment provider that is facilitating this transaction. Supported providers at the moment are:
-    - ```
+    
+    ```
       payments.TRANSFER_TYPE.BUY_GOODS
       payments.TRANSFER_TYPE.PAYBILL
       payments.TRANSFER_TYPE.DISBURSE_FUNDS
       payments.TRANSFER_TYPE.B2B_TRANSFER
-      ```
+    ```
 - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc.) `REQUIRED`
 - `destinationChannel`: This value contains the name or number of the channel that will receive payment by the provider. `REQUIRED`
 - `destinationAccount`: This value contains the account name used by the business to receive money on the provided destinationChannel. `REQUIRED`
@@ -475,11 +482,6 @@ $ phpunit
 ``` 
 
 
-## Documentation
-
-The documentation for the API is available [here](http://docs.africastalking.com/).
-
-
 ## Issues
 
-If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/AfricasTalkingLtd/africastalking-node.js/issues).
+If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/AfricasTalkingLtd/africastalking-php/issues).
