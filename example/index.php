@@ -1,7 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 
-use AfricasTalking\AfricasTalking;
+use AfricasTalking\SDK\AfricasTalking;
 
 $username = "sandbox";
 $apiKey = "YOUR_SANDBOX_API_KEY";
