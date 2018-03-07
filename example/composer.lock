@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "08ce256927630035a33964f9ad1aa7ed",
+    "content-hash": "73fc49b76ba9d8ba0b26bae9dec6da19",
     "packages": [
         {
             "name": "africastalking/africastalking",
-            "version": "dev-develop",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AfricasTalkingLtd/africastalking-php.git",
-                "reference": "2424a212c669fb6cc9e8be656bb0c255f2daab15"
+                "reference": "66db63b06dfa99c5674991340ccd58a39ba3591a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AfricasTalkingLtd/africastalking-php/zipball/2424a212c669fb6cc9e8be656bb0c255f2daab15",
-                "reference": "2424a212c669fb6cc9e8be656bb0c255f2daab15",
+                "url": "https://api.github.com/repos/AfricasTalkingLtd/africastalking-php/zipball/66db63b06dfa99c5674991340ccd58a39ba3591a",
+                "reference": "66db63b06dfa99c5674991340ccd58a39ba3591a",
                 "shasum": ""
             },
             "require": {
@@ -30,8 +30,8 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "AfricasTalking\\": "src/",
-                    "AfricasTalkingTest\\": "tests"
+                    "AfricasTalking\\SDK\\": "src/",
+                    "AfricasTalking\\SDK\\Tests\\": "tests"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -53,6 +53,11 @@
                     "name": "Paul Bombo",
                     "email": "pbombo@africastalking.com",
                     "homepage": "https://www.africastalking.com"
+                },
+                {
+                    "name": "Salama Balekage",
+                    "email": "sbalekage@africastalking.com",
+                    "homepage": "https://www.africastalking.com"
                 }
             ],
             "description": "Official Africa's Talking PHP SDK",
@@ -66,7 +71,7 @@
                 "ussd",
                 "voice"
             ],
-            "time": "2018-02-05T09:51:03+00:00"
+            "time": "2018-03-07T08:35:13+00:00"
         },
         {
             "name": "altorouter/altorouter",
@@ -354,9 +359,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "africastalking/africastalking": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
