@@ -67,7 +67,7 @@ The options array `$options` has the following keys:
 - `to`: A single recipient or an array of recipients. `REQUIRED`
     - array of recipients contains 
 - `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
-- `enqueue`: Do not wait for an acknowledgement form telcos.
+- `enqueue`: Set to `true` if you would like to deliver as many messages to the API without waiting for an acknowledgement from telcos.
 
 #### Send Premium SMS
 
