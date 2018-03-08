@@ -25,14 +25,14 @@ The SDK needs to be instantiated using your username and API key, which you can 
 ```php
 <?php
 
-    use AfricasTalking;
+    use AfricasTalking\SDK\AfricasTalking;
 
     $username = 'YOUR_USERNAME'; // use 'sandbox' for development in the test environment
     $apiKey 	= 'YOUR_API_KEY'; // use your sandbox app API key for development in the test environment
     $AT = new AfricasTalking($username, $apiKey);
 
 ```
-You can now use the API to make calls using the $AT object we have just initiated.  See [example](example/) for more usage examples.
+You can now make API calls using the `$AT` object we have just created.  See [example](example/) for more usage examples.
 
 ### Airtime
 
@@ -62,10 +62,12 @@ $SMS->send($options);
 ```
 
 The options array `$options` has the following keys:
+
+- `message`: SMS content. `REQUIRED`
 - `to`: A single recipient or an array of recipients. `REQUIRED`
     - array of recipients contains 
 - `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
-- `message`: SMS content. `REQUIRED`
+- `enqueue`: Do not wait for an acknowledgement form telcos.
 
 #### Send Premium SMS
 

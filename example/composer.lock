@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "73fc49b76ba9d8ba0b26bae9dec6da19",
+    "content-hash": "aba9d0587ebc14cee5eaa221c13ebbc8",
     "packages": [
         {
             "name": "africastalking/africastalking",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AfricasTalkingLtd/africastalking-php.git",
-                "reference": "66db63b06dfa99c5674991340ccd58a39ba3591a"
+                "reference": "0c30aacb9f19cec623a67d64746f1e6334d26e9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AfricasTalkingLtd/africastalking-php/zipball/66db63b06dfa99c5674991340ccd58a39ba3591a",
-                "reference": "66db63b06dfa99c5674991340ccd58a39ba3591a",
+                "url": "https://api.github.com/repos/AfricasTalkingLtd/africastalking-php/zipball/0c30aacb9f19cec623a67d64746f1e6334d26e9d",
+                "reference": "0c30aacb9f19cec623a67d64746f1e6334d26e9d",
                 "shasum": ""
             },
             "require": {
@@ -40,23 +40,8 @@
             ],
             "authors": [
                 {
-                    "name": "Ian Juma",
-                    "email": "ijuma@africastalking.com",
-                    "homepage": "https://www.africastalking.com"
-                },
-                {
-                    "name": "Stephen Afam-Osemene",
-                    "email": "s.afamo@africastalking.com",
-                    "homepage": "https://www.africastalking.com"
-                },
-                {
-                    "name": "Paul Bombo",
-                    "email": "pbombo@africastalking.com",
-                    "homepage": "https://www.africastalking.com"
-                },
-                {
-                    "name": "Salama Balekage",
-                    "email": "sbalekage@africastalking.com",
+                    "name": "Africas's Talking",
+                    "email": "support@africastalking.com",
                     "homepage": "https://www.africastalking.com"
                 }
             ],
@@ -71,7 +56,7 @@
                 "ussd",
                 "voice"
             ],
-            "time": "2018-03-07T08:35:13+00:00"
+            "time": "2018-03-07T11:52:37+00:00"
         },
         {
             "name": "altorouter/altorouter",

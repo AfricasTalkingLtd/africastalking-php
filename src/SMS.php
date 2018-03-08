@@ -20,6 +20,10 @@ class SMS extends Service
 		];
 
 		if ($isBulk === true){
+			$data['bulkSMSMode'] = 1;
+		}
+
+		if (array_key_exists('enqueue', $options) && $options['enqueue']) {
 			$data['enqueue'] = 1;
 		}
 
