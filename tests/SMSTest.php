@@ -39,7 +39,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	public function testSingleSMSSending()
 	{
 		$response = $this->client->send([
-			'to' 		=> [Fixtures::$phoneNumber], 
+			'to' 		=> Fixtures::$phoneNumber, 
 			'message' 	=> 'Testing SMS...'
 		]);
 
@@ -53,6 +53,36 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing multiple sending...'
 		]);
 
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+	}
+
+	public function testHeavySingleSMSSending()
+	{
+		$count = 100000;
+		$phoneNumbers = array();
+		for($i=0;$i<$count;$i++) {
+			array_push($phoneNumbers, "+254724".($count + $i));
+		};
+		$response = $this->client->send([
+			'to' 		=> $phoneNumbers, 
+			'message' 	=> "Testing send a message to $count numbers...",
+			'enqueue'	=> true
+		]);
+
+		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+	}
+
+	public function testLightMultipleSMSSending()
+	{
+		$count = 10;
+		for($i=0;$i<$count;$i++) {
+			$num = "+254724".($count + $i);
+			$response = $this->client->send([
+				'to' 		=> $num, 
+				'message' 	=> "Testing send a message to $count numbers...",
+				'enqueue'	=> true
+			]);
+		};
 		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
