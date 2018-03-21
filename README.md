@@ -279,9 +279,8 @@ $voice = $AT->voice();
 $voice->call($options)
 ```
 The options array `$options` has the following keys:
-- `to`: A single recipient or an array of recipients. `REQUIRED`
-    - array of recipients contains ['2XXXXXXXX', '2XXXXXXXX']
-- `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
+- `to`: The phone number that you wish to dial (in international format) `REQUIRED`
+- `from`: Your Africa's Talking phone number (in international format). `REQUIRED`
 
 #### Fetch queued calls
 
