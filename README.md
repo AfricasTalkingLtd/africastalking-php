@@ -185,14 +185,14 @@ $payments->bankTransfer($options);
 The options array `$options` has the following keys:
 - `productName`: Payment Product as setup on your account. `REQUIRED`
 - `recipients`: A list of recipients. Each recipient has:
-- `bankAccount`: Bank account to be charged:
-    - `accountName`: The name of the bank account.
-    - `accountNumber`: The account number `REQUIRED`
-    - `bankCode`: A 6-Digit Integer Code for the bank that we allocate; See `payments.BANK.*` for supported banks. `REQUIRED`
-- `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported). `REQUIRED`
-- `amount`: Payment amount. `REQUIRED`
-- `narration`: A short description of the transaction `REQUIRED`
-- `metadata`: Some optional data to associate with transaction.
+    - `bankAccount`: Bank account to be charged:
+        - `accountName`: The name of the bank account.
+        - `accountNumber`: The account number `REQUIRED`
+        - `bankCode`: A 6-Digit Integer Code for the bank that we allocate; See `payments.BANK.*` for supported banks. `REQUIRED`
+    - `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported). `REQUIRED`
+    - `amount`: Payment amount. `REQUIRED`
+    - `narration`: A short description of the transaction `REQUIRED`
+    - `metadata`: Some optional data to associate with transaction.
 
 
 #### Mobile Checkout
