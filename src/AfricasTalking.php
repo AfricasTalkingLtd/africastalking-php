@@ -34,7 +34,7 @@ class AfricasTalking
 		$this->baseUrl = "https://api." . $this->baseDomain . "/version1/";
 		$this->voiceUrl = "https://voice." . $this->baseDomain . "/";
 		$this->paymentsUrl = "https://payments." . $this->baseDomain . '/';
-		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . "/checkout/token/create";
+		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . '/';
 		
 		$this->username = $username;
 		$this->apiKey = $apiKey;
@@ -70,7 +70,7 @@ class AfricasTalking
 			'base_uri' => $this->checkoutTokenUrl,
 			'headers' => [
 				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/x-www-form-urlencoded',
+				'Content-Type' => 'application/json',
 				'Accept' => 'application/json'
 			]
 		]);
