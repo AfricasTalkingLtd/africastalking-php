@@ -265,4 +265,57 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
+	public function testWalletTransfer()
+	{
+		$response = $this->client->walletTransfer([
+			'productName' => Fixtures::$productName,
+			'provider' => Payments::PROVIDER['ATHENA'],
+			'targetProductCode' => Fixtures::$targetProductCode,
+			'currencyCode' => Fixtures::$currencyCode,
+			'amount' => Fixtures::$amount,
+			'metadata' => Fixtures::$metadata
+		]);
+
+		$this->assertEquals('Success', $response['data']->status);
+	}
+
+	public function testWalletTransferMustHaveRequiredAttributes()
+	{
+		$this->assertArraySubset(
+			['status' 		=> 'error'],
+			$response = $this->client->walletTransfer([
+				'productName' => Fixtures::$productName,
+				'currencyCode' => Fixtures::$currencyCode,
+				'amount' => Fixtures::$amount,
+				'metadata' => Fixtures::$metadata
+			])
+		);
+	}
+
+
+	public function testTopupStash()
+	{
+		$response = $this->client->topupStash([
+			'productName' => Fixtures::$productName,
+			'provider' => Payments::PROVIDER['ATHENA'],
+			'currencyCode' => Fixtures::$currencyCode,
+			'amount' => Fixtures::$amount,
+			'metadata' => Fixtures::$metadata
+		]);
+
+		$this->assertEquals('Success', $response['data']->status);
+	}
+
+	public function testTopupStashMustHaveRequiredAttributes()
+	{
+		$this->assertArraySubset(
+			['status' 		=> 'error'],
+			$response = $this->client->topupStash([
+				'productName' => Fixtures::$productName,
+				'currencyCode' => Fixtures::$currencyCode,
+				'metadata' => Fixtures::$metadata
+			])
+		);
+	}
+
 }

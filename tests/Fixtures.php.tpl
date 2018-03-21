@@ -14,6 +14,7 @@ class Fixtures
     public static $voicePhoneNumber2 = '+254724486439';
     public static $narration = 'Test Payment';
     public static $shortCode = '99999';
+    public static $targetProductCode = 123456;
     public static $mediaUrl = 'http://thesoundeffect.com/music/mp3/AintTooProudToBeg.mp3';
     public static $amount = '60';
     public static $airtimeAmount = 'KES 60';

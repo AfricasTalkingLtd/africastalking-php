@@ -490,5 +490,96 @@ class Payments extends Service
 		return $this->success($response);
 
 	}
-	
+
+	protected function doWalletTransfer($options)
+	{
+		// Check if productName is set
+		if (!isset($options['productName'])) {
+			return $this->error('productName must be defined');
+		}
+		$productName = $options['productName'];
+
+		// Check if targetProductCode is set
+		if (!isset($options['targetProductCode'])) {
+			return $this->error('targetProductCode must be defined');
+		}
+		$targetProductCode = $options['targetProductCode'];
+
+		// Check if currencyCode is set
+		if (!isset($options['currencyCode'])) {
+			return $this->error('currencyCode must be defined');
+		} else {
+			$currencyCode = $options['currencyCode'];
+			if (strlen($currencyCode) != 3) {
+				return $this->error('currencyCode must be in 3-digit ISO format');
+			}
+		}
+		
+		// Check if amount is set
+		if (!isset($options['amount'])) {
+			return $this->error('amount must be defined');
+		}
+		$amount = $options['amount'];
+		
+		// Make request data array
+		$requestData = [
+			'username' => $this->username,
+			'productName' => $productName,
+			'targetProductCode' => $targetProductCode,
+			'currencyCode' => $currencyCode,
+			'amount' => $amount
+		];
+
+		// Check if metadata is set
+		if (isset($options['metadata'])) {
+			$requestData['metadata'] = $options['metadata'];
+		}
+		
+		$response = $this->client->post('transfer/wallet', ['json' => $requestData]);
+		return $this->success($response);
+
+	}
+
+	protected function doTopupStash($options)
+	{
+		// Check if productName is set
+		if (!isset($options['productName'])) {
+			return $this->error('productName must be defined');
+		}
+		$productName = $options['productName'];
+
+		// Check if currencyCode is set
+		if (!isset($options['currencyCode'])) {
+			return $this->error('currencyCode must be defined');
+		} else {
+			$currencyCode = $options['currencyCode'];
+			if (strlen($currencyCode) != 3) {
+				return $this->error('currencyCode must be in 3-digit ISO format');
+			}
+		}
+		
+		// Check if amount is set
+		if (!isset($options['amount'])) {
+			return $this->error('amount must be defined');
+		}
+		$amount = $options['amount'];
+		
+		// Make request data array
+		$requestData = [
+			'username' => $this->username,
+			'productName' => $productName,
+			'currencyCode' => $currencyCode,
+			'amount' => $amount
+		];
+
+		// Check if metadata is set
+		if (isset($options['metadata'])) {
+			$requestData['metadata'] = $options['metadata'];
+		}
+		
+		$response = $this->client->post('topup/stash', ['json' => $requestData]);
+		return $this->success($response);
+
+	}
+
 }
