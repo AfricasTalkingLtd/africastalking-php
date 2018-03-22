@@ -1,6 +1,6 @@
 # Africa's Talking PHP SDK
 
-> The SDK provides convenient access to the Africa's Talking API for applications written in PHP.
+> This SDK provides convenient access to the Africa's Talking API for applications written in PHP.
 
 ## Documentation
 Take a look at the [API docs here](http://docs.africastalking.com).
@@ -451,11 +451,11 @@ Create a checkout token.
 ```php
 $token->createCheckoutToken($phoneNumber);
 ```
-- `$phoneNumber`: Phone number to create an account for
+- `$phoneNumber`: Phone number to create checkout token for
 
 ### Generate Auth Token
 
-Generate an auth token to us for authentication instead of the API key.
+Generate an auth token to use for authentication API requests instead of your API key.
 
 ```php
 $token->generateAuthToken();
