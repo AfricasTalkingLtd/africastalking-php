@@ -1,6 +1,6 @@
 # Africa's Talking PHP SDK
 
-> The wrapper provides convenient access to the Africa's Talking API from applications written in PHP.
+> The SDK provides convenient access to the Africa's Talking API for applications written in PHP.
 
 ## Documentation
 Take a look at the [API docs here](http://docs.africastalking.com).
