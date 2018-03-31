@@ -76,7 +76,7 @@ $SMS->sendPremium($options);
 ```
 The options array `$options` has the following keys:
 - `keyword`: Value is a premium keyword `REQUIRED`
-- `linkId`: "[...] We forward the `linkId` to your application when the user send a message to your service" `REQUIRED`
+- `linkId`: "This is used for premium services to send OnDemand messages. We forward the linkId to your application when the user sends a message to your service. `REQUIRED`
 - `retryDurationInHours`: "It specifies the number of hours your subscription message should be retried in case it's not delivered to the subscriber"
 
 #### Fetch Messsages
