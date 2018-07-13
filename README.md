@@ -75,6 +75,10 @@ The options array `$options` has the following keys:
 $SMS->sendPremium($options);
 ```
 The options array `$options` has the following keys:
+- `message`: SMS content. `REQUIRED`
+- `to`: A single recipient or an array of recipients. `REQUIRED`
+    - array of recipients contains 
+- `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
 - `keyword`: Value is a premium keyword `REQUIRED`
 - `linkId`: "This is used for premium services to send OnDemand messages. We forward the linkId to your application when the user sends a message to your service. `REQUIRED`
 - `retryDurationInHours`: "It specifies the number of hours your subscription message should be retried in case it's not delivered to the subscriber"
