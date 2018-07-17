@@ -98,11 +98,18 @@ class Payments extends Service
 			return $this->error('please provide metadata as an array');
 		}	
 
+		// Check if one of paymentCard or checkoutToken is set
+		if (!isset($options['paymentCard']) && !isset($options['checkoutToken'])) {
+			return $this->error('A checkoutToken or paymentCard option should be provided');
+		}
+
+		// Check if both paymentCard and checkoutToken are both set
+		if (isset($options['paymentCard']) && isset($options['checkoutToken'])) {
+			return $this->error('You can only use a checkoutToken or a paymentCard option');
+		}
+
 		// Check if paymentCard is provided
-		if (!isset($options['paymentCard']) && !is_array($options['paymentCard'])) {
-			return $this->error('paymentCard must be an array containing, 
-			number, countryCode, cvvNumber, expiryMonth, expiryYear and authToken');
-		} else if (isset($options['paymentCard']) && is_array($options['paymentCard'])) {
+		if (isset($options['paymentCard']) && is_array($options['paymentCard'])) {
 			$paymentCard = $options['paymentCard'];
 			if (!isset($paymentCard['number']) || 
 			!isset($paymentCard['countryCode']) || 
@@ -110,13 +117,12 @@ class Payments extends Service
 			!isset($paymentCard['expiryMonth']) || 
 			!isset($paymentCard['expiryYear']) || 
 			!isset($paymentCard['authToken'])) {
-				
 				return $this->error('paymentCard must be an array containing, number, countryCode, cvvNumber, expiryMonth, expiryYear and authToken');
 			}
-		}		
-		// Check if both paymentCard and checkoutToken are not both set
-		if (isset($options['paymentCard']) && isset($options['checkoutToken'])) {
-			return $this->error('When using a checkoutToken, paymentCard option should NOT be populated');
+		}
+
+		if (isset($options['checkoutToken'])) {
+			$checkoutToken = $options['checkoutToken'];
 		}
 
 		// Make request data array
