@@ -25,13 +25,7 @@ class Airtime extends Service
 			}
 
 			if ( !preg_match('/^[a-zA-Z]{3} \d+(\.\d{1,2})?$/', $recipient['amount']) ) {
-				return $this->error("must contain a currency followed by an amount between 10 and 10000");
-			}
-
-			$amount = (int) explode(" ", $recipient['amount'])[1];
-
-			if ( $amount < 10 || $amount > 10000) {
-				return $this->error("amount must be between 10 and 10000");
+				return $this->error("must contain a currency followed by an amount");
 			}
 		}
 
