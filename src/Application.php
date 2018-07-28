@@ -2,16 +2,16 @@
 
 namespace AfricasTalking\SDK;
 
-class Account extends Service
+class Application extends Service
 {
-    public function doFetchAccount()
+    public function doFetchApplication()
     {
 		$response = $this->client->get('user', ['query' => ['username'=> $this->username]]);        
 		return $this->success($response);
     }
 
-    public function fetchAccount()
+    public function fetchApplication()
     {
-        return $this->doFetchAccount();
+        return $this->doFetchApplication();
     }
 }

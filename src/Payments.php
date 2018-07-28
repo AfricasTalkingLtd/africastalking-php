@@ -649,15 +649,15 @@ class Payments extends Service
 		return $this->success($response);
     }
 
-    protected function doFindTransaction($transactionId)
+    protected function doFindTransaction($options)
     {
-        if (!isset($transactionId)) {
+        if (!isset($options['transactionId'])) {
             return $this->error('transactionId must be defined');
         }
 
         $requestData = [
             'username' => $this->username,
-            'transactionId' => $transactionId
+            'transactionId' => $options['transactionId']
         ];
 
 		$response = $this->client->get('query/transaction/find', ['query' => $requestData]);

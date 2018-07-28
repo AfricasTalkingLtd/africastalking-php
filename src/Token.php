@@ -4,9 +4,17 @@ namespace AfricasTalking\SDK;
 
 class Token extends Service
 {
-    public function createCheckoutToken($phoneNumber)
+    public function createCheckoutToken($options)
     {
-        $requestData = ['phoneNumber' => $phoneNumber, 'username' => $this->username];
+        if (!isset($options['phoneNumber'])) {
+            return $this->error('phoneNumber must be provided');
+        }
+
+        $requestData = [
+            'username' => $this->username,
+            'phoneNumber' => $options['phoneNumber']
+        ];
+
 		$response = $this->client->post('checkout/token/create', ['form_params' => $requestData]);
 		return $this->success($response);
     }

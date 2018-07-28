@@ -19,11 +19,6 @@ class AfricasTalkingTest extends \PHPUnit\Framework\TestCase
 		$this->assertInstanceOf(\AfricasTalking\SDK\SMS::class, $this->client->sms());
 	}
 	
-	public function testUSSDClass()
-	{
-		$this->assertInstanceOf(\AfricasTalking\SDK\USSD::class, $this->client->ussd());
-	}
-	
 	public function testAirtimeClass()
 	{
 		$this->assertInstanceOf(\AfricasTalking\SDK\Airtime::class, $this->client->airtime());
@@ -34,14 +29,13 @@ class AfricasTalkingTest extends \PHPUnit\Framework\TestCase
 		$this->assertInstanceOf(\AfricasTalking\SDK\Voice::class, $this->client->voice());
 	}
 	
-	public function testAccountClass()
+	public function testApplicationClass()
 	{
-		$this->assertInstanceOf(\AfricasTalking\SDK\Account::class, $this->client->account());
+		$this->assertInstanceOf(\AfricasTalking\SDK\Application::class, $this->client->application());
 	}
 	
 	public function testPaymentsClass()
 	{
 		$this->assertInstanceOf(\AfricasTalking\SDK\Payments::class, $this->client->payments());
 	}
-
 }
