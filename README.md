@@ -12,8 +12,9 @@ You can install the PHP SDK via composer or by downloading the source
 #### Via Composer
 
 The recommended way to install the SDK is with [Composer](http://getcomposer.org/). 
+
 ```bash
-$ composer require africastalking/africastalking
+composer require africastalking/africastalking
 ```
 
 ## Usage
@@ -23,23 +24,22 @@ The SDK needs to be instantiated using your username and API key, which you can 
 > You can use this SDK for either production or sandbox apps. For sandbox, the app username is **ALWAYS** `sandbox`
 
 ```php
-<?php
-    use AfricasTalking\SDK\AfricasTalking;
+use AfricasTalking\SDK\AfricasTalking;
 
-    $username = 'YOUR_USERNAME'; // use 'sandbox' for development in the test environment
-    $apiKey   = 'YOUR_API_KEY'; // use your sandbox app API key for development in the test environment
-    $AT       = new AfricasTalking($username, $apiKey);
+$username = 'YOUR_USERNAME'; // use 'sandbox' for development in the test environment
+$apiKey   = 'YOUR_API_KEY'; // use your sandbox app API key for development in the test environment
+$AT       = new AfricasTalking($username, $apiKey);
 
-	// Get one of the services
-	$sms      = $AT->sms();
+// Get one of the services
+$sms      = $AT->sms();
 
-	// Use the service
-    $result   = $sms->send([
-        'to'      => '+2XXYYYOOO',
-        'message' => 'Hello World!'
-    ]);
+// Use the service
+$result   = $sms->send([
+    'to'      => '+2XXYYYOOO',
+    'message' => 'Hello World!'
+]);
 
-    print_r($result);
+print_r($result);
 ```
 
 See [example](example/) for more usage examples.
