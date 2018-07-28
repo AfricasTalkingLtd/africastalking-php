@@ -337,7 +337,7 @@ To run available tests, from the root of the project run:
 # Configure needed fixtures, e.g sandbox api key, Africa's Talking products
 cp tests/Fixtures.php.tpl tests/Fixtures.php
 
-# Run tests using phpunit
+# Run tests
 phpunit
 ```
 
