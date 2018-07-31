@@ -135,9 +135,9 @@ Instantiating the class will give you an object with available methods
     - `productName`: Payment product on Africa's Talking. `REQUIRED`
     - `provider`: Payment provider that is facilitating this transaction. See `payments::PROVIDER*` for supported providers. `REQUIRED`
     - `transferType`: Describes the type of payment being made. See `payments::TRANSFER_TYPE*` for supported transfer types. `REQUIRED`
-    - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
     - `destinationChannel`: Name or number of the channel that will receive payment by the provider. `REQUIRED`
     - `destinationAccount`: Name used by the business to receive money on the provided destinationChannel. `REQUIRED`
+    - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
     - `amount`: Amount to pay. `REQUIRED`
     - `metadata`: Additional data to associate with the transaction. `REQUIRED`
 
