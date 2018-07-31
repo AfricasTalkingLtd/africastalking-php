@@ -204,12 +204,14 @@ Instantiating the class will give you an object with available methods
 
     - `productName`: Payment product on Africa's Talking. `REQUIRED`
     - `targetProductCode`: Unique code ode of payment product receiving funds on Africa's Talking. `REQUIRED`
+    - `currencyCode`: 3-digit ISO format currency code. `REQUIRED`
     - `amount`: Amount to transfer. `REQUIRED`
     - `metadata`: Additional data to associate with the transation. `REQUIRED`
 
 - `topupStash($options)`: Move money from a payment product to an applications stash
 
     - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `currencyCode`: 3-digit ISO format currency code. `REQUIRED`
     - `amount`: Amount to transfer. `REQUIRED`
     - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
 
@@ -251,6 +253,7 @@ Instantiating the class will give you an object with available methods
 - `fetchQueuedCalls($options)`: Fetch queued calls on a phone number
 
     - `phoneNumber`: Phone number mapped to your Africa's Talking account (in international format). `REQUIRED`
+    - `name`: Fetch calls for a specific queue.
 
 - `uploadMediaFile($options)`: Upload a voice media file
 
@@ -263,7 +266,11 @@ Build voice xml when callback URL receives a POST from the voice API. Actions ca
 
 ```php
 $voiceActions = $voice->messageBuilder();
-$xmlresponse = $voiceActions->getDigits($options)->say($text)->record()->build();
+$xmlresponse = $voiceActions
+    ->getDigits($options)
+    ->say($text)
+    ->record()
+    ->build();
 ```
 
 - `say($text)`: Add a `Say` action

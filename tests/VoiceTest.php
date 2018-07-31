@@ -35,14 +35,17 @@ class VoiceTest extends \PHPUnit\Framework\TestCase
             ])
 		);
 	}
-    
+
     public function testFetchQueuedCalls()
     {
-		$response = $this->client->fetchQueuedCalls(Fixtures::$voicePhoneNumber);
+		$response = $this->client->fetchQueuedCalls([
+            'phoneNumber' => Fixtures::$voicePhoneNumber,
+            'name'        => 'someQueueName'
+        ]);
 
 		$this->assertArrayHasKey('status', $response);
     }
-    
+
     public function testFetchQueuedCallsMustHaveRequiredAttributes()
     {
 		$this->assertArraySubset(
@@ -50,7 +53,6 @@ class VoiceTest extends \PHPUnit\Framework\TestCase
 			$response = $this->client->fetchQueuedCalls()
 		);
 	}
-
 
     public function testUploadMediaFile()
     {

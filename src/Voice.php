@@ -92,16 +92,22 @@ class Voice extends Service
 
     protected function doUploadMediaFile($options)
     {
-		if (!isset($options['phoneNumber'])) {
-			return $this->error('Phone number must be defined');
+        // Check and validate phoneNumber
+        if (!isset($options['phoneNumber'])) {
+            return $this->error('Phone number is required and must be in the format \'+2XXYYYYYYYYY\'');            
         }
         $phoneNumber = $options['phoneNumber'];
-        
+
+        $checkPhoneNumber = strpos($phoneNumber, '+');
+        if ($checkPhoneNumber === false || $checkPhoneNumber != 0) {
+            return $this->error('Phone number must be in the format \'+2XXYYYYYYYYY\'');
+        }
+
         if (!isset($options['url'])) {
             return $this->error('url must be defined');
         }
         $url = $options['url'];
-        
+
         // Check if valid URL passed
         if (filter_var($url, FILTER_VALIDATE_URL) === false) {
             return $this->error('URL not valid');
@@ -118,26 +124,30 @@ class Voice extends Service
         return $this->success($response);
     }
 
-    protected function dofetchQueuedCalls($phoneNumber)
+    protected function dofetchQueuedCalls($options)
     {
         // Check and validate phoneNumber
-        if (empty($phoneNumber)) {
+        if (!isset($options['phoneNumber'])) {
             return $this->error('Phone number is required and must be in the format \'+2XXYYYYYYYYY\'');            
         }
-        
+        $phoneNumber = $options['phoneNumber'];
+
         $checkPhoneNumber = strpos($phoneNumber, '+');
         if ($checkPhoneNumber === false || $checkPhoneNumber != 0) {
             return $this->error('Phone number must be in the format \'+2XXYYYYYYYYY\'');
         }
 
         $requestData = [
-            'username' => $this->username, 
+            'username' => $this->username,
             'phoneNumbers' => $phoneNumber
         ];
 
+        if(isset($options['name'])) {
+            $requestData['name'] = $options['name'];
+        }
+
         $response = $this->client->post('queueStatus', ['form_params' => $requestData]);
         return $this->success($response);
-                
     }
 
     protected function buildSay($options)
