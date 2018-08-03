@@ -141,7 +141,7 @@ Instantiating the class will give you an object with available methods
     - `amount`: Amount to pay. `REQUIRED`
     - `metadata`: Additional data to associate with the transaction. `REQUIRED`
 
-- `bankCheckout($options)`: Charge a customers bank acoount
+- `bankCheckoutCharge($options)`: Charge a customers bank acoount
 
     - `productName`: Payment product on Africa's Talking. `REQUIRED`
     - `bankAccount`: Bank account to be charged:
@@ -156,7 +156,7 @@ Instantiating the class will give you an object with available methods
     - `narration`: A short description of the transaction. `REQUIRED`
     - `metadata`: Additional data to associate with the transaction. `REQUIRED`
 
-- `validateBankCheckout($options)`: Validate a bank checkout
+- `bankCheckoutValidate($options)`: Validate a bank checkout
 
     - `transactionId`: Transaction id returned from a bank charge request. `REQUIRED`
     - `otp`: One Time Password provided by the customer you're charging. `REQUIRED`
@@ -178,7 +178,7 @@ Instantiating the class will give you an object with available methods
         - `narration`: A short description of the transaction. `REQUIRED`
         - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
 
-- `cardCheckout($options)`: Charge a customers payment card
+- `cardCheckoutCharge($options)`: Charge a customers payment card
 
     - `productName`: Payment product on Africa's Talking. `REQUIRED`
     - `paymentCard`: Payment card to be charged:
@@ -195,7 +195,7 @@ Instantiating the class will give you an object with available methods
     - `narration`: A short description of the transaction. `REQUIRED`
     - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
 
-- `validateCardCheckout($options)`: Validate a card checkout
+- `cardCheckoutValidate($options)`: Validate a card checkout
 
     - `transactionId`: Transaction id returned from a card charge request. `REQUIRED`
     - `otp`: One Time Password provided by the customer you're charging. `REQUIRED`
