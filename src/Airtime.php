@@ -14,19 +14,26 @@ class Airtime extends Service
 			return $this->error("recipients must be an array");
 		}
 
-		foreach ($options['recipients'] as $recipient){
+		foreach ($options['recipients'] as $key=>$recipient){
 
 			if(!is_array($recipient)) {
 				return $this->error("every recipient must be an array");
 			}
 
-			if(!array_key_exists('amount', $recipient) || !array_key_exists('phoneNumber', $recipient)) {
-				return $this->error("amount and phone number must be specified for each recipient");
+			if(!array_key_exists('phoneNumber', $recipient) || !array_key_exists('currencyCode', $recipient) || !array_key_exists('amount', $recipient)) {
+				return $this->error("phoneNumber, currencyCode and amount must be specified for each recipient");
 			}
 
-			if ( !preg_match('/^[a-zA-Z]{3} \d+(\.\d{1,2})?$/', $recipient['amount']) ) {
-				return $this->error("must contain a currency followed by an amount");
+			$currencyCode = $recipient['currencyCode'];
+			if (strlen($currencyCode) != 3) {
+				return $this->error('currencyCode must be in 3-digit ISO format');
 			}
+
+            $recipient['amount'] = $recipient['currencyCode'].' '.$recipient['amount'];
+
+            unset($recipient['currencyCode']);
+ 
+            $options['recipients'][$key] = $recipient;
 		}
 
 		$data = [

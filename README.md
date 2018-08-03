@@ -66,8 +66,9 @@ Instantiating the class will give you an object with available methods
 - `send($options)`: Send airtime
 
     - `recipients`: Contains an array of arrays containing the following keys
-        - `phoneNumber`: Recipient of airtime
-        - `amount`: Amount to send with currency e.g `KES 100`
+        - `phoneNumber`: Recipient of airtime. `REQUIRED`
+        - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
+        - `amount`: Amount to send. `REQUIRED`
 
 ### SMS
 

@@ -19,7 +19,6 @@ class Fixtures
     public static $targetProductCode = 1411;
     public static $mediaUrl = 'http://thesoundeffect.com/music/mp3/AintTooProudToBeg.mp3';
     public static $amount = '60';
-    public static $airtimeAmount = 'KES 60';
     public static $currencyCode = 'KES';
     public static $currencyCode2 = 'NGN';
     public static $productName = 'Test';

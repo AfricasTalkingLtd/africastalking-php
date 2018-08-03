@@ -19,9 +19,11 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 	public function testSendAirtimeToOne()
 	{
 		$response = $this->client->send([
-			'recipients'	=> [
-				['phoneNumber' => Fixtures::$phoneNumber, 'amount' => Fixtures::$airtimeAmount],
-			]
+			'recipients'	=> [[
+                'phoneNumber' => Fixtures::$phoneNumber,
+                'currencyCode' => Fixtures::$currencyCode,
+                'amount' => Fixtures::$amount
+            ]]
 		]);
 
 		$this->assertObjectHasAttribute('responses', $response['data']);
@@ -30,10 +32,15 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 	public function testSendAirtimeToMany()
 	{
 		$response = $this->client->send([
-			'recipients'	=> [
-				['phoneNumber' => Fixtures::$phoneNumber, 'amount' => Fixtures::$airtimeAmount],
-				['phoneNumber' => '+2347038151149', 'amount' => 'NGN 10000'],
-			]
+			'recipients'	=> [[
+                'phoneNumber' => Fixtures::$phoneNumber,
+                'currencyCode' => Fixtures::$currencyCode,
+                'amount' => Fixtures::$amount
+            ], [
+                'phoneNumber' => '+2347038151149',
+                'currencyCode' => 'NGN',
+                'amount' => '10000'
+            ]]
 		]);
 
 		$this->assertObjectHasAttribute('responses', $response['data']);
