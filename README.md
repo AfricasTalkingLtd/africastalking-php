@@ -156,7 +156,7 @@ Instantiating the class will give you an object with available methods
     - `narration`: A short description of the transaction. `REQUIRED`
     - `metadata`: Additional data to associate with the transaction. `REQUIRED`
 
-- `bankCheckoutValidate($options)`: Validate a bank checkout
+- `bankCheckoutValidate($options)`: Validate a bank checkout charge
 
     - `transactionId`: Transaction id returned from a bank charge request. `REQUIRED`
     - `otp`: One Time Password provided by the customer you're charging. `REQUIRED`
@@ -195,7 +195,7 @@ Instantiating the class will give you an object with available methods
     - `narration`: A short description of the transaction. `REQUIRED`
     - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
 
-- `cardCheckoutValidate($options)`: Validate a card checkout
+- `cardCheckoutValidate($options)`: Validate a card checkout charge
 
     - `transactionId`: Transaction id returned from a card charge request. `REQUIRED`
     - `otp`: One Time Password provided by the customer you're charging. `REQUIRED`
