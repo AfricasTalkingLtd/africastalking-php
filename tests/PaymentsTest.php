@@ -153,16 +153,18 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
     {
         $response = $this->client->fetchProductTransactions([
             'productName' => Fixtures::$productName,
-            'pageNumber' => 1,
-            'count' => 10,
-            'startDate' => Fixtures::$startDate,
-            'endDate' => Fixtures::$endDate,
-            'category' => Fixtures::$paymentCategory,
-            'provider' => Fixtures::$paymentProvider,
-            'status' => 'Success',
-            'source' => Fixtures::$paymentSource,
-            'destination' => Fixtures::$paymentDestination,
-            'providerChannel' => Fixtures::$providerChannel
+            'filters' => [
+                'pageNumber' => 1,
+                'count' => 10,
+                'startDate' => Fixtures::$startDate,
+                'endDate' => Fixtures::$endDate,
+                'category' => Fixtures::$paymentCategory,
+                'provider' => Fixtures::$paymentProvider,
+                'status' => 'Success',
+                'source' => Fixtures::$paymentSource,
+                'destination' => Fixtures::$paymentDestination,
+                'providerChannel' => Fixtures::$providerChannel
+            ]
         ]);
         
         $this->assertEquals('Success', $response['data']->status);
@@ -181,11 +183,13 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
     {
         $response = $this->client->fetchWalletTransactions([
             'productName' => Fixtures::$productName,
-            'pageNumber' => 1,
-            'count' => 10,
-            'startDate' => Fixtures::$startDate,
-            'endDate' => Fixtures::$endDate,
-            'categories' => Fixtures::$paymentCategories
+            'filters' => [
+                'pageNumber' => 1,
+                'count' => 10,
+                'startDate' => Fixtures::$startDate,
+                'endDate' => Fixtures::$endDate,
+                'categories' => Fixtures::$paymentCategories
+            ]
         ]);
 
         $this->assertArrayHasKey('status', $response);

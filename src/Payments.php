@@ -598,16 +598,20 @@ class Payments extends Service
 			return $this->error('productName must be defined');
 		}
 		$productName = $options['productName'];
-		
-        if (!isset($options['pageNumber'])) {
-			return $this->error('pageNumber must be defined');
+
+		// Check if filters are provided
+		if (!isset($options['filters']) && !is_array($options['filters'])) {
+			return $this->error('filters must be an array containing at least a pageNumber and count');
+		} else if (isset($options['filters']) && is_array($options['filters'])) {
+			$filters = $options['filters'];
+			if (!isset($filters['pageNumber']) || 
+                !isset($filters['count'])) {
+				return $this->error('filters must be an array containing at least a pageNumber and count');
+			}
 		}
-		$pageNumber = $options['pageNumber'];
-		
-        if (!isset($options['count'])) {
-			return $this->error('count must be defined');
-		}
-		$count = $options['count'];
+
+		$pageNumber = $filters['pageNumber'];
+		$count = $filters['count'];
 
         $requestData = [
             'username' => $this->username,
@@ -616,33 +620,33 @@ class Payments extends Service
             'count' => $count
         ];
 
-		if (!empty($options['startDate']) && !empty($options['endDate'])) {
-			$requestData['startDate'] = $options['startDate'];
-			$requestData['endDate'] = $options['endDate'];
+		if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
+			$requestData['startDate'] = $filters['startDate'];
+			$requestData['endDate'] = $filters['endDate'];
 		}
 
-		if (!empty($options['category'])) {
-			$requestData['category'] = $options['category'];
+		if (!empty($filters['category'])) {
+			$requestData['category'] = $filters['category'];
 		}
 
-		if (!empty($options['provider'])) {
-			$requestData['provider'] = $options['provider'];
+		if (!empty($filters['provider'])) {
+			$requestData['provider'] = $filters['provider'];
 		}
 
-		if (!empty($options['status'])) {
-			$requestData['status'] = $options['status'];
+		if (!empty($filters['status'])) {
+			$requestData['status'] = $filters['status'];
 		}
 
-		if (!empty($options['source'])) {
-			$requestData['source'] = $options['source'];
+		if (!empty($filters['source'])) {
+			$requestData['source'] = $filters['source'];
 		}
 
-		if (!empty($options['destination'])) {
-			$requestData['destination'] = $options['destination'];
+		if (!empty($filters['destination'])) {
+			$requestData['destination'] = $filters['destination'];
 		}
 
-		if (!empty($options['providerChannel'])) {
-			$requestData['providerChannel'] = $options['providerChannel'];
+		if (!empty($filters['providerChannel'])) {
+			$requestData['providerChannel'] = $filters['providerChannel'];
 		}
 
 		$response = $this->client->get('query/transaction/fetch', ['query' => $requestData]);
@@ -666,29 +670,33 @@ class Payments extends Service
 
     protected function doFetchWalletTransactions($options)
     {
-        if (!isset($options['pageNumber'])) {
-			return $this->error('pageNumber must be defined');
+		// Check if filters are provided
+		if (!isset($options['filters']) && !is_array($options['filters'])) {
+			return $this->error('filters must be an array containing at least a pageNumber and count');
+		} else if (isset($options['filters']) && is_array($options['filters'])) {
+			$filters = $options['filters'];
+			if (!isset($filters['pageNumber']) || 
+				!isset($filters['count'])) {
+				return $this->error('filters must be an array containing at least a pageNumber and count');
+			}
 		}
-		$pageNumber = $options['pageNumber'];
-		
-        if (!isset($options['count'])) {
-			return $this->error('count must be defined');
-		}
-		$count = $options['count'];
+
+		$pageNumber = $filters['pageNumber'];
+		$count = $filters['count'];
 
         $requestData = [
             'username' => $this->username,
             'pageNumber' => $pageNumber,
             'count' => $count
         ];
-        
-		if (!empty($options['startDate']) && !empty($options['endDate'])) {
-			$requestData['startDate'] = $options['startDate'];
-			$requestData['endDate'] = $options['endDate'];
+
+		if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
+			$requestData['startDate'] = $filters['startDate'];
+			$requestData['endDate'] = $filters['endDate'];
 		}
 
-		if (!empty($options['categories'])) {
-			$requestData['categories'] = $options['categories'];
+		if (!empty($filters['categories'])) {
+			$requestData['categories'] = $filters['categories'];
 		}
 
 		$response = $this->client->get('query/wallet/fetch', ['query' => $requestData]);
