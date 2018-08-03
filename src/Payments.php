@@ -63,7 +63,7 @@ class Payments extends Service
         }
 	}
 	
-	protected function doCardCheckout($options)
+	protected function doCardCheckoutCharge($options)
 	{
 		// Check if productName is set
 		if (!isset($options['productName'])) {
@@ -147,7 +147,7 @@ class Payments extends Service
 		return $this->success($response);
 	}
 
-	protected function doValidateCardCheckout($options)
+	protected function doCardCheckoutValidate($options)
 	{
 		// Check if transactionId is set
 		if (!isset($options['transactionId'])) {
@@ -171,7 +171,7 @@ class Payments extends Service
 		return $this->success($response);		
 	}
 
-	protected function doBankCheckout($options)
+	protected function doBankCheckoutCharge($options)
 	{
 		// Check if productName is set
 		if (!isset($options['productName'])) {
@@ -245,7 +245,7 @@ class Payments extends Service
 		return $this->success($response);
 	}
 
-	protected function doValidateBankCheckout($options)
+	protected function doBankCheckoutValidate($options)
 	{
 		// Check if transactionId is set
 		if (!isset($options['transactionId'])) {

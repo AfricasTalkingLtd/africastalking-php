@@ -17,9 +17,9 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->client 	= $at->payments();
     }
     
-    public function testCardCheckout()
+    public function testCardCheckoutCharge()
     {
-		$response = $this->client->cardCheckout([
+		$response = $this->client->cardCheckoutCharge([
 			'productName' => Fixtures::$productName,
 			'paymentCard' => Fixtures::$paymentCard,
 			'currencyCode' => Fixtures::$currencyCode2,
@@ -31,9 +31,9 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals('success', $response['status']);
     }
 
-	public function testValidateCardCheckout()
+	public function testCardCheckoutValidate()
 	{
-		$response = $this->client->validateCardCheckout([
+		$response = $this->client->cardCheckoutValidate([
 			'transactionId' => Fixtures::$transactionId,
 			'otp' => Fixtures::$otp
 		]);
@@ -41,9 +41,9 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayHasKey('status', $response);
 	}
 
-	public function testBankCheckout()
+	public function testBankCheckoutCharge()
 	{
-		$response = $this->client->bankCheckout([
+		$response = $this->client->bankCheckoutCharge([
 			'productName' => Fixtures::$productName,
 			'bankAccount' => Fixtures::$bankAccount,
 			'currencyCode' => Fixtures::$currencyCode,
@@ -55,9 +55,9 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals('PendingValidation', $response['data']->status);
 	}
 
-	public function testValidateBankCheckout()
+	public function testBankCheckoutValidate()
 	{
-		$response = $this->client->validateBankCheckout([
+		$response = $this->client->bankCheckoutValidate([
 			'transactionId' => Fixtures::$transactionId,
 			'otp' => Fixtures::$otp
 		]);
