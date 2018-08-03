@@ -218,24 +218,27 @@ Instantiating the class will give you an object with available methods
 - `fetchProductTransactions($options)`: Fetch payment product transactions
 
     - `productName`: Payment product on Africa's Talking. `REQUIRED`
-    - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
-    - `count`: Number of results to fetch. `REQUIRED`
-    - `startDate`: Start Date to consider when fetching.
-    - `endDate`: End Date to consider when fetching.
-    - `category`: Category to consider when fetching.
-    - `provider`: Provider to consider when fetching.
-    - `status`: Status to consider when fetching.
-    - `source`: Source to consider when fetching.
-    - `destination`: Destination to consider when fetching.
-    - `providerChannel`: Provider channel to consider when fetching.
+    - `filters`: Filters to use when fetching transactions:
+
+        - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
+        - `count`: Number of results to fetch. `REQUIRED`
+        - `startDate`: Start Date to consider when fetching.
+        - `endDate`: End Date to consider when fetching.
+        - `category`: Category to consider when fetching.
+        - `provider`: Provider to consider when fetching.
+        - `status`: Status to consider when fetching.
+        - `source`: Source to consider when fetching.
+        - `destination`: Destination to consider when fetching.
+        - `providerChannel`: Provider channel to consider when fetching.
 
 - `fetchWalletTransactions($options)`: Fetch payment wallet transactions
+    - `filters`: Filters to use when fetching transactions:
 
-    - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
-    - `count`: Number of results to fetch. `REQUIRED`
-    - `startDate`: Start Date to consider when fetching.
-    - `endDate`: End Date to consider when fetching.
-    - `categories`: Comma delimited list of categories to consider when fetching.
+        - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
+        - `count`: Number of results to fetch. `REQUIRED`
+        - `startDate`: Start Date to consider when fetching.
+        - `endDate`: End Date to consider when fetching.
+        - `categories`: Comma delimited list of categories to consider when fetching.
 
 - `findTransaction($options)`: Find a particular transaction
 
