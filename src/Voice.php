@@ -267,7 +267,7 @@ class Voice extends Service
         if (!isset($options['phoneNumbers'])) {
             return $this->error('Please specifiy at least one number to dial');
         }
-        $phoneNumbers = implode(", ", $options["phoneNumbers"]);
+        $phoneNumbers = implode(",", $options["phoneNumbers"]);
 
         // Check if ringback tone is set
         if (isset($options['ringbackTone'])) {
