@@ -30,8 +30,8 @@ class Airtime extends Service
 
 			$amount = (int) explode(" ", $recipient['amount'])[1];
 
-			if ( $amount < 10 || $amount > 10000) {
-				return $this->error("amount must be between 10 and 10000");
+			if ( $amount < 5 || $amount > 10000) {
+				return $this->error("amount must be between 5 and 10000");
 			}
 		}
 
