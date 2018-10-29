@@ -1,6 +1,6 @@
 # Africa's Talking PHP SDK
 
-> The wrapper provides convenient access to the Africa's Talking API from applications written in PHP.
+> This SDK provides convenient access to the Africa's Talking API for applications written in PHP.
 
 ## Documentation
 Take a look at the [API docs here](http://docs.africastalking.com).
@@ -12,8 +12,9 @@ You can install the PHP SDK via composer or by downloading the source
 #### Via Composer
 
 The recommended way to install the SDK is with [Composer](http://getcomposer.org/). 
+
 ```bash
-$ composer require africastalking/africastalking
+composer require africastalking/africastalking
 ```
 
 ## Usage
@@ -23,462 +24,319 @@ The SDK needs to be instantiated using your username and API key, which you can 
 > You can use this SDK for either production or sandbox apps. For sandbox, the app username is **ALWAYS** `sandbox`
 
 ```php
-<?php
+use AfricasTalking\SDK\AfricasTalking;
 
-    use AfricasTalking\SDK\AfricasTalking;
+$username = 'YOUR_USERNAME'; // use 'sandbox' for development in the test environment
+$apiKey   = 'YOUR_API_KEY'; // use your sandbox app API key for development in the test environment
+$AT       = new AfricasTalking($username, $apiKey);
 
-    $username = 'YOUR_USERNAME'; // use 'sandbox' for development in the test environment
-    $apiKey 	= 'YOUR_API_KEY'; // use your sandbox app API key for development in the test environment
-    $AT = new AfricasTalking($username, $apiKey);
+// Get one of the services
+$sms      = $AT->sms();
 
+// Use the service
+$result   = $sms->send([
+    'to'      => '+2XXYYYOOO',
+    'message' => 'Hello World!'
+]);
+
+print_r($result);
 ```
-You can now make API calls using the `$AT` object we have just created.  See [example](example/) for more usage examples.
+
+See [example](example/) for more usage examples.
+
+## Instantiation
+
+Instantiating the class will give you an object with available methods
+
+- `$AT = new AfricasTalking($username, $apiKey)`: Instantiate the class
+- Get available service
+    - [SMS Service](#sms): `$sms = $AT->sms()`
+    - [Airtime Service](#airtime): `$airtime = $AT->airtime()`
+    - [Payments Service](#payments): `$payments = $AT->payments()`
+    - [Voice Service](#voice): `$voice = $AT->voice()`
+    - [Token Service](#token): `$token = $AT->token()`
+    - [Application Service](#application): `$application = $AT->application()`
+
+### Application
+
+- `fetchApplicatonData()`: Get app information. e.g balance
 
 ### Airtime
 
-Send airtime to phone numbers
+- `send($options)`: Send airtime
 
-```php
-$airtime = $AT->airtime();
-$airtime->send($options);
-```
- The options array `$options` must contain the following keys:
-
-- `recipients`: Contains an array of arrays containing the following keys
-    - `phoneNumber`: Recipient of airtime
-    - `amount`: Amount sent `>= 10 && <= 10K` with currency e.g `KES 100`
-
+    - `recipients`: Contains an array of arrays containing the following keys
+        - `phoneNumber`: Recipient of airtime. `REQUIRED`
+        - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
+        - `amount`: Amount to send. `REQUIRED`
 
 ### SMS
 
-```php
-$SMS = $AT->sms();
-```
+- `send($options)`: Send a message
 
-#### Send SMS
+    - `message`: SMS content. `REQUIRED`
+    - `to`: An array of phone numbers. `REQUIRED`
+    - `from`: Shortcode or alphanumeric ID that is registered with your Africa's Talking account.
+    - `enqueue`: Set to `true` if you would like to deliver as many messages to the API without waiting for an acknowledgement from telcos.
 
-```php
-$SMS->send($options);
-```
+- `sendPremium($options)`: Send a premium SMS
 
-The options array `$options` has the following keys:
+    - `message`: SMS content. `REQUIRED`
+    - `to`: An array of phone numbers. `REQUIRED`
+    - `keyword`: Your premium product keyword `REQUIRED`
+    - `linkId`: "[...] We forward the `linkId` to your application when a user sends a message to your onDemand service"
+    - `retryDurationInHours`: "This specifies the number of hours your subscription message should be retried in case it's not delivered to the subscriber"
 
-- `message`: SMS content. `REQUIRED`
-- `to`: A single recipient or an array of recipients. `REQUIRED`
-    - array of recipients contains 
-- `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
-- `enqueue`: Set to `true` if you would like to deliver as many messages to the API without waiting for an acknowledgement from telcos.
+- `fetchMessages($options)`: Fetch your messages
 
-#### Send Premium SMS
+    - `lastReceivedId`: This is the id of the message you last processed. Defaults to `0`
 
-```php
-$SMS->sendPremium($options);
-```
-The options array `$options` has the following keys:
-- `message`: SMS content. `REQUIRED`
-- `to`: A single recipient or an array of recipients. `REQUIRED`
-    - array of recipients contains 
-- `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
-- `keyword`: Value is a premium keyword `REQUIRED`
-- `linkId`: "This is used for premium services to send OnDemand messages. We forward the linkId to your application when the user sends a message to your service. `REQUIRED`
-- `retryDurationInHours`: "It specifies the number of hours your subscription message should be retried in case it's not delivered to the subscriber"
+- `createSubscription($options)`: Create a premium subscription
 
-#### Fetch Messsages
+    - `shortCode`: Premium short code mapped to your account. `REQUIRED`
+    - `keyword`: Premium keyword under the above short code and is also mapped to your account. `REQUIRED`
+    - `phoneNumber`: PhoneNumber to be subscribed `REQUIRED`
+    - `checkoutToken`: Token used to validate the subscription request `REQUIRED`. See [token service](#token)
 
-```php
-$SMS->fetchMessage()
-```
+- `fetchSubscriptions($options)`: Fetch your premium subscription data
 
-#### Create subscription
+    - `shortCode`: Premium short code mapped to your account. `REQUIRED`
+    - `keyword`: Premium keyword under the above short code and mapped to your account. `REQUIRED`
+    - `lastReceivedId`: ID of the subscription you believe to be your last. Defaults to `0`
 
-Create a premium subscription
+- `deleteSubscription($options)`: Delete a phone number from a premium subscription
 
-```php
-$SMS->createSubscription($options);
-```
-The options array `$options` has the following keys
-- `shortCode`: This is a premium short code mapped to your account. `REQUIRED`
-- `keyword`: Value is a premium keyword under the above short code and mapped to your account. `REQUIRED`
-- `phoneNumber`: The phoneNumber to be subscribed `REQUIRED`
-- `checkoutToken`: This is a token used to validate the subscription request `REQUIRED`
+    - `shortCode`: Premium short code mapped to your account. `REQUIRED`
+    - `keyword`: Premium keyword under the above short code and is also mapped to your account. `REQUIRED`
+    - `phoneNumber`: PhoneNumber to be subscribed `REQUIRED`
 
-#### Fetch Subscription
+### Payments
 
-```php
-$SMS->fetchSubscription($options);
-```
-The options array `$options` has the following keys
-- `shortCode`: This is a premium short code mapped to your account. `REQUIRED`
-- `keyword`: Value is a premium keyword under the above short code and mapped to your account. `REQUIRED`
-- `lastReceivedId`: ID of the subscription you believe to be your last. Defaults to `0`
+- `mobileCheckout($options)`: Charge a customers mobile money account
 
+    - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `phoneNumber`: Customer phone number (in international format). `REQUIRED`
+    - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
+    - `amount`: Amount to charge. `REQUIRED`
+    - `metadata`: Additional data to associate with the transaction. `REQUIRED`
 
-### Payment
+- `mobileB2C($options)`: Send mobile money to customers
 
-```php
-$payments = $AT->payments();
-```
+    - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `recipients`: A list of **up to 10** recipients. Each recipient has:
 
-#### Credit card checkout
+        - `phoneNumber`: Customer phone number (in international format). `REQUIRED`
+        - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
+        - `amount`: Amount to pay. `REQUIRED`
+        - `reason`: The purpose of the payment. See `payments::REASON*` for supported reasons. `REQUIRED`
+        - `metadata`: Additional data to associate with the tranasction. `REQUIRED`
 
-Initiate a card checkout
+- `mobileB2B($options)`: Send mobile money to businesses e.g banks
 
-```php
-$payments->cardCheckout($options);
-```
-The options array `$options` has the following keys
-- `productName`: Payment Product as setup on your account. `REQUIRED`
-- `checkoutToken`: Token that has been generated by our APIs as as result of charging a user's Payment Card in a previous transaction. When using a token, the `paymentCard` data should NOT be populated.
-- `paymentCard`: Payment Card to be charged:
+    - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `provider`: Payment provider that is facilitating this transaction. See `payments::PROVIDER*` for supported providers. `REQUIRED`
+    - `transferType`: Describes the type of payment being made. See `payments::TRANSFER_TYPE*` for supported transfer types. `REQUIRED`
+    - `destinationChannel`: Name or number of the channel that will receive payment by the provider. `REQUIRED`
+    - `destinationAccount`: Name used by the business to receive money on the provided destinationChannel. `REQUIRED`
+    - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
+    - `amount`: Amount to pay. `REQUIRED`
+    - `metadata`: Additional data to associate with the transaction. `REQUIRED`
 
-    - `number`: The payment card number. `REQUIRED`
-    - `cvvNumber`: The 3 or 4 digit Card Verification Value. `REQUIRED`
-    - `expiryMonth`: The expiration month on the card (e.g `8`) `REQUIRED`
-    - `authToken`: The card's ATM PIN. `REQUIRED`
-    - `countryCode`: The 2-Digit countryCode where the card was issued (only `NG` is supported). `REQUIRED`
+- `bankCheckoutCharge($options)`: Charge a customers bank acoount
 
-- `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported). `REQUIRED`
-- `amount`: Payment amount. `REQUIRED`
-- `narration`: A short description of the transaction `REQUIRED`
-- `metadata`: Some optional data to associate with transaction.
-
-#### Validate credit card checkout
-
-```php
-$payments->validateCardCheckout($options);
-```
-The options array `$options` has the following keys
-- `transactionId`: The transaction that your application wants to validate. `REQUIRED`
-- `otp`: One Time Password that the card issuer sent to the client. `REQUIRED`
-
-##### Bank checkout
-
-```php
-$payments->bankCheckout($options);
-```
-The options array `$options` has the following keys
-- `productName`: Payment Product as setup on your account. `REQUIRED`
-- `bankAccount`: Bank account to be charged:
-
-    - `accountName`: The name of the bank account. `REQUIRED`
-    - `accountNumber`: The account number. `REQUIRED`
-    - `bankCode`: A 6-Digit [Integer Code](http://docs.africastalking.com/bank/checkout) for the bank that we allocate. See `payments.BANK.*` for supported banks. `REQUIRED`
-    - `dateOfBirth`: Date of birth of the account owner (`YYYY-MM-DD`). Required for Zenith Bank Nigeria.
-
-- `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported). `REQUIRED`
-- `amount`: Payment amount. `REQUIRED`
-- `narration`: A short description of the transaction `REQUIRED`
-- `metadata`: Some optional data to associate with transaction.
-
-##### Validate bank checkout
-
-```php
-$payments->validateBankCheckout($options);
-```
-The options array `$options` has the following keys:
-- `transactionId`: The transaction that your application wants to validate. `REQUIRED`
-- `otp`: One Time Password that the bank sent to the client. `REQUIRED`
-
-#### Bank transfer
-
-Initiate a bank transfer
-
-```php
-$payments->bankTransfer($options);
-```
-The options array `$options` has the following keys:
-- `productName`: Payment Product as setup on your account. `REQUIRED`
-- `recipients`: A list of recipients. Each recipient has:
+    - `productName`: Payment product on Africa's Talking. `REQUIRED`
     - `bankAccount`: Bank account to be charged:
-        - `accountName`: The name of the bank account.
-        - `accountNumber`: The account number `REQUIRED`
-        - `bankCode`: A 6-Digit Integer Code for the bank that we allocate; See `payments.BANK.*` for supported banks. `REQUIRED`
-    - `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported). `REQUIRED`
-    - `amount`: Payment amount. `REQUIRED`
-    - `narration`: A short description of the transaction `REQUIRED`
-    - `metadata`: Some optional data to associate with transaction.
 
+        - `accountName`: Name of the bank account. `REQUIRED`
+        - `accountNumber`: Account number. `REQUIRED`
+        - `bankCode`: A [6-Digit Integer Code](http://docs.africastalking.com/bank/checkout#bankCodes) for the bank that we allocate. See `payments::BANK*` for supported banks. `REQUIRED`
+        - `dateOfBirth`: Date of birth of the account owner (in the format `YYYY-MM-DD`). Required for Zenith Bank Nigeria.
 
-#### Mobile Checkout
+    - `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported at present). `REQUIRED`
+    - `amount`: Amount to charge. `REQUIRED`
+    - `narration`: A short description of the transaction. `REQUIRED`
+    - `metadata`: Additional data to associate with the transaction. `REQUIRED`
 
-Request payment from customer on mobile money
+- `bankCheckoutValidate($options)`: Validate a bank checkout charge
 
-```php
-$payments->mobileCheckout($options);
-```
-The options array `$options` has the following keys:
-- `productName`: Your Payment Product. `REQUIRED`
-- `phoneNumber`: The customer phone number (in international format; e.g. `25471xxxxxxx`). `REQUIRED`
-- `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc.) `REQUIRED`
-- `amount`: This is the amount. `REQUIRED`
-- `metadata`: Some optional data to associate with transaction.
+    - `transactionId`: Transaction id returned from a bank charge request. `REQUIRED`
+    - `otp`: One Time Password provided by the customer you're charging. `REQUIRED`
 
-#### Mobile B2C
+- `bankTransfer($options)`: Send money to a bank account
 
-Send mobile money to customers
+    - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `recipients`: A list of recipients. Each recipient has:
 
-```php
-$payments->mobileB2C($options);
-```
-The options array `$options` has the following keys:
+        - `bankAccount`: Bank account to receive money:
 
-- `productName`: Your Payment Product. `REQUIRED`
-- `recipients`: A list of **up to 10** recipients. Each recipient has:
+            - `accountName`: Name of the bank account. `REQUIRED`
+            - `accountNumber`: Account number. `REQUIRED`
+            - `bankCode`: A [6-Digit Integer Code](http://docs.africastalking.com/bank/checkout#bankCodes) for the bank that we allocate. See `payments::BANK*` for supported banks. `REQUIRED`
+            - `dateOfBirth`: Date of birth of the account owner (in the format `YYYY-MM-DD`). Required for Zenith Bank Nigeria.
 
-    - `phoneNumber`: The payee phone number (in international format; e.g. `25471xxxxxxx`). `REQUIRED`
-    - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc.) `REQUIRED`
-    - `amount`: Payment amount. `REQUIRED`
-    - `reason`: This field contains a string showing the purpose for the payment. If set, it should be one of the following
-        
-        ```
-        payments.REASON.SALARY
-        payments.REASON.SALARY_WITH_CHARGE
-        payments.REASON.BUSINESS
-        payments.REASON.BUSINESS_WITH_CHARGE
-        payments.REASON.PROMOTION
-        ```
+        - `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported at present). `REQUIRED`
+        - `amount`: Amount to pay. `REQUIRED`
+        - `narration`: A short description of the transaction. `REQUIRED`
+        - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
 
-    - `metadata`: Some optional data to associate with transaction.
+- `cardCheckoutCharge($options)`: Charge a customers payment card
 
+    - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `paymentCard`: Payment card to be charged:
 
-#### Mobile B2B
+        - `number`: Payment card number. `REQUIRED`
+        - `cvvNumber`: 3 or 4 digit card verification Value. `REQUIRED`
+        - `expiryMonth`: Expiration month on the card (e.g `8`). `REQUIRED`
+        - `authToken`: Payment card's ATM PIN. `REQUIRED`
+        - `countryCode`: 2-Digit countryCode where the card was issued (only `NG` is supported at present). `REQUIRED`
 
-Send mobile money payments TO businesses eg banks FROM your payment wallet
+    - `checkoutToken`: A token that has been generated by our APIs as as result of charging a customers payment card in a previous transaction. When using a `checkoutToken`, the `paymentCard` data should NOT be populated.
+    - `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported at present). `REQUIRED`
+    - `amount`: Amount to charge. `REQUIRED`
+    - `narration`: A short description of the transaction. `REQUIRED`
+    - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
 
-```php
-$payments->mobileB2B($options);
-```
-The options array `$options` has the following keys:
-- `productName`: Your Payment Product as setup on your account. `REQUIRED`
-- `provider`: This contains the payment provider that is facilitating this transaction. Supported providers at the moment are:
-    
-    ```
-      payments.PROVIDER.ATHENA
-      payments.PROVIDER.MPESA
-    ```
-- `transferType`: This contains the payment provider that is facilitating this transaction. Supported providers at the moment are:
-    
-    ```
-      payments.TRANSFER_TYPE.BUY_GOODS
-      payments.TRANSFER_TYPE.PAYBILL
-      payments.TRANSFER_TYPE.DISBURSE_FUNDS
-      payments.TRANSFER_TYPE.B2B_TRANSFER
-    ```
-- `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc.) `REQUIRED`
-- `destinationChannel`: This value contains the name or number of the channel that will receive payment by the provider. `REQUIRED`
-- `destinationAccount`: This value contains the account name used by the business to receive money on the provided destinationChannel. `REQUIRED`
-- `amount`: Payment amount. `REQUIRED`
-- `metadata`: Some optional data to associate with transaction.
+- `cardCheckoutValidate($options)`: Validate a card checkout charge
 
+    - `transactionId`: Transaction id returned from a card charge request. `REQUIRED`
+    - `otp`: One Time Password provided by the customer you're charging. `REQUIRED`
+
+- `walletTransfer($options)`: Move money from one payment product to another
+
+    - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `targetProductCode`: Unique code ode of payment product receiving funds on Africa's Talking. `REQUIRED`
+    - `currencyCode`: 3-digit ISO format currency code. `REQUIRED`
+    - `amount`: Amount to transfer. `REQUIRED`
+    - `metadata`: Additional data to associate with the transation. `REQUIRED`
+
+- `topupStash($options)`: Move money from a payment product to an applications stash
+
+    - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `currencyCode`: 3-digit ISO format currency code. `REQUIRED`
+    - `amount`: Amount to transfer. `REQUIRED`
+    - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
+
+- `fetchProductTransactions($options)`: Fetch payment product transactions
+
+    - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `filters`: Filters to use when fetching transactions:
+
+        - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
+        - `count`: Number of results to fetch. `REQUIRED`
+        - `startDate`: Start Date to consider when fetching.
+        - `endDate`: End Date to consider when fetching.
+        - `category`: Category to consider when fetching.
+        - `provider`: Provider to consider when fetching.
+        - `status`: Status to consider when fetching.
+        - `source`: Source to consider when fetching.
+        - `destination`: Destination to consider when fetching.
+        - `providerChannel`: Provider channel to consider when fetching.
+
+- `fetchWalletTransactions($options)`: Fetch payment wallet transactions
+    - `filters`: Filters to use when fetching transactions:
+
+        - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
+        - `count`: Number of results to fetch. `REQUIRED`
+        - `startDate`: Start Date to consider when fetching.
+        - `endDate`: End Date to consider when fetching.
+        - `categories`: Comma delimited list of categories to consider when fetching.
+
+- `findTransaction($options)`: Find a particular transaction
+
+    - `transactionId`: ID of trancation to find. `REQUIRED`
+
+- `fetchWalletBalance()`: Fetch your payment wallet balance
 
 ### Voice
 
-```php
-$voice = $AT->voice();
-```
+- `call($options)`: Initiate a phone call
 
-#### Making a call
+    - `to`: Phone number that you wish to dial (in international format). `REQUIRED`
+    - `from`: Phone number on Africa's Talking (in international format). `REQUIRED`
 
-```php
-$voice->call($options)
-```
-The options array `$options` has the following keys:
-- `to`: The phone number that you wish to dial (in international format) `REQUIRED`
-- `from`: Your Africa's Talking phone number (in international format). `REQUIRED`
+- `fetchQueuedCalls($options)`: Fetch queued calls on a phone number
 
-#### Fetch queued calls
+    - `phoneNumber`: Phone number mapped to your Africa's Talking account (in international format). `REQUIRED`
+    - `name`: Fetch calls for a specific queue.
 
-```php
-$voice->fetchQueuedCalls($phoneNumber);
-```
-The `$phoneNumber` is phone number mapped to your AfricasTalking account
+- `uploadMediaFile($options)`: Upload a voice media file
 
-
-#### Upload media file
-
-```php
-$voice->uploadMediaFile($options);
-```
-The options array `$options` has the following keys:
-- `phoneNumber`: phone number mapped to your AfricasTalking account 
-- `url`: The url of the file to upload. Don't forget to start with http://
+    - `phoneNumber`: phone number mapped to your Africa's Talking account (in international format). `REQUIRED`
+    - `url`: The url of the file to upload. Should start with `http(s)://`. `REQUIRED`
 
 #### MessageBuilder
 
-Build voice xml when callback URL receives a POST from the voice API
+Build voice xml when callback URL receives a POST from the voice API. Actions can be chained to create an XML string.
 
 ```php
 $voiceActions = $voice->messageBuilder();
+$xmlresponse = $voiceActions
+    ->getDigits($options)
+    ->say($text)
+    ->record()
+    ->build();
 ```
 
-Actions can be chained to create an XML string e.g.
-You finally build the XML by running the `build()` method 
+- `say($text)`: Add a `Say` action
 
-```php
-$voiceActions->getDigits($options)->say($text)->record()->build();
-```
+- `text`: Text (in English) that will be read out to the user.
 
-##### Say
+- `play($url)`: Add a `Play` action
 
-```php
-$voiceActions->say($text);
-```
-`$text`: You can send us some text (in English) and we will read it out to the user.
+    - `url`: Public url to an audio file. This file will be played back to user.
 
-##### Play
+- `getDigits($options)`: Add a `GetDigits` action
 
-```php
-$voiceActions->play($url);
-```
-`$url`: This element lets you play back an audio file that is located anywhere on the web.
+    - `numDigits`: Number of digits should be gotten from the user
+    - `timeout`: Timeout (in seconds) for getting digits from a user.
+    - `finishOnKey`: key which will terminate the action of getting digits.
+    - `callbackUrl`: URL to forward the results of the GetDigits action.
 
-##### Get Digits
+- `dial($options)`: Add a `Dial` action
 
-```php
-$voiceActions->getDigits($options);
-```
-The options array `$options` has the following keys:
-- `numDigits`: 	This number of digits you would like to get from the user
-- `timeout`: Timeout (in seconds) for getting the digits, after which the system moves on to the next element. If there is no other element to execute, the system will hang up
-- `finishOnKey`: The key which will terminate the action of getting digits. If it is not specified, the API will send back the first digit that the user presses.
-- `callbackUrl`: The parameter instructs us to forward the results of the GetDigits action to the URL value passed in. If absent, our API will forward the request to the default URL for this phone number (or to the redirected URL if a redirect has been issues).
-This redirection is permanent.
+    - `phoneNumbers`: An array of phone numbers (in international format) to call. `REQUIRED`
+    - `record`: Boolean - Whether to record the conversation.
+    - `sequenntial`: Boolean - If many numbers provided for `phoneNumbers`, determines whether the phone numbers will be dialed one after the other or at the same time.
+    - `callerId`: Africa's Talking number you want to dial out with.
+    - `ringBackTone`: URL location of a media playback you would want the user to listen to when the call has been placed before its picked up.
+    - `maxDuration`: maximum amount of time in seconds a call should take.
 
+- `conference()`: Add a `Conference` action
 
-##### Dial
+- `record($options)`: Add a `Record` action
 
-You can use this element to connect the user who called your phone number to an external phone number.
+    - `finishOnKey`: Key which will terminate the action of recording.
+    - `maxLength`: Maximum amount of time in seconds a recording should take.
+    - `timeout`: Timeout (in seconds) for getting a recording from a user.
+    - `trimSilence`: Boolean - Specifies whether you want to remove the initial and final parts of a recording where user was silent.
+    - `playBeep`: Boolean - Specifies whether the API should play a beep when recording starts.
+    - `callbackUrl`: URL to forward the results of the Recording action.
 
-```php
-$voiceActions->dial($options);
-```
-The options array `$options` has the following keys:
-- `phoneNumbers`: An array of phone numbers (in international format) to call. `REQUIRED`
-- `record`: Boolean value of whether to record the conversation.
-- `sequenntial`: Boolean If many numbers provided for `phoneNumbers`, this determines whether the phone numbers will be dialed one after the other, or whether they will all ring at the same time.
-- `callerId`: This contains your AfricasTalking number you want to dial out with. It is mainly important when the caller used a sip number. If not specified in this case, the default number will be used.
-- `ringBackTone`: This contains a URL location of a media playback you would want the user to listen to when the call has been placed before its picked up.
-- `maxDuration`: This contains the maximum amount of time in seconds a call should take.
+- `enqueue($options)`: Add an `Enqueue` action
 
-##### Conference
+    - `holdMusic`: URL to the file to be played while the user is on hold. 
+    - `name`: Name of queue to put call on.
 
-This element lets you add all the users that dial into the phone number to a conference call.
-This is a terminal action. ie. No action will be executed after this.
+- `deqeue($options)`: Add a `Dequeue` acton
 
-```php
-$voiceActions->conference();
-```
+    - `phoneNumber`: Phone number mapped to your Africa's Talking account which a user called to join the queue. `REQUIRED`
+    - `name`: Name of queue you want to dequeue from.
 
-##### Record
+- `reject()`: Add a `Reject` action
 
-This action lets you record a call session into an mp3 file that you can then retrieve and play later.
+- `redirect($url)`: Add a `Redirect` action
 
-###### Terminal recording
+    - `url`: URL to transfer control of the call to
 
-For final recording, the recording starts when the record action is called until the mobile user hangs up.
-
-```php
-$voiceActions->record();
-```
-
-###### Partial recording
-
-Partial recording may be useful where a particular user response is required like while prompting for a name.
-
-```php
-$voiceActions->record($options);
-```
-The options array `$options` has the following keys:
-- `finishOnKey`: The key which will terminate the action of getting digits. If it is not specified, the API will send back the first digit that the user presses.
-- `maxLength`: 	Specifies the maximum amount of time in seconds a recording should take.
-- `timeout`: Timeout (in seconds) for getting the digits, after which the system moves on to the next element. If there is no other element to execute, the system will hang up
-- `trimSilence`: Boolean - Specifies whether you want to remove the initial and final parts of a recording where the user was silent.
-- `playBeep`: Boolean - Specifies whether the API should play a beep when recording starts.
-- `callbackUrl`: The parameter instructs us to forward the results of the GetDigits action to the URL value passed in. If absent, our API will forward the request to the default URL for this phone number (or to the redirected URL if a redirect has been issues).
-This redirection is permanent.
-
-
-##### Enqueue
-
-Our gateway allows you to add incoming calls to a queue (with music being played in the background). You can then call a separate number to dequeue the calls one at a time.
-
-```php
-$voiceActions->enqueue($options);
-```
-The options array `$options` has the following keys:
-- `holdMusic`: A valid URL that contains a link to the file to be played while the user is on hold. 
-- `name`: You can put a call in a particular queue. eg. support, general, technical. This would help you dequeue it or know to the correct person. 
-
-
-##### Dequeue
-
-After enqueueing you can then call a separate number to dequeue the calls one at a time.
-```php
-$voiceActions->dequeue($options);
-```
-The options array `$options` has the following keys:
-- `phoneNumber`: This the phone number which a user called to join the queue. `REQUIRED`
-- `name`: This is the name of the queue you want to dequeue from.
-
-##### Reject
-This action lets you reject an incoming call without incurring any usage charges from our APIs. Note that this should be the only element in your response. This is a terminal action. ie. No action will be executed after this.
-
-```php
-$voiceActions->reject();
-```
-
-##### Redirect
-
-This action will transfer control of the call to the script whose URL is passsed in. This can help you better organize your call handling logic by spreading the logic across multiple scripts
-
-```php
-$voiceActions->redirect($url);
-```
-
-##### Build
-
-This finally builds the XML after chaining some of the actions above actions
-
-```php
-$voiceActions->build();
-```
+- `build()`: Build the xml after chaining some of the above actions
 
 ### Token
 
-```php
-$token = $AT->token();
-```
+- `createCheckoutToken($options)`: Create a checkout token
 
-#### Checkout Token
+    - `phoneNumber`: Phone number to create checkout token for
 
-Create a checkout token.
-
-```php
-$token->createCheckoutToken($phoneNumber);
-```
-- `$phoneNumber`: Phone number to create an account for
-
-### Generate Auth Token
-
-Generate an auth token to us for authentication instead of the API key.
-
-```php
-$token->generateAuthToken();
-```
-
-### Account
-
-```php
-$account = $AT->account();
-```
-
-#### Fetch account info
-
-Use this method to fetch account information such as the account balance
-
-```php
-$account->fetchAccount();
-```
+- `generateAuthToken()`: Generate an auth token to use for authenticating API requests instead of your API key.
 
 ## Testing the SDK
 
@@ -487,10 +345,14 @@ The SDK uses [PHPUnit](https://phpunit.de/manual/current/en/index.html) as the t
 To run available tests, from the root of the project run:
 
 ```bash
-$ phpunit
-``` 
+# Configure needed fixtures, e.g sandbox api key, Africa's Talking products
+cp tests/Fixtures.php.tpl tests/Fixtures.php
 
+# Run tests
+phpunit
+```
 
 ## Issues
 
 If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/AfricasTalkingLtd/africastalking-php/issues).
+

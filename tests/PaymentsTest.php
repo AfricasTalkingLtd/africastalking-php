@@ -17,9 +17,9 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->client 	= $at->payments();
     }
     
-    public function testCardCheckout()
+    public function testCardCheckoutCharge()
     {
-		$response = $this->client->cardCheckout([
+		$response = $this->client->cardCheckoutCharge([
 			'productName' => Fixtures::$productName,
 			'paymentCard' => Fixtures::$paymentCard,
 			'currencyCode' => Fixtures::$currencyCode2,
@@ -31,55 +31,19 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals('success', $response['status']);
     }
 
-    public function testCardCheckoutCannotBeEmpty()
-    {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->cardCheckout()
-		);
-    }
-
-    public function testCardCheckoutMustHaveRequiredAttributes()
-    {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->cardCheckout([
-				'productName' => Fixtures::$productName
-			])
-		);
-	}
-		
-	public function testValidateCardCheckout()
+	public function testCardCheckoutValidate()
 	{
-		$response = $this->client->validateCardCheckout([
+		$response = $this->client->cardCheckoutValidate([
 			'transactionId' => Fixtures::$transactionId,
 			'otp' => Fixtures::$otp
 		]);
 
 		$this->assertArrayHasKey('status', $response);
 	}
-	
-	public function testValidateCardCheckoutCannotBeEmpty()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->validateCardCheckout()
-		);
-	}
-	
-	public function testValidateCardCheckoutMustHaveRequiredAttributes()
-    {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->validateCardCheckout([
-				'otp' => Fixtures::$otp
-			])
-		);
-    }
 
-	public function testBankCheckout()
+	public function testBankCheckoutCharge()
 	{
-		$response = $this->client->bankCheckout([
+		$response = $this->client->bankCheckoutCharge([
 			'productName' => Fixtures::$productName,
 			'bankAccount' => Fixtures::$bankAccount,
 			'currencyCode' => Fixtures::$currencyCode,
@@ -90,53 +54,17 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals('PendingValidation', $response['data']->status);
 	}
-	
-	public function testBankCheckoutCannotBeEmpty()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->bankCheckout()
-		);
-	}
-	
-	public function testBankCheckoutMustHaveRequiredAttributes()
-    {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->cardCheckout([
-				'productName' => Fixtures::$productName
-			])
-		);
-    }
 
-	public function testValidateBankCheckout()
+	public function testBankCheckoutValidate()
 	{
-		$response = $this->client->validateBankCheckout([
+		$response = $this->client->bankCheckoutValidate([
 			'transactionId' => Fixtures::$transactionId,
-			'otp' => Fixtures::$bankCheckoutToken
+			'otp' => Fixtures::$otp
 		]);
 
 		$this->assertArrayHasKey('status', $response);
 	}
-	
-	public function testValidateBankCheckoutCannotBeEmpty()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->validateBankCheckout()
-		);
-	}
-	
-	public function testValidateBankCheckoutMustHaveRequiredAttributes()
-    {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->validateBankCheckout([
-				'otp' => Fixtures::$bankCheckoutToken
-			])
-		);
-	}
-	
+
 	public function testBankTransfer()
     {
 		$response = $this->client->bankTransfer([
@@ -156,16 +84,6 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		
 	}
 
-	public function testBankTransferMustHaveRequiredAttributes()
-    {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->bankTransfer([
-				'productName' => Fixtures::$productName,
-			])
-		);
-	}
-
 	public function testMobileCheckout()
 	{
 		$response = $this->client->mobileCheckout([
@@ -178,18 +96,6 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals('PendingConfirmation', $response['data']->status);
 	}
 
-
-	public function testMobileCheckoutMustHaveRequiredAttributes()
-    {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->mobileCheckout([
-				'productName' => Fixtures::$productName,
-				'currencyCode' => Fixtures::$currencyCode,
-			])
-		);
-	}
-
 	public function testMobileB2C()
 	{
 		$response = $this->client->mobileB2C([
@@ -199,35 +105,6 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		
 		$this->assertEquals(1, $response['data']->numQueued);
 	}
-
-	public function testMobileB2CMustHaveRequiredAttributes()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->mobileB2C([
-				'productName' => Fixtures::$productName,
-			])
-		);
-	}
-
-	public function testMobileB2CRecipientsMustBeLimitedTo10()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->mobileB2C([
-				'productName' => Fixtures::$productName,
-				'recipients' => Fixtures::$ElevenB2CRecipients,
-			])
-		);
-	}
-
-	public function testMobileB2CCannotBeEmpty()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->mobileB2C()
-		);
-	}	
 
 	public function testMobileB2B()
 	{
@@ -245,26 +122,6 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->assertArrayHasKey('status', $response);
 	}
 
-	public function testMobileB2BCannotBeEmpty()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->mobileB2B()
-		);
-	}
-
-	public function testMobileB2BMustHaveRequiredAttributes()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->mobileB2B([
-				'productName' => Fixtures::$productName,
-				'provider' => Fixtures::$provider,
-				'transferType' => Fixtures::$transferType,
-			])
-		);
-	}
-
 	public function testWalletTransfer()
 	{
 		$response = $this->client->walletTransfer([
@@ -279,20 +136,6 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals('Success', $response['data']->status);
 	}
 
-	public function testWalletTransferMustHaveRequiredAttributes()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->walletTransfer([
-				'productName' => Fixtures::$productName,
-				'currencyCode' => Fixtures::$currencyCode,
-				'amount' => Fixtures::$amount,
-				'metadata' => Fixtures::$metadata
-			])
-		);
-	}
-
-
 	public function testTopupStash()
 	{
 		$response = $this->client->topupStash([
@@ -306,16 +149,56 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals('Success', $response['data']->status);
 	}
 
-	public function testTopupStashMustHaveRequiredAttributes()
-	{
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->topupStash([
-				'productName' => Fixtures::$productName,
-				'currencyCode' => Fixtures::$currencyCode,
-				'metadata' => Fixtures::$metadata
-			])
-		);
-	}
+    public function testFetchProductTransactions()
+    {
+        $response = $this->client->fetchProductTransactions([
+            'productName' => Fixtures::$productName,
+            'filters' => [
+                'pageNumber' => 1,
+                'count' => 10,
+                'startDate' => Fixtures::$startDate,
+                'endDate' => Fixtures::$endDate,
+                'category' => Fixtures::$paymentCategory,
+                'provider' => Fixtures::$paymentProvider,
+                'status' => 'Success',
+                'source' => Fixtures::$paymentSource,
+                'destination' => Fixtures::$paymentDestination,
+                'providerChannel' => Fixtures::$providerChannel
+            ]
+        ]);
+        
+        $this->assertEquals('Success', $response['data']->status);
+    }
+    
+    public function testFindTransaction()
+    {
+        $response = $this->client->findTransaction([
+            'transactionId' => Fixtures::$transactionId
+        ]);
 
+        $this->assertEquals('Failure', $response['data']->status);
+    }
+
+    public function testFetchWalletTransactions()
+    {
+        $response = $this->client->fetchWalletTransactions([
+            'productName' => Fixtures::$productName,
+            'filters' => [
+                'pageNumber' => 1,
+                'count' => 10,
+                'startDate' => Fixtures::$startDate,
+                'endDate' => Fixtures::$endDate,
+                'categories' => Fixtures::$paymentCategories
+            ]
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+    }
+
+    public function testFetchWalletBalance()
+    {
+        $response = $this->client->fetchWalletBalance();
+
+        $this->assertEquals('Success', $response['data']->status);
+    }
 }

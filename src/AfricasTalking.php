@@ -24,7 +24,6 @@ class AfricasTalking
 
 	public function __construct($username, $apiKey)
 	{
-		
 		if($username === 'sandbox') {
 			$this->baseDomain = self::BASE_SANDBOX_DOMAIN;
 		} else {
@@ -35,7 +34,7 @@ class AfricasTalking
 		$this->voiceUrl = "https://voice." . $this->baseDomain . "/";
 		$this->paymentsUrl = "https://payments." . $this->baseDomain . '/';
 		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . '/';
-		
+
 		$this->username = $username;
 		$this->apiKey = $apiKey;
 
@@ -46,7 +45,7 @@ class AfricasTalking
 				'Content-Type' => 'application/x-www-form-urlencoded',
 				'Accept' => 'application/json'
 			]
-		]) ;
+		]);
 
 		$this->voiceClient = new Client([
 			'base_uri' => $this->voiceUrl,
@@ -82,12 +81,6 @@ class AfricasTalking
 		return $sms;
 	}
 
-	public function ussd()
-	{
-		$ussd = new USSD($this->client, $this->username, $this->apiKey);		
-		return $ussd;
-	}
-
 	public function airtime()
 	{
 		$airtime = new Airtime($this->client, $this->username, $this->apiKey);		
@@ -100,10 +93,10 @@ class AfricasTalking
 		return $voice;
 	}
 
-	public function account()
+	public function application()
 	{
-		$account = new Account($this->client, $this->username, $this->apiKey);		
-		return $account;
+		$application = new Application($this->client, $this->username, $this->apiKey);		
+		return $application;
 	}
 
 	public function payments()
@@ -117,6 +110,4 @@ class AfricasTalking
 		$token = new Token($this->tokenClient, $this->username, $this->apiKey);
 		return $token;
 	}
-
-
 }

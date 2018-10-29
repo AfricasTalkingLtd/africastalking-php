@@ -13,7 +13,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 
 		$at 			= new AfricasTalking($this->username, $this->apiKey);
 
-		$this->client 	= $at->sms();
+		$this->client 	   = $at->sms();
+        $this->tokenClient = $at->token();
 	}
 
 	public function testSMSWithEmptyMessage()
@@ -56,42 +57,12 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
-	public function testHeavySingleSMSSending()
-	{
-		$count = 100000;
-		$phoneNumbers = array();
-		for($i=0;$i<$count;$i++) {
-			array_push($phoneNumbers, "+254724".($count + $i));
-		};
-		$response = $this->client->send([
-			'to' 		=> $phoneNumbers, 
-			'message' 	=> "Testing send a message to $count numbers...",
-			'enqueue'	=> true
-		]);
-
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
-	}
-
-	public function testLightMultipleSMSSending()
-	{
-		$count = 10;
-		for($i=0;$i<$count;$i++) {
-			$num = "+254724".($count + $i);
-			$response = $this->client->send([
-				'to' 		=> $num, 
-				'message' 	=> "Testing send a message to $count numbers...",
-				'enqueue'	=> true
-			]);
-		};
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
-	}
-
 	public function testSMSSendingWithShortcode()
 	{
 		$response = $this->client->send([
 			'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
 			'message' 	=> 'Testing with short code...',
-			'from'		=> '12345'
+			'from'		=> Fixtures::$shortCode
 		]);
 
 		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
@@ -102,59 +73,10 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$response = $this->client->send([
 			'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
 			'message' 	=> 'Testing with AlphaNumeric...',
-			'from'		=> 'TEST'
+			'from'		=> Fixtures::$alphanumeric
 		]);
 
 		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
-	}
-
-	public function testBulkSMSSending()
-	{
-		$response = $this->client->sendBulk([
-			'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
-			'message' 	=> 'Testing bulk sending...'
-		]);
-
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
-	}
-
-	public function testPremiumSMSWithoutKeyword()
-	{
-		$this->assertArraySubset(
-			['status' => 'error'],
-			$response = $this->client->sendPremium([
-				'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
-				'linkId'	=> 'messageLinkId',
-				'from'		=> '12345',
-				'message' 	=> 'Testing SMS without keyword...'
-			])
-		);
-	}
-
-	public function testPremiumSMSWithoutLinkId()
-	{
-		$this->assertArraySubset(
-			['status' => 'error'],
-			$response = $this->client->sendPremium([
-				'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
-				'keyword'	=> 'Test',
-				'from'		=> '12345',
-				'message' 	=> 'Testing...'
-			])
-		);
-	}
-
-	public function testPremiumSMSWithoutSender()
-	{
-		$this->assertArraySubset(
-			['status' => 'error'],
-			$response = $this->client->sendPremium([
-				'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
-				'linkId'	=> 'messageLinkId',
-				'keyword'	=> 'Test',
-				'message' 	=> 'Testing...'
-			])
-		);
 	}
 
 	public function testPremiumSMSSending()
@@ -162,75 +84,31 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$response = $this->client->sendPremium([
 			'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
 			'linkId'	=> 'messageLinkId',
-			'keyword'	=> 'Test',
-			'from'		=> '12345',
+			'keyword'	=> Fixtures::$keyword,
+			'from'		=> Fixtures::$shortCode,
 			'message' 	=> 'Testing Premium...'
 		]);
 
 		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
-	public function testFetchSMS()
-	{
-		$response = $this->client->fetchMessages();
-
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
-	}
-
-	public function testFetchSMSWithLastReceived()
+	public function testFetchMessages()
 	{
 		$response = $this->client->fetchMessages(['lastReceivedId' => '8796']);
 
 		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
 	}
 
-	public function testFetchSMSWithNonNumericLastReceived()
-	{
-		$this->assertArraySubset(
-			['status' => 'error'],
-			$response = $this->client->fetchMessages(['lastReceivedId' => 'iyhbcw'])
-		);
-	}
-
-	public function testCreateSubscriptionWithMissingPhoneNumber()
-	{
-		$this->assertArraySubset(
-			['status' => 'error'],
-			$response = $this->client->createSubscription([
-				'shortCode'		=> '12345',
-				'keyword'		=> 'Test'
-			])
-		);
-	}
-
-	public function testCreateSubscriptionWithMissingShortCode()
-	{
-		$this->assertArraySubset(
-			['status' => 'error'],
-			$response = $this->client->createSubscription([
-				'phoneNumber' 	=> Fixtures::$phoneNumber,
-				'keyword'		=> 'BOOM'
-			])
-		);
-	}
-
-	public function testCreateSubscriptionWithMissingKeyword()
-	{
-		$this->assertArraySubset(
-			['status' => 'error'],
-			$response = $this->client->createSubscription([
-				'phoneNumber' 	=> Fixtures::$phoneNumber,
-				'shortCode'		=> '12345'
-			])
-		);
-	}
-
 	public function testCreateSubscription()
 	{
+        $checkoutTokenResponse = $this->tokenClient->createCheckoutToken([
+            'phoneNumber' => Fixtures::$phoneNumber
+        ]);
 		$response = $this->client->createSubscription([
 			'phoneNumber' 	=> Fixtures::$phoneNumber,
 			'shortCode'		=> Fixtures::$shortCode,
-			'keyword'		=> 'Test'
+			'keyword'		=> Fixtures::$keyword,
+            'checkoutToken' => $checkoutTokenResponse['data']->token
 		]);
 
 		$this->assertArraySubset(
@@ -244,7 +122,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		$response = $this->client->deleteSubscription([
 			'phoneNumber' 	=> Fixtures::$phoneNumber, 
 			'shortCode'		=> Fixtures::$shortCode,
-			'keyword'		=> 'Test'
+			'keyword'		=> Fixtures::$keyword
 		]);
 
 		$this->assertArraySubset(
@@ -257,7 +135,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 	{
 		$response = $this->client->fetchSubscriptions([
 			'shortCode'		=> Fixtures::$shortCode,
-			'keyword'		=> 'Test'
+			'keyword'		=> Fixtures::$keyword
 		]);
 
 		$this->assertObjectHasAttribute('responses', $response['data']);

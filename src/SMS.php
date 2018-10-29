@@ -3,7 +3,7 @@ namespace AfricasTalking\SDK;
 
 class SMS extends Service
 {
-	protected function doSend ($options, $isBulk, $isPremium)
+	protected function doSend ($options, $isPremium)
 	{
 		if (empty($options['to']) || empty($options['message'])) {
 			return $this->error('recipient and message must be defined');
@@ -19,16 +19,12 @@ class SMS extends Service
 			'message' 	=> $options['message']
 		];
 
-		if ($isBulk === true){
-			$data['bulkSMSMode'] = 1;
-		}
-
 		if (array_key_exists('enqueue', $options) && $options['enqueue']) {
 			$data['enqueue'] = 1;
 		}
 
-		if ($isPremium === true){
-			if (empty($options['keyword']) || empty($options['linkId']) || empty($options['from'])) {
+		if ($isPremium === true) {
+			if (empty($options['keyword']) || empty($options['from'])) {
 				return [
 					'status' => 'error', 
 					'data' => 'sender, keyword and linkId are required for premium SMS'
@@ -36,14 +32,17 @@ class SMS extends Service
 			}
 
 			$data['keyword'] = $options['keyword'];
-			$data['linkId'] = $options['linkId'];
 
-			// turn off bulk sms mode
-			$data['bulkSMSMode'] = 0;
+            if (!empty($options['linkId'])) {
+                $data['linkId'] = $options['linkId'];
+            }
 
 			if (!empty($options['retryDurationInHours'])) {
 				$data['retryDurationInHours'] = $options['retryDurationInHours'];
 			}
+
+			// turn off bulk sms mode
+			$data['bulkSMSMode'] = 0;
 		}
 
 		if (!empty($options['from'])) {
@@ -55,19 +54,14 @@ class SMS extends Service
 		return $this->success($response);
 	}
 
-	public function send($options) 
+	public function send($options)
 	{
-		return $this->doSend($options, false, false);
+		return $this->doSend($options, false);
 	}
 
-	public function sendBulk($options) 
+	public function sendPremium($options)
 	{
-		return $this->doSend($options, true, false);
-	}
-
-	public function sendPremium($options) 
-	{
-		return $this->doSend($options, true, true);
+		return $this->doSend($options, true);
 	}
 
 	public function fetchMessages($options = [])
@@ -92,21 +86,16 @@ class SMS extends Service
 
 	public function createSubscription ($options)
 	{
-		if(empty($options['phoneNumber']) || empty($options['shortCode']) || empty($options['keyword'])) {
-			return $this->error("phoneNumber, shortCode and keyword must be specified");
+		if(empty($options['phoneNumber']) || empty($options['shortCode']) || empty($options['keyword']) || empty($options['checkoutToken'])) {
+			return $this->error("phoneNumber, shortCode keyword and checkoutToken must be specified");
 		}
-
-		// create checkout token
-		$checkout_response = $this->client->post('/checkout/token/create', ['form_params' => 
-			['phoneNumber' => $options['phoneNumber'] 
-		]]);
 
 		$data = [
 			'username' 		=> $this->username,
 			'phoneNumber' 	=> $options['phoneNumber'],
 			'shortCode'		=> $options['shortCode'],
 			'keyword' 		=> $options['keyword'],
-			'checkoutToken'	=> json_decode($checkout_response->getBody()->getContents(), true)['token']
+			'checkoutToken'	=> $options['checkoutToken']
 		];
 
 		$response = $this->client->post('subscription/create', ['form_params' => $data ] );
@@ -132,7 +121,7 @@ class SMS extends Service
 		return $this->success($response);
 	}
 
-	public function fetchSubscriptions($options) 
+	public function fetchSubscriptions($options)
 	{
 		if(empty($options['shortCode']) || empty($options['keyword'])) {
 			return $this->error("shortCode and keyword must be specified");

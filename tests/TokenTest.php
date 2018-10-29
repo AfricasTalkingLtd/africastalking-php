@@ -15,10 +15,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase
 
 			$this->client 	= $at->token();		
     }
-    
+
     public function testCreateCheckoutToken()
     {
-			$response = $this->client->createCheckoutToken(Fixtures::$phoneNumber);
+			$response = $this->client->createCheckoutToken([
+                'phoneNumber' => Fixtures::$phoneNumber
+            ]);
 
 			$this->assertEquals('Success', $response['data']->description);
     }
@@ -28,6 +30,4 @@ class TokenTest extends \PHPUnit\Framework\TestCase
 			$response = $this->client->generateAuthToken();
 			$this->assertEquals(3600, $response['data']->lifetimeInSeconds);
     }
-
-    
 }

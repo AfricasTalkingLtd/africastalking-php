@@ -47,7 +47,7 @@ class Payments extends Service
       'UBA_NG' => 234020,
       'WEMA_NG' => 234021,
       'FIRST_NG' => 234022,
-	];	
+	];
 
     public function __call($method, $args)
     {
@@ -63,7 +63,7 @@ class Payments extends Service
         }
 	}
 	
-	protected function doCardCheckout($options)
+	protected function doCardCheckoutCharge($options)
 	{
 		// Check if productName is set
 		if (!isset($options['productName'])) {
@@ -80,7 +80,7 @@ class Payments extends Service
 				return $this->error('currencyCode must be in 3-digit ISO format');
 			}
 		}
-		
+
 		// Check if amount is set
 		if (!isset($options['amount'])) {
 			return $this->error('amount must be defined');
@@ -113,14 +113,16 @@ class Payments extends Service
 				
 				return $this->error('paymentCard must be an array containing, number, countryCode, cvvNumber, expiryMonth, expiryYear and authToken');
 			}
-		}		
+		}
+
 		// Check if both paymentCard and checkoutToken are not both set
 		if (isset($options['paymentCard']) && isset($options['checkoutToken'])) {
 			return $this->error('When using a checkoutToken, paymentCard option should NOT be populated');
 		}
 
 		// Make request data array
-		$requestData = [     'username' => $this->username,
+		$requestData = [
+            'username' => $this->username,
 			'productName' => $productName,
 			'currencyCode' => $currencyCode,
 			'amount' => $amount,
@@ -145,7 +147,7 @@ class Payments extends Service
 		return $this->success($response);
 	}
 
-	protected function doValidateCardCheckout($options)
+	protected function doCardCheckoutValidate($options)
 	{
 		// Check if transactionId is set
 		if (!isset($options['transactionId'])) {
@@ -159,7 +161,8 @@ class Payments extends Service
 		}
 		$otp = $options['otp'];
 
-		$requestData = [     'username' => $this->username,
+		$requestData = [
+            'username' => $this->username,
 			'transactionId' => $transactionId,
 			'otp' => $otp
 		];
@@ -168,7 +171,7 @@ class Payments extends Service
 		return $this->success($response);		
 	}
 
-	protected function doBankCheckout($options)
+	protected function doBankCheckoutCharge($options)
 	{
 		// Check if productName is set
 		if (!isset($options['productName'])) {
@@ -221,7 +224,8 @@ class Payments extends Service
 		}
 
 		// Make request data array
-		$requestData = [     'username' => $this->username,
+		$requestData = [
+            'username' => $this->username,
 			'productName' => $productName,
 			'currencyCode' => $currencyCode,
 			'amount' => $amount,
@@ -241,7 +245,7 @@ class Payments extends Service
 		return $this->success($response);
 	}
 
-	protected function doValidateBankCheckout($options)
+	protected function doBankCheckoutValidate($options)
 	{
 		// Check if transactionId is set
 		if (!isset($options['transactionId'])) {
@@ -255,7 +259,8 @@ class Payments extends Service
 		}
 		$otp = $options['otp'];
 
-		$requestData = [     'username' => $this->username,
+		$requestData = [
+            'username' => $this->username,
 			'transactionId' => $transactionId,
 			'otp' => $otp
 		];
@@ -307,7 +312,8 @@ class Payments extends Service
 		}
 
 		// Make request data array
-		$requestData = [     'username' => $this->username,
+		$requestData = [
+            'username' => $this->username,
 			'productName' => $productName,
 			'recipients' => $recipients
 		];
@@ -352,7 +358,8 @@ class Payments extends Service
 		}
 		$amount = $options['amount'];
 
-		$requestData = [     'username' => $this->username,
+		$requestData = [
+            'username' => $this->username,
 			'productName' => $productName,
 			'phoneNumber' => $phoneNumber,
 			'currencyCode' => $currencyCode,
@@ -366,7 +373,6 @@ class Payments extends Service
 		// Make request data array
 		$response = $this->client->post('mobile/checkout/request', ['json' => $requestData]);
 		return $this->success($response);
-		
 	}
 
 	protected function doMobileB2C($options)
@@ -387,34 +393,33 @@ class Payments extends Service
 				return $this->error('Cannot be more than 10 recipients');
 			}
 			foreach ($recipients as $r) {
-				if (!isset($r['name']) || 
-					!isset($r['phoneNumber']) || 
+				if (!isset($r['phoneNumber']) || 
 					!isset($r['amount']) || 
 					!isset($r['currencyCode'])) {
 
-					return $this->error('recipients must be an array containing, 
-					name, phoneNumber, currencyCode, amount');
+					return $this->error('recipients must be an array containing,
+                    phoneNumber, currencyCode, amount');
 				}
 
 				if (isset($r['reason'])) {
-					if (!in_array($r['reason'], ['SalaryPayment', 'SalaryPaymentWithWithdrawalChargePaid',
-					 'BusinessPayment', 'BusinessPaymentWithWithdrawalChargePaid', 'PromotionPayment'])) {
-
+					if (!in_array($r['reason'], ['SalaryPayment', 'SalaryPaymentWithWithdrawalChargePaid', 
+                    'BusinessPayment', 'BusinessPaymentWithWithdrawalChargePaid', 'PromotionPayment'])) {
+                        return $this->error('Reason must be one of SalaryPayment, SalaryPaymentWithWithdrawalChargePaid,
+                        BusinessPayment, BusinessPaymentWithWithdrawalChargePaid, PromotionPayment'); 
 					}
 				}
-
 			}
 		}
 
 		// Make request data array
-		$requestData = [     'username' => $this->username,
+		$requestData = [
+            'username' => $this->username,
 			'productName' => $productName,
 			'recipients' => $recipients
 		];
 
 		$response = $this->client->post('mobile/b2c/request', ['json' => $requestData]);
 		return $this->success($response);
-		
 	}
 
 	protected function doMobileB2B($options)
@@ -438,7 +443,8 @@ class Payments extends Service
 			return $this->error('transferType must be defined');
 		} else if (!in_array($options['transferType'], 
 		['BusinessBuyGoods', 'BusinessPayBill', 'DisburseFundsToBusiness', 'BusinessToBusinessTransfer'])) {
-			return $this->error('transferType must be set as either Athena or Mpesa');
+			return $this->error('transferType must be one of BusinessBuyGoods,
+            BusinessPayBill, DisburseFundsToBusiness, BusinessToBusinessTransfer');
 		}
 		$transferType = $options['transferType'];
 
@@ -470,25 +476,27 @@ class Payments extends Service
 		}
 		$destinationAccount = $options['destinationAccount'];
 
+		// Check if metadata is set
+		if (!isset($options['metadata'])) {
+            return $this->error('metadata must be defined');
+		}
+        $metadata = $options['metadata'];
+
 		// Make request data array
-		$requestData = [     'username' => $this->username,
+		$requestData = [
+            'username' => $this->username,
 			'productName' => $productName,
 			'provider' => $provider,
 			'transferType' => $transferType,
 			'currencyCode' => $currencyCode,
 			'amount' => $amount,
 			'destinationAccount' => $destinationAccount,
-			'destinationChannel' => $destinationChannel
+			'destinationChannel' => $destinationChannel,
+            'metadata' => $metadata
 		];
 
-		// Check if metadata is set
-		if (isset($options['metadata'])) {
-			$requestData['metadata'] = $options['metadata'];
-		}
-		
 		$response = $this->client->post('mobile/b2b/request', ['json' => $requestData]);
 		return $this->success($response);
-
 	}
 
 	protected function doWalletTransfer($options)
@@ -521,23 +529,24 @@ class Payments extends Service
 		}
 		$amount = $options['amount'];
 		
+		// Check if metadata is set
+		if (!isset($options['metadata'])) {
+            return $this->error('metadata must be defined');
+		}
+        $metadata = $options['metadata'];
+
 		// Make request data array
 		$requestData = [
 			'username' => $this->username,
 			'productName' => $productName,
 			'targetProductCode' => $targetProductCode,
 			'currencyCode' => $currencyCode,
-			'amount' => $amount
+			'amount' => $amount,
+            'metadata' => $metadata
 		];
 
-		// Check if metadata is set
-		if (isset($options['metadata'])) {
-			$requestData['metadata'] = $options['metadata'];
-		}
-		
 		$response = $this->client->post('transfer/wallet', ['json' => $requestData]);
 		return $this->success($response);
-
 	}
 
 	protected function doTopupStash($options)
@@ -564,22 +573,143 @@ class Payments extends Service
 		}
 		$amount = $options['amount'];
 		
+		// Check if metadata is set
+		if (!isset($options['metadata'])) {
+            return $this->error('metadata must be defined');
+        }
+        $metadata = $options['metadata'];
+
 		// Make request data array
 		$requestData = [
 			'username' => $this->username,
 			'productName' => $productName,
 			'currencyCode' => $currencyCode,
-			'amount' => $amount
+			'amount' => $amount,
+            'metadata' => $metadata
 		];
 
-		// Check if metadata is set
-		if (isset($options['metadata'])) {
-			$requestData['metadata'] = $options['metadata'];
-		}
-		
 		$response = $this->client->post('topup/stash', ['json' => $requestData]);
 		return $this->success($response);
-
 	}
 
+    protected function doFetchProductTransactions($options)
+    {
+		if (!isset($options['productName'])) {
+			return $this->error('productName must be defined');
+		}
+		$productName = $options['productName'];
+
+		// Check if filters are provided
+		if (!isset($options['filters']) && !is_array($options['filters'])) {
+			return $this->error('filters must be an array containing at least a pageNumber and count');
+		} else if (isset($options['filters']) && is_array($options['filters'])) {
+			$filters = $options['filters'];
+			if (!isset($filters['pageNumber']) || 
+                !isset($filters['count'])) {
+				return $this->error('filters must be an array containing at least a pageNumber and count');
+			}
+		}
+
+		$pageNumber = $filters['pageNumber'];
+		$count = $filters['count'];
+
+        $requestData = [
+            'username' => $this->username,
+            'productName' => $productName,
+            'pageNumber' => $pageNumber,
+            'count' => $count
+        ];
+
+		if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
+			$requestData['startDate'] = $filters['startDate'];
+			$requestData['endDate'] = $filters['endDate'];
+		}
+
+		if (!empty($filters['category'])) {
+			$requestData['category'] = $filters['category'];
+		}
+
+		if (!empty($filters['provider'])) {
+			$requestData['provider'] = $filters['provider'];
+		}
+
+		if (!empty($filters['status'])) {
+			$requestData['status'] = $filters['status'];
+		}
+
+		if (!empty($filters['source'])) {
+			$requestData['source'] = $filters['source'];
+		}
+
+		if (!empty($filters['destination'])) {
+			$requestData['destination'] = $filters['destination'];
+		}
+
+		if (!empty($filters['providerChannel'])) {
+			$requestData['providerChannel'] = $filters['providerChannel'];
+		}
+
+		$response = $this->client->get('query/transaction/fetch', ['query' => $requestData]);
+		return $this->success($response);
+    }
+
+    protected function doFindTransaction($options)
+    {
+        if (!isset($options['transactionId'])) {
+            return $this->error('transactionId must be defined');
+        }
+
+        $requestData = [
+            'username' => $this->username,
+            'transactionId' => $options['transactionId']
+        ];
+
+		$response = $this->client->get('query/transaction/find', ['query' => $requestData]);
+		return $this->success($response);
+    }
+
+    protected function doFetchWalletTransactions($options)
+    {
+		// Check if filters are provided
+		if (!isset($options['filters']) && !is_array($options['filters'])) {
+			return $this->error('filters must be an array containing at least a pageNumber and count');
+		} else if (isset($options['filters']) && is_array($options['filters'])) {
+			$filters = $options['filters'];
+			if (!isset($filters['pageNumber']) || 
+				!isset($filters['count'])) {
+				return $this->error('filters must be an array containing at least a pageNumber and count');
+			}
+		}
+
+		$pageNumber = $filters['pageNumber'];
+		$count = $filters['count'];
+
+        $requestData = [
+            'username' => $this->username,
+            'pageNumber' => $pageNumber,
+            'count' => $count
+        ];
+
+		if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
+			$requestData['startDate'] = $filters['startDate'];
+			$requestData['endDate'] = $filters['endDate'];
+		}
+
+		if (!empty($filters['categories'])) {
+			$requestData['categories'] = $filters['categories'];
+		}
+
+		$response = $this->client->get('query/wallet/fetch', ['query' => $requestData]);
+		return $this->success($response);
+    }
+
+    protected function doFetchWalletBalance()
+    {
+        $requestData = [
+            'username' => $this->username
+        ];
+
+		$response = $this->client->get('query/wallet/balance', ['query' => $requestData]);
+		return $this->success($response);
+    }
 }
