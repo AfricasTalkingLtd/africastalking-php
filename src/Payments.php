@@ -370,6 +370,10 @@ class Payments extends Service
 			$requestData['metadata'] = $options['metadata'];
 		}
 
+        if (!empty($options['providerChannel'])) {
+			$requestData['providerChannel'] = $options['providerChannel'];
+		}
+
 		// Make request data array
 		$response = $this->client->post('mobile/checkout/request', ['json' => $requestData]);
 		return $this->success($response);

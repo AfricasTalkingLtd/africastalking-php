@@ -117,6 +117,7 @@ Instantiating the class will give you an object with available methods
 - `mobileCheckout($options)`: Charge a customers mobile money account
 
     - `productName`: Payment product on Africa's Talking. `REQUIRED`
+    - `providerChannel`: Provider channel to consider when charging.
     - `phoneNumber`: Customer phone number (in international format). `REQUIRED`
     - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
     - `amount`: Amount to charge. `REQUIRED`
