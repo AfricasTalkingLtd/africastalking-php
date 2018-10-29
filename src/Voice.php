@@ -277,7 +277,7 @@ class Voice extends Service
         if (!isset($options['phoneNumbers'])) {
             return $this->error('Please specifiy at least one number to dial');
         }
-        $phoneNumbers = $options['phoneNumbers'];
+        $phoneNumbers = implode(",", $options["phoneNumbers"]);
 
         // Check if ringback tone is set
         if (isset($options['ringbackTone'])) {
@@ -293,6 +293,8 @@ class Voice extends Service
         } else {
             $record = $options['record'];
         }
+        // change record to true or false string
+        $record ? $record = "true" : $record ="false";
 
         // Check if sequential
         if (!isset($options['sequential']) || !is_bool($options['sequential'])) {
@@ -300,6 +302,8 @@ class Voice extends Service
         } else {
             $sequential = $options['sequential'];
         }
+        // change sequential to true or false string
+        $sequential ? $sequential = "true" : $sequential ="false";
 
         // Check if callerId is set
         if (!isset($options['callerId']) || !is_bool($callerId)) {
@@ -307,6 +311,8 @@ class Voice extends Service
         } else {
             $callerId = $options['callerId'];
         }
+        // change callerId to true or false string
+        $callerId ? $callerId = "true" : $callerId ="false";
 
         // Check if maxDuration is set
         if(isset($options['maxDuration'])) {
@@ -375,6 +381,8 @@ class Voice extends Service
         } else {
             $trimSilence = $options['trimSilence'];
         }
+        // change trimSilence to true or false string
+        $trimSilence ? $trimSilence = "true" : $trimSilence ="false";
         
         // Check if playBeep option has been set
         if (!isset($options['playBeep']) || !is_bool($options['playBeep'])) {
@@ -382,6 +390,8 @@ class Voice extends Service
         } else {
             $playBeep = $options['playBeep'];
         }
+        // change playBeep to true or false string
+        $playBeep ? $playBeep = "true" : $playBeep ="false";
 
         // Get callbackURL
         if (isset($options['callBackUrl'])) {
