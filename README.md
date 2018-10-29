@@ -1,5 +1,7 @@
 # Africa's Talking PHP SDK
 
+[![Latest Stable Version](https://poser.pugx.org/africastalking/africastalking/v/stable)](https://packagist.org/packages/africastalking/africastalking)
+
 > This SDK provides convenient access to the Africa's Talking API for applications written in PHP.
 
 ## Documentation
