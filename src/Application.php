@@ -10,7 +10,7 @@ class Application extends Service
 		return $this->success($response);
     }
 
-    public function fetchApplication()
+    public function fetchApplicationData()
     {
         return $this->doFetchApplication();
     }
