@@ -61,7 +61,7 @@ Instantiating the class will give you an object with available methods
 
 ### Application
 
-- `fetchApplicatonData()`: Get app information. e.g balance
+- `fetchApplicationData()`: Get app information. e.g balance
 
 ### Airtime
 

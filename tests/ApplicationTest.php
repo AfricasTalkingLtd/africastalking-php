@@ -18,7 +18,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
     
 	public function testFetchAplication()
 	{
-		$response = $this->client->fetchApplication();
+		$response = $this->client->fetchApplicationData();
 		$this->assertObjectHasAttribute('UserData', $response['data']);
 	}
 }
