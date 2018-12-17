@@ -24,14 +24,16 @@ class SMS extends Service
 		}
 
 		if ($isPremium === true) {
-			if (empty($options['keyword']) || empty($options['from'])) {
+			if (empty($options['from'])) {
 				return [
 					'status' => 'error', 
-					'data' => 'sender, keyword and linkId are required for premium SMS'
+					'data' => 'from is required for premium SMS'
 				];
 			}
 
-			$data['keyword'] = $options['keyword'];
+			if (!empty($options['keyword'])) {
+				$data['keyword'] = $options['keyword'];
+			}
 
             if (!empty($options['linkId'])) {
                 $data['linkId'] = $options['linkId'];
