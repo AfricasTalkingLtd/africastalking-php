@@ -85,7 +85,8 @@ Instantiating the class will give you an object with available methods
 
     - `message`: SMS content. `REQUIRED`
     - `to`: An array of phone numbers. `REQUIRED`
-    - `keyword`: Your premium product keyword `REQUIRED`
+    - `from`: Shortcode that is registered with your Africa's Talking account. `REQUIRED`
+    - `keyword`: Your premium product keyword
     - `linkId`: "[...] We forward the `linkId` to your application when a user sends a message to your onDemand service"
     - `retryDurationInHours`: "This specifies the number of hours your subscription message should be retried in case it's not delivered to the subscriber"
 
