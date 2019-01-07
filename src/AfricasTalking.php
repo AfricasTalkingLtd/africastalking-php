@@ -12,6 +12,7 @@ class AfricasTalking
 	protected $apiKey;
 
 	protected $client;
+	protected $ssl_verify = false;
 	protected $paymentClient;
 	protected $voiceClient;
 	protected $tokenClient;
@@ -28,6 +29,7 @@ class AfricasTalking
 			$this->baseDomain = self::BASE_SANDBOX_DOMAIN;
 		} else {
 			$this->baseDomain = self::BASE_DOMAIN;
+			$this->ssl_verify = true;
 		}
 
 		$this->baseUrl = "https://api." . $this->baseDomain . "/version1/";
@@ -44,7 +46,8 @@ class AfricasTalking
 				'apikey' => $this->apiKey,
 				'Content-Type' => 'application/x-www-form-urlencoded',
 				'Accept' => 'application/json'
-			]
+			],
+			'curl' => array( CURLOPT_SSL_VERIFYPEER => $this->ssl_verify, )
 		]);
 
 		$this->voiceClient = new Client([
@@ -53,7 +56,8 @@ class AfricasTalking
 				'apikey' => $this->apiKey,
 				'Content-Type' => 'application/x-www-form-urlencoded',
 				'Accept' => 'application/json'
-			]
+			],
+			'curl' => array( CURLOPT_SSL_VERIFYPEER => $this->ssl_verify, )
 		]);
 
 		$this->paymentsClient = new Client([
@@ -62,7 +66,8 @@ class AfricasTalking
 				'apikey' => $this->apiKey,
 				'Content-Type' => 'application/json',
 				'Accept' => 'application/json'
-			]
+			],
+			'curl' => array( CURLOPT_SSL_VERIFYPEER => $this->ssl_verify, )
 		]);
 
 		$this->tokenClient = new Client([
@@ -71,7 +76,8 @@ class AfricasTalking
 				'apikey' => $this->apiKey,
 				'Content-Type' => 'application/json',
 				'Accept' => 'application/json'
-			]
+			],
+			'curl' => array( CURLOPT_SSL_VERIFYPEER => $this->ssl_verify, )
 		]);
 	}
 
