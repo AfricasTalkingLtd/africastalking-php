@@ -74,7 +74,7 @@ Instantiating the class will give you an object with available methods
             - `amount`: Amount to send. `REQUIRED`
 
     - **$options:** optional associative array with the following keys:
-        - `idempotencyKey`: Key to use when making a idempotent requests.
+        - `idempotencyKey`: Key to use when making idempotent requests
 
 ### SMS
 
