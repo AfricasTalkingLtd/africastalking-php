@@ -1,6 +1,6 @@
 # Africa's Talking PHP SDK
 
-[![Latest Stable Version](https://img.shields.io/badge/stable-2.1.1-blue.svg)](https://packagist.org/packages/africastalking/africastalking)
+[![Latest Stable Version](https://img.shields.io/badge/stable-2.1.3-blue.svg)](https://packagist.org/packages/africastalking/africastalking)
 
 > This SDK provides convenient access to the Africa's Talking API for applications written in PHP.
 
@@ -61,7 +61,7 @@ Instantiating the class will give you an object with available methods
 
 ### Application
 
-- `fetchApplicatonData()`: Get app information. e.g balance
+- `fetchApplicationData()`: Get app information. e.g balance
 
 ### Airtime
 
@@ -85,7 +85,8 @@ Instantiating the class will give you an object with available methods
 
     - `message`: SMS content. `REQUIRED`
     - `to`: An array of phone numbers. `REQUIRED`
-    - `keyword`: Your premium product keyword `REQUIRED`
+    - `from`: Shortcode that is registered with your Africa's Talking account. `REQUIRED`
+    - `keyword`: Your premium product keyword
     - `linkId`: "[...] We forward the `linkId` to your application when a user sends a message to your onDemand service"
     - `retryDurationInHours`: "This specifies the number of hours your subscription message should be retried in case it's not delivered to the subscriber"
 
