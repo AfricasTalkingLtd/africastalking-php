@@ -29,6 +29,21 @@ class AirtimeTest extends \PHPUnit\Framework\TestCase
 		$this->assertObjectHasAttribute('responses', $response['data']);
 	}
 
+    public function testSendAirtimeIdempotency()
+	{
+		$response = $this->client->send([
+			'recipients'	=> [[
+                'phoneNumber' => Fixtures::$phoneNumber,
+                'currencyCode' => Fixtures::$currencyCode,
+                'amount' => Fixtures::$amount
+            ]]
+		], [
+            'idempotencyKey' => 'req-' . mt_rand(10, 100),
+        ]);
+
+		$this->assertObjectHasAttribute('responses', $response['data']);
+	}
+
 	public function testSendAirtimeToMany()
 	{
 		$response = $this->client->send([

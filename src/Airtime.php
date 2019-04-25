@@ -4,17 +4,17 @@ namespace AfricasTalking\SDK;
 
 class Airtime extends Service
 {
-	public function send($options)
+	public function send($parameters, $options = [])
 	{		
-		if(empty($options['recipients'])) {
+		if(empty($parameters['recipients'])) {
 			return $this->error("recipients must be specified");
 		}
 
-		if(!is_array($options['recipients'])) {
+		if(!is_array($parameters['recipients'])) {
 			return $this->error("recipients must be an array");
 		}
 
-		foreach ($options['recipients'] as $key=>$recipient){
+		foreach ($parameters['recipients'] as $key=>$recipient){
 
 			if(!is_array($recipient)) {
 				return $this->error("every recipient must be an array");
@@ -33,15 +33,25 @@ class Airtime extends Service
 
             unset($recipient['currencyCode']);
  
-            $options['recipients'][$key] = $recipient;
+            $parameters['recipients'][$key] = $recipient;
 		}
 
 		$data = [
 			'username' 		=> $this->username,
-			'recipients' 	=> json_encode($options['recipients'])
+			'recipients' 	=> json_encode($parameters['recipients'])
 		];
 
-		$response = $this->client->post('airtime/send', ['form_params' => $data ] );
+        $requestOptions = [
+            'form_params' => $data,
+        ];
+
+        if(isset($options['idempotencyKey'])) {
+            $requestOptions['headers'] = [
+                'Idempotency-Key' => $options['idempotencyKey'],
+            ];
+        }
+
+		$response = $this->client->post('airtime/send', $requestOptions);
 
 		return $this->success($response);
 	}
