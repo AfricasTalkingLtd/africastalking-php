@@ -65,12 +65,16 @@ Instantiating the class will give you an object with available methods
 
 ### Airtime
 
-- `send($options)`: Send airtime
+- `send($parameters, $options)`: Send airtime
 
-    - `recipients`: Contains an array of arrays containing the following keys
-        - `phoneNumber`: Recipient of airtime. `REQUIRED`
-        - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
-        - `amount`: Amount to send. `REQUIRED`
+    - **$parameters** is an array of arrays with the following keys:
+        - `recipients`: Contains an array of arrays containing the following keys
+            - `phoneNumber`: Recipient of airtime. `REQUIRED`
+            - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
+            - `amount`: Amount to send. `REQUIRED`
+
+    - **options** is an array of arrays with the following keys:
+        - `idempotencyKey`: Key to use when making an idempotent request.
 
 ### SMS
 
