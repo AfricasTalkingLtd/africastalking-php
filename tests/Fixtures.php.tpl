@@ -69,4 +69,12 @@ class Fixtures
         'reason' => 'SalaryPayment',
         'metadata' => ['notes' => 'Salary for January 2018']
     ]);
+
+    public static $MobileDataRecipients = array([
+        'phoneNumber' => '254718769882',
+        'quatity' => 7,
+        'unit' => 'MB',
+        'validity' => 'Daily',
+        'metadata' => ['notes' => 'Data for January 2018']
+    ]);
 }

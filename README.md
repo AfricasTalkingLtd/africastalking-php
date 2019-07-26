@@ -162,6 +162,21 @@ Instantiating the class will give you an object with available methods
     - **$options:** optional associative array with the following keys:
         - `idempotencyKey`: Key to use when making idempotent requests
 
+- `mobileData($parameters, $options)`: Send mobile data to customers
+
+    - **$parameters:** associative array with the following keys:
+        - `productName`: Payment product on Africa's Talking. `REQUIRED`
+        - `recipients`: A list of recipients. Each recipient has:
+
+            - `phoneNumber`: Customer phone number (in international format). `REQUIRED`
+            - `quantity`: Mobile data amount. `REQUIRED`
+            - `unit`: Mobile data unit. Can either be `MB` or `GB`. `REQUIRED`
+            - `validity`: How long the mobile data is valid for. Must be one of `Daily`, `Weekly` and `Monthly`. `REQUIRED`
+            - `metadata`: Additional data to associate with the tranasction.
+
+    - **$options:** optional associative array with the following keys:
+        - `idempotencyKey`: Key to use when making idempotent requests
+
 - `bankCheckoutCharge($parameters, $options)`: Charge a customers bank account
 
     - **$parameters:** associative array with the following keys:

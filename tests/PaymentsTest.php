@@ -181,6 +181,16 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
         ]);
 
 		$this->assertEquals(1, $response['data']->numQueued);
+    }
+    
+    public function testMobileData()
+	{
+        $response = $this->client->mobileData([
+            'productName' => Fixtures::$productName,
+            'recipients' => Fixtures::$MobileDataRecipients,
+        ]);
+
+        $this->assertEquals(1, count($response['entries']));
 	}
 
 	public function testMobileB2B()

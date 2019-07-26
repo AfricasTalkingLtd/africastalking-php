@@ -561,6 +561,64 @@ class Payments extends Service
         return $this->success($response);
     }
 
+    protected function doMobileData($parameters, $options = [])
+    {
+        // Check if productName is set
+        if (!isset($parameters['productName'])) {
+            return $this->error('productName must be defined');
+        }
+        $productName = $parameters['productName'];
+
+        // Check if recipients array is provided
+        if (!isset($parameters['recipients'])) {
+            return $this->error('recipients must be an array containing phoneNumber, unit, quatity, validity and metadata');
+        } else if (isset($parameters['recipients']) && is_array($parameters['recipients'])) {
+            $recipients = $parameters['recipients'];
+            
+            foreach ($recipients as $r) {
+                if (!isset($r['phoneNumber']) || 
+                    !isset($r['quantity']) || 
+                    !isset($r['unit']) ||
+                    !isset($r['validity'])) {
+
+                    return $this->error('recipients must be an array containing phoneNumber, quantity, unit, validity');
+                }
+
+                if (isset($r['validity'])) {
+                    if (!in_array($r['validity'], ['Daily', 'Monthly', 'Weekly'])) {
+                        return $this->error('validity must be one of Daily, Weekly, Monthly'); 
+                    }
+                }
+
+                if (isset($r['unit'])) {
+                    if (!in_array($r['unit'], ['MB', 'GB'])) {
+                        return $this->error('unit must be one of MB, GB'); 
+                    }
+                }
+            }
+        }
+
+        // Make request data array
+        $requestData = [
+            'username' => $this->username,
+            'productName' => $productName,
+            'recipients' => $recipients
+        ];
+
+        $requestOptions = [
+            'json' => $requestData,
+        ];
+
+        if(isset($options['idempotencyKey'])) {
+            $requestOptions['headers'] = [
+                'Idempotency-Key' => $options['idempotencyKey'],
+            ];
+        }
+
+        $response = $this->client->post('mobile/data/request', $requestOptions);
+        return $this->success($response);
+    }
+
     protected function doWalletTransfer($options)
     {
         // Check if productName is set
