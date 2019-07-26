@@ -579,9 +579,10 @@ class Payments extends Service
                 if (!isset($r['phoneNumber']) || 
                     !isset($r['quantity']) || 
                     !isset($r['unit']) ||
-                    !isset($r['validity'])) {
+                    !isset($r['validity']) ||
+                    !isset($r['metadata'])) {
 
-                    return $this->error('recipients must be an array containing phoneNumber, quantity, unit, validity');
+                    return $this->error('recipients must be an array containing phoneNumber, quantity, unit, validity and metadata');
                 }
 
                 if (isset($r['validity'])) {

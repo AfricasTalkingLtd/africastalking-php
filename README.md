@@ -172,7 +172,7 @@ Instantiating the class will give you an object with available methods
             - `quantity`: Mobile data amount. `REQUIRED`
             - `unit`: Mobile data unit. Can either be `MB` or `GB`. `REQUIRED`
             - `validity`: How long the mobile data is valid for. Must be one of `Daily`, `Weekly` and `Monthly`. `REQUIRED`
-            - `metadata`: Additional data to associate with the tranasction.
+            - `metadata`: Additional data to associate with the tranasction. `REQUIRED`
 
     - **$options:** optional associative array with the following keys:
         - `idempotencyKey`: Key to use when making idempotent requests
