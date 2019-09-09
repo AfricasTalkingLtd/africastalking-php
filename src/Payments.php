@@ -586,8 +586,8 @@ class Payments extends Service
                 }
 
                 if (isset($r['validity'])) {
-                    if (!in_array($r['validity'], ['Daily', 'Monthly', 'Weekly'])) {
-                        return $this->error('validity must be one of Daily, Weekly, Monthly'); 
+                    if (!in_array($r['validity'], ['Day', 'Month', 'Week'])) {
+                        return $this->error('validity must be one of Day, Week, Month'); 
                     }
                 }
 
