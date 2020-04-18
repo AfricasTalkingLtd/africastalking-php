@@ -4,7 +4,7 @@ require 'vendor/autoload.php';
 use AfricasTalking\SDK\AfricasTalking;
 
 $username = "sandbox";
-$apiKey = "YOUR_SANDBOX_API_KEY";
+$apiKey = getenv("API_KEY");
 
 $AT = new AfricasTalking($username, $apiKey);
 
