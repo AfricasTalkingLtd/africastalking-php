@@ -306,13 +306,15 @@ class Voice extends Service
         $sequential ? $sequential = "true" : $sequential ="false";
 
         // Check if callerId is set
-        if (!isset($options['callerId']) || !is_bool($callerId)) {
-            $calledId = false;
+        
+        if (!isset($options['callerId']) || !($options['callerId'])) {
+            $callerId = false;
         } else {
             $callerId = $options['callerId'];
         }
-        // change callerId to true or false string
-        $callerId ? $callerId = "true" : $callerId ="false";
+        // change callerId to number provided or false string
+
+        $callerId ? $callerId = $callerId : $callerId ="false";
 
         // Check if maxDuration is set
         if(isset($options['maxDuration'])) {
