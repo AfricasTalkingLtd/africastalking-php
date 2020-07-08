@@ -53,6 +53,7 @@ Instantiating the class will give you an object with available methods
 - `$AT = new AfricasTalking($username, $apiKey)`: Instantiate the class
 - Get available service
     - [SMS Service](#sms): `$sms = $AT->sms()`
+    - [Content Service](#content): `$content = $AT->content()`
     - [Airtime Service](#airtime): `$airtime = $AT->airtime()`
     - [Payments Service](#payments): `$payments = $AT->payments()`
     - [Voice Service](#voice): `$voice = $AT->voice()`
@@ -85,7 +86,20 @@ Instantiating the class will give you an object with available methods
     - `from`: Shortcode or alphanumeric ID that is registered with your Africa's Talking account.
     - `enqueue`: Set to `true` if you would like to deliver as many messages to the API without waiting for an acknowledgement from telcos.
 
-- `sendPremium($options)`: Send a premium SMS
+- `fetchMessages($options)`: Fetch your messages
+
+    - `lastReceivedId`: This is the id of the message you last processed. Defaults to `0`
+
+***The followoing methods have been moved to the content service, but, have been maintained on SMS for backwards compatibility:***
+
+- `sendPremium($options)`: Send a premium SMS. Calls `$content->send($options)`
+- `createSubscription($options)`: Create a premium subscription. Calls `$content->createSubscription($options)`
+- `fetchSubscriptions($options)`: Fetch your premium subscription data. Calls `$content->fetchSubscriptions($options)`
+- `deleteSubscription($options)`: Delete a phone number from a premium subscription. Calls `$content->$deleteSubscription($options)`
+
+### Content
+
+- `send($options)`: Send a premium SMS
 
     - `message`: SMS content. `REQUIRED`
     - `to`: An array of phone numbers. `REQUIRED`
@@ -93,10 +107,6 @@ Instantiating the class will give you an object with available methods
     - `keyword`: Your premium product keyword
     - `linkId`: "[...] We forward the `linkId` to your application when a user sends a message to your onDemand service"
     - `retryDurationInHours`: "This specifies the number of hours your subscription message should be retried in case it's not delivered to the subscriber"
-
-- `fetchMessages($options)`: Fetch your messages
-
-    - `lastReceivedId`: This is the id of the message you last processed. Defaults to `0`
 
 - `createSubscription($options)`: Create a premium subscription
 

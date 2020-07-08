@@ -142,6 +142,8 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'phoneNumber' => Fixtures::$phoneNumber,
 			'amount' => Fixtures::$amount,
 			'currencyCode' => Fixtures::$currencyCode
+		], [
+			'idempotencyKey' => 'req-' . mt_rand(10, 100),
 		]);
 
 		$this->assertEquals('PendingConfirmation', $response['data']->status);
@@ -156,9 +158,9 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'currencyCode' => Fixtures::$currencyCode
 		], [
             'idempotencyKey' => 'req-' . mt_rand(10, 100),
-        ]);
+		]);
 
-		$this->assertEquals('PendingConfirmation', $response['data']->status);
+		$this->assertArrayHasKey('status', $response);
 	}
 
 	public function testMobileB2C()
@@ -166,6 +168,8 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 		$response = $this->client->mobileB2C([
 			'productName' => Fixtures::$productName,
 			'recipients' => Fixtures::$B2CRecipients,
+		], [
+			'idempotencyKey' => 'req-' . mt_rand(10, 100),
 		]);
 
 		$this->assertEquals(1, $response['data']->numQueued);
@@ -180,18 +184,8 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
             'idempotencyKey' => 'req-' . mt_rand(10, 100),
         ]);
 
-		$this->assertEquals(1, $response['data']->numQueued);
+		$this->assertArrayHasKey('status', $response);
     }
-    
-    public function testMobileData()
-	{
-        $response = $this->client->mobileData([
-            'productName' => Fixtures::$productName,
-            'recipients' => Fixtures::$MobileDataRecipients,
-        ]);
-
-        $this->assertEquals(1, count($response['entries']));
-	}
 
 	public function testMobileB2B()
 	{
@@ -204,6 +198,8 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'destinationChannel' => Fixtures::$destinationChannel,
 			'destinationAccount' => Fixtures::$destinationAccount,
 			'metadata' => Fixtures::$metadata
+		], [
+			'idempotencyKey' => 'req-' . mt_rand(10, 100),
 		]);
 
 		$this->assertArrayHasKey('status', $response);
@@ -222,9 +218,19 @@ class PaymentsTest extends \PHPUnit\Framework\TestCase
 			'metadata' => Fixtures::$metadata
 		], [
             'idempotencyKey' => 'req-' . mt_rand(10, 100),
-        ]);
+		]);
 
 		$this->assertArrayHasKey('status', $response);
+	}
+
+	public function testMobileData()
+	{
+        $response = $this->client->mobileData([
+            'productName' => Fixtures::$productName,
+            'recipients'  => Fixtures::$MobileDataRecipients,
+		]);
+
+        $this->assertArrayHasKey('status', $response);
 	}
 
 	public function testWalletTransfer()

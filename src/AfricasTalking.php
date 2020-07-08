@@ -5,22 +5,22 @@ use GuzzleHttp\Client;
 
 class AfricasTalking
 {
-	const BASE_DOMAIN        = "africastalking.com";
+	const BASE_DOMAIN         = "africastalking.com";
 	const BASE_SANDBOX_DOMAIN = "sandbox." . self::BASE_DOMAIN;
 	
 	protected $username;
 	protected $apiKey;
 
 	protected $client;
-	protected $paymentClient;
+	protected $contentClient;
 	protected $voiceClient;
+	protected $paymentClient;
 	protected $tokenClient;
 
 	public $baseUrl;
+	protected $contentUrl;
 	protected $voiceUrl;
 	protected $paymentUrl;
-
-	protected $SMS;
 
 	public function __construct($username, $apiKey)
 	{
@@ -32,14 +32,28 @@ class AfricasTalking
 
 		$this->baseUrl = "https://api." . $this->baseDomain . "/version1/";
 		$this->voiceUrl = "https://voice." . $this->baseDomain . "/";
-		$this->paymentsUrl = "https://payments." . $this->baseDomain . '/';
-		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . '/';
+		$this->paymentsUrl = "https://payments." . $this->baseDomain . "/";
+		$this->contentUrl = ($username === "sandbox") ? ($this->baseUrl) : ("https://content." . $this->baseDomain . "/version1/");
+		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . "/";
+
+		if ($username === 'sandbox') {
+			$this->contentUrl = $this->baseUrl;
+		}
 
 		$this->username = $username;
 		$this->apiKey = $apiKey;
 
 		$this->client = new Client([
 			'base_uri' => $this->baseUrl,
+			'headers' => [
+				'apikey' => $this->apiKey,
+				'Content-Type' => 'application/x-www-form-urlencoded',
+				'Accept' => 'application/json'
+			]
+		]);
+
+		$this->contentClient = new Client([
+			'base_uri' => $this->contentUrl,
 			'headers' => [
 				'apikey' => $this->apiKey,
 				'Content-Type' => 'application/x-www-form-urlencoded',
@@ -77,8 +91,15 @@ class AfricasTalking
 
 	public function sms()
 	{
-		$sms = new SMS($this->client, $this->username, $this->apiKey);
+		$content = new Content($this->contentClient, $this->username, $this->apiKey);
+		$sms = new SMS($this->client, $this->username, $this->apiKey, $content);
 		return $sms;
+	}
+
+	public function content()
+	{
+		$content = new Content($this->contentClient, $this->username, $this->apiKey);
+		return $content;
 	}
 
 	public function airtime()

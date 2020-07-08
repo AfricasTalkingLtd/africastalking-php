@@ -13,8 +13,4 @@
             <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <env name="TEST_USERNAME" value="sandbox"/>
-        <env name="TEST_API_KEY" value="ff6cce1576d00573b667bd793cc94a7591672066b3331709bdc32c18b653d62c"/>
-    </php>
 </phpunit>

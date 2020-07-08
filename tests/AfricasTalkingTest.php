@@ -18,7 +18,12 @@ class AfricasTalkingTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->assertInstanceOf(\AfricasTalking\SDK\SMS::class, $this->client->sms());
 	}
-	
+
+	public function testContentClass()
+	{
+		$this->assertInstanceOf(\AfricasTalking\SDK\Content::class, $this->client->content());
+	}
+
 	public function testAirtimeClass()
 	{
 		$this->assertInstanceOf(\AfricasTalking\SDK\Airtime::class, $this->client->airtime());
