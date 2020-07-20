@@ -546,6 +546,10 @@ class Payments extends Service
             'metadata' => $metadata
         ];
 
+        if (!empty($parameters['requester'])) {
+            $requestData['requester'] = $parameters['requester'];
+        }
+
         $requestOptions = [
             'json' => $requestData,
         ];
