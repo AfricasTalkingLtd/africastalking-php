@@ -527,7 +527,6 @@ class Payments extends Service
             return $this->error('destinationAccount must be defined');
         }
         $destinationAccount = $parameters['destinationAccount'];
-
         // Check if metadata is set
         if (!isset($parameters['metadata'])) {
             return $this->error('metadata must be defined');
@@ -546,6 +545,10 @@ class Payments extends Service
             'destinationChannel' => $destinationChannel,
             'metadata' => $metadata
         ];
+
+        if (!empty($parameters['requester'])) {
+			$requestData['requester'] = $parameters['requester'];
+		}
 
         $requestOptions = [
             'json' => $requestData,
