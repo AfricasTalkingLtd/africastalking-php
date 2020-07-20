@@ -167,7 +167,6 @@ Instantiating the class will give you an object with available methods
         - `destinationAccount`: Name used by the business to receive money on the provided destinationChannel. `REQUIRED`
         - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
         - `amount`: Amount to pay. `REQUIRED`
-        - `requester`: PhoneNumber through which KPLC will send tokens when using B2B to buy electricity tokens.
         - `metadata`: Additional data to associate with the transaction. `REQUIRED`
 
     - **$options:** optional associative array with the following keys:
