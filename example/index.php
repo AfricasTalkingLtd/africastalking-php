@@ -3,8 +3,11 @@ require 'vendor/autoload.php';
 
 use AfricasTalking\SDK\AfricasTalking;
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 $username = "sandbox";
-$apiKey = getenv("API_KEY");
+$apiKey = $_ENV["API_KEY"];
 
 $AT = new AfricasTalking($username, $apiKey);
 
