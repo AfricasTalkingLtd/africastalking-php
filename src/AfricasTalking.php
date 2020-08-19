@@ -5,9 +5,8 @@ use GuzzleHttp\Client;
 
 class AfricasTalking
 {
-	const BASE_DOMAIN         = "africastalking.com";
-	const BASE_SANDBOX_DOMAIN = "sandbox." . self::BASE_DOMAIN;
-	
+	protected $baseDomain;
+
 	protected $username;
 	protected $apiKey;
 
@@ -24,17 +23,11 @@ class AfricasTalking
 
 	public function __construct($username, $apiKey)
 	{
-		if($username === 'sandbox') {
-			$this->baseDomain = self::BASE_SANDBOX_DOMAIN;
-		} else {
-			$this->baseDomain = self::BASE_DOMAIN;
-		}
-
-		$this->baseUrl = "https://api." . $this->baseDomain . "/version1/";
-		$this->voiceUrl = "https://voice." . $this->baseDomain . "/";
-		$this->paymentsUrl = "https://payments." . $this->baseDomain . "/";
-		$this->contentUrl = ($username === "sandbox") ? ($this->baseUrl) : ("https://content." . $this->baseDomain . "/version1/");
-		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . "/";
+		$this->baseUrl = "https://api." . $this->base_domain() . "/version1/";
+		$this->voiceUrl = "https://voice." . $this->base_domain(). "/";
+		$this->paymentsUrl = "https://payments." . $this->base_domain() . "/";
+		$this->contentUrl = ($username === "sandbox") ? ($this->baseUrl) : ("https://content." . $this->base_domain() . "/version1/");
+		$this->checkoutTokenUrl = "https://api." . $this->base_domain() . "/";
 
 		if ($username === 'sandbox') {
 			$this->contentUrl = $this->baseUrl;
@@ -87,6 +80,20 @@ class AfricasTalking
 				'Accept' => 'application/json'
 			]
 		]);
+	}
+
+
+	public function base_domain(){
+		define(BASE_DOMAIN, "africastalking.com");
+		define(BASE_SANDBOX_DOMAIN, "sandbox." . self::BASE_DOMAIN);
+
+		if($username === 'sandbox') {
+			$this->baseDomain = self::BASE_SANDBOX_DOMAIN;
+		} else {
+			$this->baseDomain = self::BASE_DOMAIN;
+		}
+
+		return $this->baseDomain;
 	}
 
 	public function sms()
