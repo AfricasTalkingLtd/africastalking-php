@@ -7,7 +7,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $username = "sandbox";
-$apiKey = $_ENV["API_KEY"];
+$apiKey = $_ENV["AFRICASTALKING_API_KEY"];
 
 $AT = new AfricasTalking($username, $apiKey);
 
