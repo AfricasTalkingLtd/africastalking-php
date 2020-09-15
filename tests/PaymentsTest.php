@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class PaymentsTest extends \PHPUnit\Framework\TestCase
 {
-	public function setup()
+	public function setUp(): void
 	{
 		$this->username = Fixtures::$username;
 		$this->apiKey 	= Fixtures::$apiKey;
