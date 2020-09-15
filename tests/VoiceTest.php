@@ -28,12 +28,12 @@ class VoiceTest extends \PHPUnit\Framework\TestCase
 
     public function testCallsMustHaveRequiredAttributes()
     {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->call([
-                'from' => Fixtures::$voicePhoneNumber
-            ])
-		);
+        $response = $this->client->call([
+            'from' => Fixtures::$voicePhoneNumber
+        ]);
+
+        $this->assertArrayHasKey('status',$response);
+        $this->assertEquals('error',$response['status']);
 	}
 
     public function testFetchQueuedCalls()
@@ -48,10 +48,10 @@ class VoiceTest extends \PHPUnit\Framework\TestCase
 
     public function testFetchQueuedCallsMustHaveRequiredAttributes()
     {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->fetchQueuedCalls()
-		);
+        $response = $this->client->fetchQueuedCalls();
+
+        $this->assertArrayHasKey('status',$response);
+        $this->assertEquals('error',$response['status']);
 	}
 
     public function testUploadMediaFile()
@@ -66,20 +66,20 @@ class VoiceTest extends \PHPUnit\Framework\TestCase
 
     public function testuploadMediaFileMustHaveRequiredAttributes()
     {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->uploadMediaFile([
-                'url' => 'test@google'
-            ])
-		);
+        $response = $this->client->uploadMediaFile([
+            'url' => 'test@google'
+        ]);
+
+        $this->assertArrayHasKey('status',$response);
+        $this->assertEquals('error',$response['status']);
 	}
 
     public function testuploadMediaFileCannotBeEmpty()
     {
-		$this->assertArraySubset(
-			['status' 		=> 'error'],
-			$response = $this->client->uploadMediaFile()
-		);
+        $response = $this->client->uploadMediaFile();
+
+        $this->assertArrayHasKey('status',$response);
+        $this->assertEquals('error',$response['status']);
     }
     
     // public function testMessageBuilder()

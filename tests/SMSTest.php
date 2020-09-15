@@ -19,22 +19,22 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 
 	public function testSMSWithEmptyMessage()
 	{
-		$this->assertArraySubset(
-			['status' => 'error'],
-			$this->client->send([
-				'to' 		=> Fixtures::$multiplePhoneNumbersSMS, 
-			])
-		);
+        $response = $this->client->send([
+            'to' 		=> Fixtures::$multiplePhoneNumbersSMS,
+        ]);
+
+        $this->assertArrayHasKey('status',$response);
+        $this->assertEquals('error',$response['status']);
 	}
 
 	public function testSMSWithEmptyRecipient()
 	{
-		$this->assertArraySubset(
-			['status' => 'error'],
-			$this->client->send([
-				'message' 	=> 'Testing...'
-			])
-		);
+        $response = $this->client->send([
+            'message' 	=> 'Testing...'
+        ]);
+
+        $this->assertArrayHasKey('status',$response);
+        $this->assertEquals('error',$response['status']);
 	}
 
 	public function testSingleSMSSending()
@@ -111,10 +111,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
             'checkoutToken' => $checkoutTokenResponse['data']->token
 		]);
 
-		$this->assertArraySubset(
-			['status' => 'success'],
-			$response
-		);
+        $this->assertArrayHasKey('status',$response);
+        $this->assertEquals('success',$response['status']);
 	}
 
 	public function testDeleteSubscription()
@@ -125,10 +123,8 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'keyword'		=> Fixtures::$keyword
 		]);
 
-		$this->assertArraySubset(
-			['status' => 'success'],
-			$response
-		);
+		$this->assertArrayHasKey('status',$response);
+		$this->assertEquals('success',$response['status']);
 	}
 
 	public function testFetchSubscriptions()
