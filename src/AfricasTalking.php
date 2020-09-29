@@ -87,7 +87,7 @@ class AfricasTalking
 		define(BASE_DOMAIN, "africastalking.com");
 		define(BASE_SANDBOX_DOMAIN, "sandbox." . self::BASE_DOMAIN);
 
-		if($username === 'sandbox') {
+		if($this->username === 'sandbox') {
 			$this->baseDomain = self::BASE_SANDBOX_DOMAIN;
 		} else {
 			$this->baseDomain = self::BASE_DOMAIN;
