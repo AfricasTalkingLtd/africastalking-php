@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class ContentTest extends \PHPUnit\Framework\TestCase
 {
-	public function setup()
+	public function setUp(): void
 	{
         $this->username = Fixtures::$username;
         $this->apiKey 	= Fixtures::$apiKey;
@@ -42,10 +42,8 @@ class ContentTest extends \PHPUnit\Framework\TestCase
             'checkoutToken' => $checkoutTokenResponse['data']->token
 		]);
 
-		$this->assertArraySubset(
-			['status' => 'success'],
-			$response
-		);
+        $this->assertArrayHasKey('status',$response);
+        $this->assertEquals('success',$response['status']);
 	}
 
 	public function testDeleteSubscription()
@@ -56,10 +54,8 @@ class ContentTest extends \PHPUnit\Framework\TestCase
 			'keyword'		=> Fixtures::$keyword
 		]);
 
-		$this->assertArraySubset(
-			['status' => 'success'],
-			$response
-		);
+        $this->assertArrayHasKey('status',$response);
+        $this->assertEquals('success',$response['status']);
 	}
 
 	public function testFetchSubscriptions()

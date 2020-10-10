@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class AirtimeTest extends \PHPUnit\Framework\TestCase
 {
-	public function setup()
+	public function setup(): void
 	{
 		$this->username = Fixtures::$username;
 		$this->apiKey 	= Fixtures::$apiKey;
