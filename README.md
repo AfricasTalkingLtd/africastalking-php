@@ -1,6 +1,6 @@
 # Africa's Talking PHP SDK
 
-[![Latest Stable Version](https://img.shields.io/badge/stable-2.4.0-blue.svg)](https://packagist.org/packages/africastalking/africastalking)
+[![Latest Stable Version](https://img.shields.io/packagist/v/africastalking/africastalking)](https://packagist.org/packages/africastalking/africastalking)
 
 > This SDK provides convenient access to the Africa's Talking API for applications written in PHP.
 
