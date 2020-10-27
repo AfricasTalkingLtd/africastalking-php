@@ -29,10 +29,6 @@ class AfricasTalking
 		$this->contentUrl = ($username === "sandbox") ? ($this->baseUrl) : ("https://content." . $this->base_domain() . "/version1/");
 		$this->checkoutTokenUrl = "https://api." . $this->base_domain() . "/";
 
-		if ($username === 'sandbox') {
-			$this->contentUrl = $this->baseUrl;
-		}
-
 		$this->username = $username;
 		$this->apiKey = $apiKey;
 
