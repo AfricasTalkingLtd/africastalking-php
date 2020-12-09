@@ -29,6 +29,8 @@ class Content extends Service
                 'status' => 'error', 
                 'data' => 'from is required for premium SMS'
             ];
+        } else {
+            $data['from'] = $options['from'];
         }
 
         if (!empty($options['keyword'])) {
