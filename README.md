@@ -113,7 +113,6 @@ Instantiating the class will give you an object with available methods
     - `shortCode`: Premium short code mapped to your account. `REQUIRED`
     - `keyword`: Premium keyword under the above short code and is also mapped to your account. `REQUIRED`
     - `phoneNumber`: PhoneNumber to be subscribed `REQUIRED`
-    - `checkoutToken`: Token used to validate the subscription request `REQUIRED`. See [token service](#token)
 
 - `fetchSubscriptions($options)`: Fetch your premium subscription data
 
@@ -389,10 +388,6 @@ $xmlresponse = $voiceActions
 - `build()`: Build the xml after chaining some of the above actions
 
 ### Token
-
-- `createCheckoutToken($options)`: Create a checkout token
-
-    - `phoneNumber`: Phone number to create checkout token for
 
 - `generateAuthToken()`: Generate an auth token to use for authenticating API requests instead of your API key.
 
