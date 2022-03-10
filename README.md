@@ -310,6 +310,7 @@ Instantiating the class will give you an object with available methods
 
     - `to`: Phone number that you wish to dial (in international format). `REQUIRED`
     - `from`: Phone number on Africa's Talking (in international format). `REQUIRED`
+    - `clientRequestId`: Variable sent to your Events Callback URL that can be used to tag the call. `OPTIONAL`
 
 - `fetchQueuedCalls($options)`: Fetch queued calls on a phone number
 

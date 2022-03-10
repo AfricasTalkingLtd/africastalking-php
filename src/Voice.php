@@ -78,12 +78,15 @@ class Voice extends Service
             return $this->error('callFrom must be in the format \'+2XXYYYYYYYYY\'');
         }
 
-
         $requestData = [
             'username' => $this->username,
             'to' => $options['to'],
             'from' => $options['from']
         ];
+
+        if (isset($options['clientRequestId']) && !empty($options['clientRequestId'])) {
+            $requestData['clientRequestId'] = (string) $options['clientRequestId'];
+        }
 
 		$response = $this->client->post('call', ['form_params' => $requestData ] );
 
