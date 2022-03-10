@@ -29,6 +29,8 @@ class Content extends Service
                 'status' => 'error', 
                 'data' => 'from is required for premium SMS'
             ];
+        } else {
+            $data['from'] = $options['from'];
         }
 
         if (!empty($options['keyword'])) {
@@ -55,17 +57,15 @@ class Content extends Service
 	{
         if (empty($options['phoneNumber']) ||
             empty($options['shortCode']) ||
-            empty($options['keyword']) ||
-            empty($options['checkoutToken'])) {
-			return $this->error("phoneNumber, shortCode keyword and checkoutToken must be specified");
+            empty($options['keyword'])) {
+			return $this->error("phoneNumber, shortCode and keyword must be specified");
 		}
 
 		$data = [
 			'username' 		=> $this->username,
 			'phoneNumber' 	=> $options['phoneNumber'],
 			'shortCode'		=> $options['shortCode'],
-			'keyword' 		=> $options['keyword'],
-			'checkoutToken'	=> $options['checkoutToken']
+			'keyword' 		=> $options['keyword']
 		];
 
 		$response = $this->client->post('subscription/create', ['form_params' => $data ] );
