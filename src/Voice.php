@@ -381,11 +381,13 @@ class Voice extends Service
         }
         
         // Check if trimSilence is set
-        if (isset($options['trimSilence']) || !is_bool($options['trimSilence'])) {
+        if (!isset($options['trimSilence']) || !is_bool($options['trimSilence'])) {
             $trimSilence = false;
         } else {
             $trimSilence = $options['trimSilence'];
         }
+        
+
         // change trimSilence to true or false string
         $trimSilence ? $trimSilence = "true" : $trimSilence ="false";
         
