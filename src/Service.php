@@ -1,7 +1,8 @@
 <?php
 namespace AfricasTalking\SDK;
 
-abstract class Service 
+abstract class Service
+
 {
 	protected $client;
 
@@ -11,23 +12,25 @@ abstract class Service
 
 	public function __construct($client, $username, $apiKey)
 	{
-		$this->client 	= $client;
+		$this->client = $client;
 		$this->username = $username;
-		$this->apiKey 	= $apiKey;
+		$this->apiKey = $apiKey;
 	}
 
-	protected static function error($data) {
+	protected static function error($data)
+	{
 		return [
-			'status' 	=> 'error',
-			'data'		=> $data
+			'status' => 'error',
+			'data' => $data
 		];
 	}
 
 
-	protected static function success($data) {
+	protected static function success($data)
+	{
 		return [
-			'status' 	=> 'success',
-			'data'		=> json_decode($data->getBody()->getContents())
+			'status' => 'success',
+			'data' => json_decode($data->getBody()->getContents())
 		];
 	}
 }

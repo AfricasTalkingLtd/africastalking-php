@@ -5,16 +5,17 @@ use GuzzleHttp\Client;
 
 class AfricasTalking
 {
-	const BASE_DOMAIN         = "africastalking.com";
+	const BASE_DOMAIN = "africastalking.com";
 	const BASE_SANDBOX_DOMAIN = "sandbox." . self::BASE_DOMAIN;
 
 	protected $atClient;
 
 	public function __construct($username, $apiKey)
 	{
-		if($username === 'sandbox') {
+		if ($username === 'sandbox') {
 			$this->baseDomain = self::BASE_SANDBOX_DOMAIN;
-		} else {
+		}
+		else {
 			$this->baseDomain = self::BASE_DOMAIN;
 		}
 
@@ -36,7 +37,7 @@ class AfricasTalking
 
 	public function airtime()
 	{
-		$airtime = new Airtime($this->atClient);		
+		$airtime = new Airtime($this->atClient);
 		return $airtime;
 	}
 
@@ -48,13 +49,13 @@ class AfricasTalking
 
 	public function application()
 	{
-		$application = new Application($this->atClient);		
+		$application = new Application($this->atClient);
 		return $application;
 	}
 
 	public function payments()
 	{
-		$payments = new Payments($this->atClient);		
+		$payments = new Payments($this->atClient);
 		return $payments;
 	}
 

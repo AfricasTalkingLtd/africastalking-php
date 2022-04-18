@@ -8,7 +8,7 @@ class Payments extends Service
         $paymentsClient = $atClient->payments();
         parent::__construct($paymentsClient, $atClient->username, $atClient->apiKey);
     }
-    
+
     const REASON = [
         'SALARY' => 'SalaryPayment',
         'SALARY_WITH_CHARGE' => 'SalaryPaymentWithWithdrawalChargePaid',
@@ -23,35 +23,35 @@ class Payments extends Service
     ];
 
     const TRANSFER_TYPE = [
-      'BUY_GOODS'  => 'BusinessBuyGoods',
-      'PAYBILL'  => 'BusinessPayBill',
-      'DISBURSE_FUNDS'  => 'DisburseFundsToBusiness',
-      'B2B_TRANSFER'  => 'BusinessToBusinessTransfer'
+        'BUY_GOODS' => 'BusinessBuyGoods',
+        'PAYBILL' => 'BusinessPayBill',
+        'DISBURSE_FUNDS' => 'DisburseFundsToBusiness',
+        'B2B_TRANSFER' => 'BusinessToBusinessTransfer'
     ];
 
     const BANK = [
-      'FCMB_NG' => 234001,
-      'ZENITH_NG' => 234002,
-      'ACCESS_NG' => 234003,
-      'GTBANK_NG' => 234004,
-      'ECOBANK_NG' => 234005,
-      'DIAMOND_NG' => 234006,
-      'PROVIDUS_NG' => 234007,
-      'UNITY_NG' => 234008,
-      'STANBIC_NG' => 234009,
-      'STERLING_NG' => 234010,
-      'PARKWAY_NG' => 234011,
-      'AFRIBANK_NG' => 234012,
-      'ENTREPRISE_NG' => 234013,
-      'FIDELITY_NG' => 234014,
-      'HERITAGE_NG' => 234015,
-      'KEYSTONE_NG' => 234016,
-      'SKYE_NG' => 234017,
-      'STANCHART_NG' => 234018,
-      'UNION_NG' => 234019,
-      'UBA_NG' => 234020,
-      'WEMA_NG' => 234021,
-      'FIRST_NG' => 234022,
+        'FCMB_NG' => 234001,
+        'ZENITH_NG' => 234002,
+        'ACCESS_NG' => 234003,
+        'GTBANK_NG' => 234004,
+        'ECOBANK_NG' => 234005,
+        'DIAMOND_NG' => 234006,
+        'PROVIDUS_NG' => 234007,
+        'UNITY_NG' => 234008,
+        'STANBIC_NG' => 234009,
+        'STERLING_NG' => 234010,
+        'PARKWAY_NG' => 234011,
+        'AFRIBANK_NG' => 234012,
+        'ENTREPRISE_NG' => 234013,
+        'FIDELITY_NG' => 234014,
+        'HERITAGE_NG' => 234015,
+        'KEYSTONE_NG' => 234016,
+        'SKYE_NG' => 234017,
+        'STANCHART_NG' => 234018,
+        'UNION_NG' => 234019,
+        'UBA_NG' => 234020,
+        'WEMA_NG' => 234021,
+        'FIRST_NG' => 234022,
     ];
 
     public function __call($method, $args)
@@ -60,14 +60,15 @@ class Payments extends Service
         if (method_exists($this, 'do' . $method)) {
             $func = 'do' . $method;
             if (!isset($args[0])) {
-                $args = [ 0 => ''];
+                $args = [0 => ''];
             }
             return $this->$func($args[0]);
-        } else {
-            return $this->error($method .' is an invalid Payments SDK Method');
+        }
+        else {
+            return $this->error($method . ' is an invalid Payments SDK Method');
         }
     }
-    
+
     protected function doCardCheckoutCharge($parameters, $options = [])
     {
         // Check if productName is set
@@ -79,7 +80,8 @@ class Payments extends Service
         // Check if currencyCode is set
         if (!isset($parameters['currencyCode'])) {
             return $this->error('currencyCode must be defined');
-        } else {
+        }
+        else {
             $currencyCode = $parameters['currencyCode'];
             if (strlen($currencyCode) != 3) {
                 return $this->error('currencyCode must be in 3-digit ISO format');
@@ -107,13 +109,14 @@ class Payments extends Service
         if (!isset($parameters['paymentCard']) && !is_array($parameters['paymentCard'])) {
             return $this->error('paymentCard must be an array containing, 
             number, countryCode, cvvNumber, expiryMonth, expiryYear and authToken');
-        } else if (isset($parameters['paymentCard']) && is_array($parameters['paymentCard'])) {
+        }
+        else if (isset($parameters['paymentCard']) && is_array($parameters['paymentCard'])) {
             $paymentCard = $parameters['paymentCard'];
-            if (!isset($paymentCard['number']) || 
-            !isset($paymentCard['countryCode']) || 
-            !isset($paymentCard['cvvNumber']) || 
-            !isset($paymentCard['expiryMonth']) || 
-            !isset($paymentCard['expiryYear']) || 
+            if (!isset($paymentCard['number']) ||
+            !isset($paymentCard['countryCode']) ||
+            !isset($paymentCard['cvvNumber']) ||
+            !isset($paymentCard['expiryMonth']) ||
+            !isset($paymentCard['expiryYear']) ||
             !isset($paymentCard['authToken'])) {
 
                 return $this->error('paymentCard must be an array containing, number, countryCode, cvvNumber, expiryMonth, expiryYear and authToken');
@@ -152,7 +155,7 @@ class Payments extends Service
             'json' => $requestData,
         ];
 
-        if(isset($options['idempotencyKey'])) {
+        if (isset($options['idempotencyKey'])) {
             $requestOptions['headers'] = [
                 'Idempotency-Key' => $options['idempotencyKey'],
             ];
@@ -183,7 +186,7 @@ class Payments extends Service
         ];
 
         $response = $this->client->post('card/checkout/validate', ['json' => $requestData]);
-        return $this->success($response);       
+        return $this->success($response);
     }
 
     protected function doBankCheckoutCharge($parameters, $options = [])
@@ -193,11 +196,12 @@ class Payments extends Service
             return $this->error('productName must be defined');
         }
         $productName = $parameters['productName'];
-                
+
         // Check if currencyCode is set
         if (!isset($parameters['currencyCode'])) {
             return $this->error('currencyCode must be defined');
-        } else {
+        }
+        else {
             $currencyCode = $parameters['currencyCode'];
             if (strlen($currencyCode) != 3) {
                 return $this->error('currencyCode must be in 3-digit ISO format');
@@ -228,11 +232,12 @@ class Payments extends Service
         if (!isset($parameters['bankAccount']) && !is_array($parameters['bankAccount'])) {
             return $this->error('bankAccount must be an array containing, 
             number, countryCode, cvvNumber, expiryMonth, expiryYear and authToken');
-        } else if (isset($parameters['bankAccount']) && is_array($parameters['bankAccount'])) {
+        }
+        else if (isset($parameters['bankAccount']) && is_array($parameters['bankAccount'])) {
             $bankAccount = $parameters['bankAccount'];
-            if (!isset($bankAccount['accountNumber']) || 
-                !isset($bankAccount['bankCode']) || 
-                !isset($bankAccount['dateOfBirth'])) {
+            if (!isset($bankAccount['accountNumber']) ||
+            !isset($bankAccount['bankCode']) ||
+            !isset($bankAccount['dateOfBirth'])) {
 
                 return $this->error('bankAccount must be an array containing, accountNumber, bankCode, dateOfBirth');
             }
@@ -260,7 +265,7 @@ class Payments extends Service
             'json' => $requestData,
         ];
 
-        if(isset($options['idempotencyKey'])) {
+        if (isset($options['idempotencyKey'])) {
             $requestOptions['headers'] = [
                 'Idempotency-Key' => $options['idempotencyKey'],
             ];
@@ -306,13 +311,14 @@ class Payments extends Service
         if (!isset($parameters['recipients'])) {
             return $this->error('recipients must be an array containing, 
             bankAccount, currencyCode, amount, and narration');
-        } else if (isset($parameters['recipients']) && is_array($parameters['recipients'])) {
+        }
+        else if (isset($parameters['recipients']) && is_array($parameters['recipients'])) {
             $recipients = $parameters['recipients'];
             foreach ($recipients as $r) {
-                if (!isset($r['bankAccount']) || 
-                    !isset($r['currencyCode']) || 
-                    !isset($r['amount']) || 
-                    !isset($r['narration'])) {          
+                if (!isset($r['bankAccount']) ||
+                !isset($r['currencyCode']) ||
+                !isset($r['amount']) ||
+                !isset($r['narration'])) {
 
                     return $this->error('recipients must be an array containing, 
                         bankAccount, currencyCode, amount, and narration');
@@ -323,13 +329,14 @@ class Payments extends Service
                 if (!empty($bankAccount) && !is_array($bankAccount)) {
                     return $this->error('bankAccount must be an array containing, 
                     number, countryCode, cvvNumber, expiryMonth, expiryYear and authToken');
-                } else if (!empty($bankAccount) && is_array($bankAccount)) {
-                    if (!isset($bankAccount['accountNumber']) || 
-                        !isset($bankAccount['bankCode']) || 
-                        !isset($bankAccount['dateOfBirth'])) {
+                }
+                else if (!empty($bankAccount) && is_array($bankAccount)) {
+                    if (!isset($bankAccount['accountNumber']) ||
+                    !isset($bankAccount['bankCode']) ||
+                    !isset($bankAccount['dateOfBirth'])) {
 
                         return $this->error('bankAccount must be an array containing, 
-                        number, countryCode, cvvNumber, expiryMonth, expiryYear and authToken');                            
+                        number, countryCode, cvvNumber, expiryMonth, expiryYear and authToken');
                     }
                 }
             }
@@ -346,7 +353,7 @@ class Payments extends Service
             'json' => $requestData,
         ];
 
-        if(isset($options['idempotencyKey'])) {
+        if (isset($options['idempotencyKey'])) {
             $requestOptions['headers'] = [
                 'Idempotency-Key' => $options['idempotencyKey'],
             ];
@@ -367,7 +374,8 @@ class Payments extends Service
         // Validate phoneNumber
         if (!isset($parameters['phoneNumber'])) {
             return $this->error('phoneNumber must be defined');
-        } else {
+        }
+        else {
             $phoneNumber = $parameters['phoneNumber'];
             $checkPhoneNumber = strpos($phoneNumber, '+');
             if ($checkPhoneNumber === false || $checkPhoneNumber != 0) {
@@ -378,7 +386,8 @@ class Payments extends Service
         // Check if currencyCode is set
         if (!isset($parameters['currencyCode'])) {
             return $this->error('currencyCode must be defined');
-        } else {
+        }
+        else {
             $currencyCode = $parameters['currencyCode'];
             if (strlen($currencyCode) != 3) {
                 return $this->error('currencyCode must be in 3-digit ISO format');
@@ -411,7 +420,7 @@ class Payments extends Service
             'json' => $requestData,
         ];
 
-        if(isset($options['idempotencyKey'])) {
+        if (isset($options['idempotencyKey'])) {
             $requestOptions['headers'] = [
                 'Idempotency-Key' => $options['idempotencyKey'],
             ];
@@ -434,25 +443,26 @@ class Payments extends Service
         if (!isset($parameters['recipients'])) {
             return $this->error('recipients must be an array containing, 
             bankAccount, currencyCode, amount, and narration');
-        } else if (isset($parameters['recipients']) && is_array($parameters['recipients'])) {
+        }
+        else if (isset($parameters['recipients']) && is_array($parameters['recipients'])) {
             $recipients = $parameters['recipients'];
             if (count($recipients) > 10) {
                 return $this->error('Cannot be more than 10 recipients');
             }
             foreach ($recipients as $r) {
-                if (!isset($r['phoneNumber']) || 
-                    !isset($r['amount']) || 
-                    !isset($r['currencyCode'])) {
+                if (!isset($r['phoneNumber']) ||
+                !isset($r['amount']) ||
+                !isset($r['currencyCode'])) {
 
                     return $this->error('recipients must be an array containing,
                     phoneNumber, currencyCode, amount');
                 }
 
                 if (isset($r['reason'])) {
-                    if (!in_array($r['reason'], ['SalaryPayment', 'SalaryPaymentWithWithdrawalChargePaid', 
+                    if (!in_array($r['reason'], ['SalaryPayment', 'SalaryPaymentWithWithdrawalChargePaid',
                     'BusinessPayment', 'BusinessPaymentWithWithdrawalChargePaid', 'PromotionPayment'])) {
                         return $this->error('Reason must be one of SalaryPayment, SalaryPaymentWithWithdrawalChargePaid,
-                        BusinessPayment, BusinessPaymentWithWithdrawalChargePaid, PromotionPayment'); 
+                        BusinessPayment, BusinessPaymentWithWithdrawalChargePaid, PromotionPayment');
                     }
                 }
             }
@@ -469,7 +479,7 @@ class Payments extends Service
             'json' => $requestData,
         ];
 
-        if(isset($options['idempotencyKey'])) {
+        if (isset($options['idempotencyKey'])) {
             $requestOptions['headers'] = [
                 'Idempotency-Key' => $options['idempotencyKey'],
             ];
@@ -490,15 +500,17 @@ class Payments extends Service
         // Check if provider is set
         if (!isset($parameters['provider'])) {
             return $this->error('provider must be defined');
-        } else if (!in_array($parameters['provider'], ['Athena', 'Mpesa'])) {
+        }
+        else if (!in_array($parameters['provider'], ['Athena', 'Mpesa'])) {
             return $this->error('provider must be set as either Athena or Mpesa');
         }
         $provider = $parameters['provider'];
-        
+
         // Check if transferType is set
         if (!isset($parameters['transferType'])) {
             return $this->error('transferType must be defined');
-        } else if (!in_array($parameters['transferType'], 
+        }
+        else if (!in_array($parameters['transferType'],
         ['BusinessBuyGoods', 'BusinessPayBill', 'DisburseFundsToBusiness', 'BusinessToBusinessTransfer'])) {
             return $this->error('transferType must be one of BusinessBuyGoods,
             BusinessPayBill, DisburseFundsToBusiness, BusinessToBusinessTransfer');
@@ -508,7 +520,8 @@ class Payments extends Service
         // Check if currencyCode is set
         if (!isset($parameters['currencyCode'])) {
             return $this->error('currencyCode must be defined');
-        } else {
+        }
+        else {
             $currencyCode = $parameters['currencyCode'];
             if (strlen($currencyCode) != 3) {
                 return $this->error('currencyCode must be in 3-digit ISO format');
@@ -520,7 +533,7 @@ class Payments extends Service
             return $this->error('amount must be defined');
         }
         $amount = $parameters['amount'];
-        
+
         // Check if destinationChannel is set
         if (!isset($parameters['destinationChannel'])) {
             return $this->error('destinationChannel must be defined');
@@ -559,7 +572,7 @@ class Payments extends Service
             'json' => $requestData,
         ];
 
-        if(isset($options['idempotencyKey'])) {
+        if (isset($options['idempotencyKey'])) {
             $requestOptions['headers'] = [
                 'Idempotency-Key' => $options['idempotencyKey'],
             ];
@@ -580,28 +593,29 @@ class Payments extends Service
         // Check if recipients array is provided
         if (!isset($parameters['recipients'])) {
             return $this->error('recipients must be an array containing phoneNumber, unit, quatity, validity and metadata');
-        } else if (isset($parameters['recipients']) && is_array($parameters['recipients'])) {
+        }
+        else if (isset($parameters['recipients']) && is_array($parameters['recipients'])) {
             $recipients = $parameters['recipients'];
-            
+
             foreach ($recipients as $r) {
-                if (!isset($r['phoneNumber']) || 
-                    !isset($r['quantity']) || 
-                    !isset($r['unit']) ||
-                    !isset($r['validity']) ||
-                    !isset($r['metadata'])) {
+                if (!isset($r['phoneNumber']) ||
+                !isset($r['quantity']) ||
+                !isset($r['unit']) ||
+                !isset($r['validity']) ||
+                !isset($r['metadata'])) {
 
                     return $this->error('recipients must be an array containing phoneNumber, quantity, unit, validity and metadata');
                 }
 
                 if (isset($r['validity'])) {
                     if (!in_array($r['validity'], ['Day', 'Month', 'Week'])) {
-                        return $this->error('validity must be one of Day, Week, Month'); 
+                        return $this->error('validity must be one of Day, Week, Month');
                     }
                 }
 
                 if (isset($r['unit'])) {
                     if (!in_array($r['unit'], ['MB', 'GB'])) {
-                        return $this->error('unit must be one of MB, GB'); 
+                        return $this->error('unit must be one of MB, GB');
                     }
                 }
             }
@@ -618,7 +632,7 @@ class Payments extends Service
             'json' => $requestData,
         ];
 
-        if(isset($options['idempotencyKey'])) {
+        if (isset($options['idempotencyKey'])) {
             $requestOptions['headers'] = [
                 'Idempotency-Key' => $options['idempotencyKey'],
             ];
@@ -645,19 +659,20 @@ class Payments extends Service
         // Check if currencyCode is set
         if (!isset($options['currencyCode'])) {
             return $this->error('currencyCode must be defined');
-        } else {
+        }
+        else {
             $currencyCode = $options['currencyCode'];
             if (strlen($currencyCode) != 3) {
                 return $this->error('currencyCode must be in 3-digit ISO format');
             }
         }
-        
+
         // Check if amount is set
         if (!isset($options['amount'])) {
             return $this->error('amount must be defined');
         }
         $amount = $options['amount'];
-        
+
         // Check if metadata is set
         if (!isset($options['metadata'])) {
             return $this->error('metadata must be defined');
@@ -689,19 +704,20 @@ class Payments extends Service
         // Check if currencyCode is set
         if (!isset($options['currencyCode'])) {
             return $this->error('currencyCode must be defined');
-        } else {
+        }
+        else {
             $currencyCode = $options['currencyCode'];
             if (strlen($currencyCode) != 3) {
                 return $this->error('currencyCode must be in 3-digit ISO format');
             }
         }
-        
+
         // Check if amount is set
         if (!isset($options['amount'])) {
             return $this->error('amount must be defined');
         }
         $amount = $options['amount'];
-        
+
         // Check if metadata is set
         if (!isset($options['metadata'])) {
             return $this->error('metadata must be defined');
@@ -731,10 +747,11 @@ class Payments extends Service
         // Check if filters are provided
         if (!isset($options['filters']) && !is_array($options['filters'])) {
             return $this->error('filters must be an array containing at least a pageNumber and count');
-        } else if (isset($options['filters']) && is_array($options['filters'])) {
+        }
+        else if (isset($options['filters']) && is_array($options['filters'])) {
             $filters = $options['filters'];
-            if (!isset($filters['pageNumber']) || 
-                !isset($filters['count'])) {
+            if (!isset($filters['pageNumber']) ||
+            !isset($filters['count'])) {
                 return $this->error('filters must be an array containing at least a pageNumber and count');
             }
         }
@@ -802,10 +819,11 @@ class Payments extends Service
         // Check if filters are provided
         if (!isset($options['filters']) && !is_array($options['filters'])) {
             return $this->error('filters must be an array containing at least a pageNumber and count');
-        } else if (isset($options['filters']) && is_array($options['filters'])) {
+        }
+        else if (isset($options['filters']) && is_array($options['filters'])) {
             $filters = $options['filters'];
-            if (!isset($filters['pageNumber']) || 
-                !isset($filters['count'])) {
+            if (!isset($filters['pageNumber']) ||
+            !isset($filters['count'])) {
                 return $this->error('filters must be an array containing at least a pageNumber and count');
             }
         }

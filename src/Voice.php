@@ -3,13 +3,13 @@
 namespace AfricasTalking\SDK;
 
 class Voice extends Service
-{   
+{
     public function __construct(ATClient $atClient)
-	{   
-		$voiceClient = $atClient->voice();
-		parent::__construct($voiceClient, $atClient->username, $atClient->apiKey);
-	}
-    
+    {
+        $voiceClient = $atClient->voice();
+        parent::__construct($voiceClient, $atClient->username, $atClient->apiKey);
+    }
+
     private $xmlString;
 
     public function __call($method, $args)
@@ -17,16 +17,18 @@ class Voice extends Service
         // First check if method exists
         if (method_exists($this, 'build' . $method)) {
             if (!isset($args[0])) {
-                $args = [ 0 => ''];
-			}
-            return $this->stringBuilder('build'. $method, $args[0]);
-        } else if (method_exists($this, 'do' . $method)) {
+                $args = [0 => ''];
+            }
+            return $this->stringBuilder('build' . $method, $args[0]);
+        }
+        else if (method_exists($this, 'do' . $method)) {
             if (!isset($args[0])) {
-                $args = [ 0 => ''];
-			}
+                $args = [0 => ''];
+            }
             return $this->apiCall('do' . $method, $args[0]);
-        } else {
-            return $this->error($method .' is an invalid Voice SDK Method');
+        }
+        else {
+            return $this->error($method . ' is an invalid Voice SDK Method');
         }
     }
 
@@ -40,8 +42,9 @@ class Voice extends Service
         $result = $this->$method($args);
 
         if (empty($this->xmlString)) {
-            $this->xmlString = '<?xml version="1.0" encoding="UTF-8"?><Response>'. $result;
-        } else {
+            $this->xmlString = '<?xml version="1.0" encoding="UTF-8"?><Response>' . $result;
+        }
+        else {
             $this->xmlString .= $result;
         }
 
@@ -51,7 +54,7 @@ class Voice extends Service
     private function apiCall($method, $args)
     {
         return $this->$method($args);
-    } 
+    }
 
     /**
      * Builds XML string from chained voice actions
@@ -65,11 +68,11 @@ class Voice extends Service
         }
         return $this->xmlString . '</Response>';
     }
-    
+
     protected function doCall($options)
     {
-		if (!isset($options['to']) || !isset($options['from'])) {
-			return $this->error('The parameters to and from must be defined');
+        if (!isset($options['to']) || !isset($options['from'])) {
+            return $this->error('The parameters to and from must be defined');
         }
 
         // Validate callTo
@@ -77,7 +80,7 @@ class Voice extends Service
         if ($checkCallTo === false || $checkCallTo !== 0) {
             return $this->error('callTo must be in the format \'+2XXYYYYYYYYY\'');
         }
-        
+
         // Validate callFrom
         $checkCallFrom = strpos($options['from'], '+');
         if ($checkCallFrom === false || $checkCallFrom !== 0) {
@@ -91,16 +94,16 @@ class Voice extends Service
             'from' => $options['from']
         ];
 
-		$response = $this->client->post('call', ['form_params' => $requestData ] );
+        $response = $this->client->post('call', ['form_params' => $requestData]);
 
-		return $this->success($response);
+        return $this->success($response);
     }
 
     protected function doUploadMediaFile($options)
     {
         // Check and validate phoneNumber
         if (!isset($options['phoneNumber'])) {
-            return $this->error('Phone number is required and must be in the format \'+2XXYYYYYYYYY\'');            
+            return $this->error('Phone number is required and must be in the format \'+2XXYYYYYYYYY\'');
         }
         $phoneNumber = $options['phoneNumber'];
 
@@ -134,7 +137,7 @@ class Voice extends Service
     {
         // Check and validate phoneNumber
         if (!isset($options['phoneNumber'])) {
-            return $this->error('Phone number is required and must be in the format \'+2XXYYYYYYYYY\'');            
+            return $this->error('Phone number is required and must be in the format \'+2XXYYYYYYYYY\'');
         }
         $phoneNumber = $options['phoneNumber'];
 
@@ -148,7 +151,7 @@ class Voice extends Service
             'phoneNumbers' => $phoneNumber
         ];
 
-        if(isset($options['name'])) {
+        if (isset($options['name'])) {
             $requestData['name'] = $options['name'];
         }
 
@@ -180,15 +183,18 @@ class Voice extends Service
         }
 
         if (isset($options['voice']) && isset($options['playBeep'])) {
-            $sayString = '<Say voice="' . $voice . '" playBeep="'. $playBeep .'">'. $text .'</Say>';
-        } else if (isset($options['voice'])) {
-            $sayString = '<Say voice="' . $voice . '">'. $text .'</Say>';
-        } else if (isset($options['playBeep'])) {
-            $sayString = '<Say playBeep="'. $playBeep .'">'. $text .'</Say>';
-        } else {
+            $sayString = '<Say voice="' . $voice . '" playBeep="' . $playBeep . '">' . $text . '</Say>';
+        }
+        else if (isset($options['voice'])) {
+            $sayString = '<Say voice="' . $voice . '">' . $text . '</Say>';
+        }
+        else if (isset($options['playBeep'])) {
+            $sayString = '<Say playBeep="' . $playBeep . '">' . $text . '</Say>';
+        }
+        else {
             $sayString = "<Say>$text</Say>";
         }
-        
+
         return $sayString;
     }
 
@@ -197,12 +203,13 @@ class Voice extends Service
         if (!$this->isValidURL($url))
             return $this->error('Play URL is not valid');
 
-        $playString = '<Play url="'. $url . '"/>';
+        $playString = '<Play url="' . $url . '"/>';
 
         return $playString;
     }
 
-    protected function buildGetDigits($options) {
+    protected function buildGetDigits($options)
+    {
 
         // Check for text 
         if (!isset($options['text'])) {
@@ -216,7 +223,7 @@ class Voice extends Service
         }
 
         // Get number of digits
-        if(isset($options['numDigits'])) {
+        if (isset($options['numDigits'])) {
             $numDigits = $options['numDigits'];
             if (!is_numeric($numDigits)) {
                 return $this->error('Please set a number value for the timeout');
@@ -224,7 +231,7 @@ class Voice extends Service
         }
 
         // Get timeout
-        if(isset($options['timeout'])) {
+        if (isset($options['timeout'])) {
             $timeout = $options['timeout'];
             if (!is_numeric($timeout)) {
                 return $this->error('Please set a number value for the timeout');
@@ -233,30 +240,30 @@ class Voice extends Service
 
         // Get finishOnKey
         $finishOnKey = $options['finishOnKey'];
-        
+
         // Get callbackURL
         if (isset($options['callBackUrl'])) {
             $callBackUrl = $options['callBackUrl'];
             if (!$this->isValidURL($callBackUrl)) {
                 return $this->error('Please set a valid callback URL');
             }
-        }        
-        
+        }
+
         // -- NOW TO BUILD STRING
 
         // Build opening tag
         $getDigitsString = '<GetDigits ';
         if (!empty($finishOnKey)) {
-            $getDigitsString .= ' finishOnKey="'. $finishOnKey .'"';
+            $getDigitsString .= ' finishOnKey="' . $finishOnKey . '"';
         }
         if (!empty($timeout)) {
-            $getDigitsString .= ' timeout="'. $timeout .'"';
+            $getDigitsString .= ' timeout="' . $timeout . '"';
         }
         if (!empty($numDigits)) {
-            $getDigitsString .= ' numDigits="'. $numDigits .'"';
+            $getDigitsString .= ' numDigits="' . $numDigits . '"';
         }
         if (!empty($callBackUrl)) {
-            $getDigitsString .= ' callBackUrl="'. $callBackUrl .'"';
+            $getDigitsString .= ' callBackUrl="' . $callBackUrl . '"';
         }
         $getDigitsString .= '>';
 
@@ -292,64 +299,67 @@ class Voice extends Service
             }
             $ringbackTone = $options['ringbackTone'];
         }
-        
+
         // Check if record is set
         if (!isset($options['record']) || !is_bool($options['record'])) {
             $record = false;
-        } else {
+        }
+        else {
             $record = $options['record'];
         }
         // change record to true or false string
-        $record ? $record = "true" : $record ="false";
+        $record ? $record = "true" : $record = "false";
 
         // Check if sequential
         if (!isset($options['sequential']) || !is_bool($options['sequential'])) {
             $sequential = false;
-        } else {
+        }
+        else {
             $sequential = $options['sequential'];
         }
         // change sequential to true or false string
-        $sequential ? $sequential = "true" : $sequential ="false";
+        $sequential ? $sequential = "true" : $sequential = "false";
 
         // Check if callerId is set
-        
+
         if (!isset($options['callerId']) || !($options['callerId'])) {
             $callerId = false;
-        } else {
+        }
+        else {
             $callerId = $options['callerId'];
         }
         // change callerId to number provided or false string
 
-        $callerId ? $callerId = $callerId : $callerId ="false";
+        $callerId ? $callerId = $callerId : $callerId = "false";
 
         // Check if maxDuration is set
-        if(isset($options['maxDuration'])) {
+        if (isset($options['maxDuration'])) {
             $maxDuration = $options['maxDuration'];
             if (!is_integer($maxDuration) || $maxDuration < 0) {
                 return $this->error('Max duration must be an integer value');
             }
         }
 
-        $dialString = '<Dial phoneNumbers="'. $phoneNumbers . '"';
+        $dialString = '<Dial phoneNumbers="' . $phoneNumbers . '"';
         if (!empty($record)) {
-            $dialString .= ' record="'. $record .'"';
+            $dialString .= ' record="' . $record . '"';
         }
         if (!empty($sequential)) {
-            $dialString .= ' sequential="'. $sequential .'"';
+            $dialString .= ' sequential="' . $sequential . '"';
         }
         if (!empty($callerId)) {
-            $dialString .= ' callerId="'. $callerId .'"';
+            $dialString .= ' callerId="' . $callerId . '"';
         }
         if (!empty($ringbackTone)) {
-            $dialString .= ' ringbackTone="'. $ringbackTone .'"';
+            $dialString .= ' ringbackTone="' . $ringbackTone . '"';
         }
         if (!empty($maxDuration)) {
-            $dialString .= ' maxDuration="'. $maxDuration .'"';
+            $dialString .= ' maxDuration="' . $maxDuration . '"';
         }
         $dialString .= ' />';
 
         return $dialString;
-        
+
     }
 
 
@@ -359,9 +369,9 @@ class Voice extends Service
         /** Terminal Recording **/
 
         if (empty($options)) {
-            return '<Record />';            
+            return '<Record />';
         }
-        
+
         /** Partial Recording **/
 
         // Get finishOnKey
@@ -382,24 +392,26 @@ class Voice extends Service
                 return $this->error('Please set a number value for the timeout');
             }
         }
-        
+
         // Check if trimSilence is set
         if (isset($options['trimSilence']) || !is_bool($options['trimSilence'])) {
             $trimSilence = false;
-        } else {
+        }
+        else {
             $trimSilence = $options['trimSilence'];
         }
         // change trimSilence to true or false string
-        $trimSilence ? $trimSilence = "true" : $trimSilence ="false";
-        
+        $trimSilence ? $trimSilence = "true" : $trimSilence = "false";
+
         // Check if playBeep option has been set
         if (!isset($options['playBeep']) || !is_bool($options['playBeep'])) {
             $playBeep = false;
-        } else {
+        }
+        else {
             $playBeep = $options['playBeep'];
         }
         // change playBeep to true or false string
-        $playBeep ? $playBeep = "true" : $playBeep ="false";
+        $playBeep ? $playBeep = "true" : $playBeep = "false";
 
         // Get callbackURL
         if (isset($options['callBackUrl'])) {
@@ -412,28 +424,28 @@ class Voice extends Service
         // Build opening tag
         $recordString = '<Record';
         if (!empty($finishOnKey)) {
-            $recordString .= ' finishOnKey="'. $finishOnKey .'"';
+            $recordString .= ' finishOnKey="' . $finishOnKey . '"';
         }
         if (!empty($maxLength)) {
-            $recordString .= ' maxLength="'. $maxLength .'"';
+            $recordString .= ' maxLength="' . $maxLength . '"';
         }
         if (!empty($timeout)) {
-            $recordString .= ' timeout="'. $timeout .'"';
+            $recordString .= ' timeout="' . $timeout . '"';
         }
         if (!empty($trimSilence)) {
-            $recordString .= ' trimSilence="'. $trimSilence .'"';
+            $recordString .= ' trimSilence="' . $trimSilence . '"';
         }
         if (!empty($playBeep)) {
-            $playBeep .= ' playBeep="'. $playBeep .'"';
+            $playBeep .= ' playBeep="' . $playBeep . '"';
         }
         if (!empty($callBackUrl)) {
-            $getDigitsString .= ' callBackUrl="'. $callBackUrl .'"';
+            $getDigitsString .= ' callBackUrl="' . $callBackUrl . '"';
         }
         $recordString .= ' />';
 
         return $recordString;
 
-        
+
     }
 
     protected function buildEnqueue($options)
@@ -449,17 +461,17 @@ class Voice extends Service
         // Build opening tag
         $enqueueString = '<Enqueue';
         if (!empty($holdMusic)) {
-            $enqueueString .= ' holdMusic="'. $holdMusic .'"';
+            $enqueueString .= ' holdMusic="' . $holdMusic . '"';
         }
 
         if (isset($options['name'])) {
             $name = $options['name'];
-            $enqueueString .= ' name="'. $name .'"';
+            $enqueueString .= ' name="' . $name . '"';
         }
         $enqueueString .= ' />';
-        
+
         return $enqueueString;
-        
+
     }
 
     protected function buildDequeue($options)
@@ -470,17 +482,17 @@ class Voice extends Service
         }
         $phoneNumber = $options['phoneNumber'];
 
-        
+
         // Build opening tag
-        $dequeueString = '<Dequeue phoneNumber="'. $phoneNumber . '"';
+        $dequeueString = '<Dequeue phoneNumber="' . $phoneNumber . '"';
         if (isset($options['name'])) {
             $name = $options['name'];
-            $dequeueString .= ' name="'. $name .'"';
+            $dequeueString .= ' name="' . $name . '"';
         }
         $dequeueString .= ' />';
-        
+
         return $dequeueString;
-        
+
     }
 
     protected function buildConference()
@@ -490,7 +502,7 @@ class Voice extends Service
 
     protected function buildRedirect($url)
     {
-        return '<Redirect>'. $url.'</Redirect>';
+        return '<Redirect>' . $url . '</Redirect>';
     }
 
     protected function buildReject($url)
@@ -499,7 +511,7 @@ class Voice extends Service
     }
 
     private function isValidURL($url)
-    {   
+    {
         // If no url passed then it can't be valid
         if (empty($url)) {
             return false;

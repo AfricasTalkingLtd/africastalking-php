@@ -6,7 +6,7 @@ class SMS extends Service
 	protected $content;
 
 	public function __construct(ATClient $atClient, Content $content)
-	{   
+	{
 		$baseClient = $atClient->base();
 		parent::__construct($baseClient, $atClient->username, $atClient->apiKey);
 		$this->content = $content;
@@ -23,9 +23,9 @@ class SMS extends Service
 		}
 
 		$data = [
-			'username' 	=> $this->username,
-			'to' 		=> implode(",", $options['to']),
-			'message' 	=> $options['message']
+			'username' => $this->username,
+			'to' => implode(",", $options['to']),
+			'message' => $options['message']
 		];
 
 		if (array_key_exists('enqueue', $options) && $options['enqueue']) {
@@ -36,7 +36,7 @@ class SMS extends Service
 			$data['from'] = $options['from'];
 		}
 
-		$response = $this->client->post('messaging', ['form_params' => $data ]);
+		$response = $this->client->post('messaging', ['form_params' => $data]);
 
 		return $this->success($response);
 	}
@@ -49,14 +49,14 @@ class SMS extends Service
 
 		if (!is_numeric($options['lastReceivedId'])) {
 			return $this->error('lastReceivedId must be an integer');
-		}	
+		}
 
 		$data = [
-			'username' 			=> $this->username,
-			'lastReceivedId' 	=> $options['lastReceivedId']
+			'username' => $this->username,
+			'lastReceivedId' => $options['lastReceivedId']
 		];
 
-		$response = $this->client->get('messaging', ['query' => $data ] );
+		$response = $this->client->get('messaging', ['query' => $data]);
 
 		return $this->success($response);
 	}
@@ -66,12 +66,12 @@ class SMS extends Service
 		return $this->content->send($options);
 	}
 
-	public function createSubscription ($options)
+	public function createSubscription($options)
 	{
 		return $this->content->createSubscription($options);
 	}
 
-	public function deleteSubscription ($options)
+	public function deleteSubscription($options)
 	{
 		return $this->content->deleteSubscription($options);
 	}
