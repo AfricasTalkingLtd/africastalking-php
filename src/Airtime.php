@@ -3,7 +3,13 @@
 namespace AfricasTalking\SDK;
 
 class Airtime extends Service
-{
+{   
+	public function __construct(ATClient $atClient)
+	{   
+		$baseClient = $atClient->base();
+		parent::__construct($baseClient, $atClient->username, $atClient->apiKey);
+	}
+	
 	public function send($parameters, $options = [])
 	{		
 		if(empty($parameters['recipients'])) {

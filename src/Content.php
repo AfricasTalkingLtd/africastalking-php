@@ -3,7 +3,13 @@
 namespace AfricasTalking\SDK;
 
 class Content extends Service
-{
+{   
+	public function __construct(ATClient $atClient)
+	{   
+		$contentClient = $atClient->content();
+		parent::__construct($contentClient, $atClient->username, $atClient->apiKey);
+	}
+	
     public function send ($options)
 	{
 		if (empty($options['to']) || empty($options['message'])) {

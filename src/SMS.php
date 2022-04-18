@@ -5,9 +5,10 @@ class SMS extends Service
 {
 	protected $content;
 
-	public function __construct($client, $username, $apiKey, $content)
-	{
-		parent::__construct($client, $username, $apiKey);
+	public function __construct(ATClient $atClient, Content $content)
+	{   
+		$baseClient = $atClient->base();
+		parent::__construct($baseClient, $atClient->username, $atClient->apiKey);
 		$this->content = $content;
 	}
 

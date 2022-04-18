@@ -3,7 +3,12 @@ namespace AfricasTalking\SDK;
 
 class Payments extends Service
 {
-
+    public function __construct(ATClient $atClient)
+    {
+        $paymentsClient = $atClient->payments();
+        parent::__construct($paymentsClient, $atClient->username, $atClient->apiKey);
+    }
+    
     const REASON = [
         'SALARY' => 'SalaryPayment',
         'SALARY_WITH_CHARGE' => 'SalaryPaymentWithWithdrawalChargePaid',

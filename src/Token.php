@@ -3,7 +3,13 @@
 namespace AfricasTalking\SDK;
 
 class Token extends Service
-{
+{   
+    public function __construct(ATClient $atClient)
+    {
+        $tokenClient = $atClient->token();
+        parent::__construct($tokenClient, $atClient->username, $atClient->apiKey);
+    }
+    
     public function generateAuthToken()
     {
         $requestData = json_encode(['username' => $this->username]);

@@ -3,7 +3,13 @@
 namespace AfricasTalking\SDK;
 
 class Voice extends Service
-{
+{   
+    public function __construct(ATClient $atClient)
+	{   
+		$voiceClient = $atClient->voice();
+		parent::__construct($voiceClient, $atClient->username, $atClient->apiKey);
+	}
+    
     private $xmlString;
 
     public function __call($method, $args)
