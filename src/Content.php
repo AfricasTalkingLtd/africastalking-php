@@ -25,10 +25,7 @@ class Content extends Service
 		}
 
         if (empty($options['from'])) {
-            return [
-                'status' => 'error', 
-                'data' => 'from is required for premium SMS'
-            ];
+	    return $this->error('from is required for premium SMS');
         } else {
             $data['from'] = $options['from'];
         }
