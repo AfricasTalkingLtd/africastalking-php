@@ -9,12 +9,6 @@ class ATClient extends HttpClient
     public $username;
     public $apiKey;
 
-    protected $client;
-    protected $contentClient;
-    protected $voiceClient;
-    protected $paymentClient;
-    protected $tokenClient;
-
     public $baseUrl;
     protected $contentUrl;
     protected $voiceUrl;
