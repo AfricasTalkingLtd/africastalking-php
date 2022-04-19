@@ -12,7 +12,8 @@ class ATClient extends HttpClient
     public $baseUrl;
     protected $contentUrl;
     protected $voiceUrl;
-    protected $paymentUrl;
+    protected $paymentsUrl;
+    protected $checkoutTokenUrl;
 
     public function __construct($baseDomain, $username, $apiKey)
     {
