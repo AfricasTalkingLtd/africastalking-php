@@ -20,7 +20,8 @@ class AfricasTalking
 	public $baseUrl;
 	protected $contentUrl;
 	protected $voiceUrl;
-	protected $paymentUrl;
+	protected $paymentsUrl;
+	protected $checkoutTokenUrl;
 
 	public function __construct($username, $apiKey)
 	{
