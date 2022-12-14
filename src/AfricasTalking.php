@@ -14,13 +14,13 @@ class AfricasTalking
 	protected $client;
 	protected $contentClient;
 	protected $voiceClient;
-	protected $paymentClient;
+	protected $paymentsClient;
 	protected $tokenClient;
 
 	public $baseUrl;
 	protected $contentUrl;
 	protected $voiceUrl;
-	protected $paymentUrl;
+	protected $paymentsUrl;
 
 	public function __construct($username, $apiKey)
 	{
