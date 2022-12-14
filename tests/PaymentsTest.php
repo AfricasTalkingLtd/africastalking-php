@@ -5,6 +5,7 @@ use AfricasTalking\SDK\AfricasTalking;
 use AfricasTalking\SDK\Payments;
 use GuzzleHttp\Exception\GuzzleException;
 
+#[\AllowDynamicProperties]
 class PaymentsTest extends \PHPUnit\Framework\TestCase
 {
 	public function setUp(): void
