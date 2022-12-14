@@ -4,7 +4,6 @@ namespace AfricasTalking\SDK\Tests;
 use AfricasTalking\SDK\AfricasTalking;
 use GuzzleHttp\Exception\GuzzleException;
 
-#[\AllowDynamicProperties]
 class TokenTest extends \PHPUnit\Framework\TestCase
 {
 	public function setUp(): void
@@ -24,7 +23,6 @@ class TokenTest extends \PHPUnit\Framework\TestCase
             ]);
 
 			$this->assertEquals('Success', $response['data']->description);
-			$this->assertEquals('Waiting for user input',$response['data']->description);
     }
 
     public function testGenerateAuthToken()
