@@ -1,11 +1,9 @@
 <?php
 
-//require_once 'vendor/autoload.php';
-//
-//use Dotenv\Dotenv;
-//
-//$dotenv = Dotenv::createImmutable(__DIR__);
-//$dotenv->safeLoad();
+$contents = file_get_contents('./tests/Fixtures.php');
 
-var_dump($_SERVER['AFRICASTALKING_USERNAME']);
-var_dump($_SERVER['AFRICASTALKING_API_KEY']);
+var_dump($contents);
+//var_dump($_SERVER['AFRICASTALKING_USERNAME']);
+//var_dump($_SERVER['AFRICASTALKING_API_KEY']);
+
+file_put_contents('./tests/Fixtures.php', $contents);
