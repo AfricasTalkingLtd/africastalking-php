@@ -5,6 +5,15 @@ on:
     branches: [master,workflow]
   pull_request:
 
+env:
+  AFRICASTALKING_USERNAME: ${{ secrets.AFRICASTALKING_USERNAME }}
+  AFRICASTALKING_API_KEY: ${{ secrets.AFRICASTALKING_API_KEY }}
+#  AFRICASTALKING_ALPHANUMERIC: ${{ secrets.AFRICASTALKING_ALPHANUMERIC }}
+#  AFRICASTALKING_BACKUP_SENDERID: ${{ secrets.AFRICASTALKING_BACKUP_SENDERID }}
+#  AFRICASTALKING_PAYMENT_PRODUCT: ${{ secrets.AFRICASTALKING_PAYMENT_PRODUCT }}
+#  AFRICASTALKING_PREMIUM_SHORTCODE: ${{ secrets.AFRICASTALKING_PREMIUM_SHORTCODE }}
+#  AFRICASTALKING_VOICE_PHONE_NUMBER: ${{ secrets.AFRICASTALKING_VOICE_PHONE_NUMBER }}
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -38,7 +47,10 @@ jobs:
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Create test Fixture.php
-        run: echo "${{ secrets.TEST_FIXTURE_PHP_CLASS }}">tests/Fixtures.php
+        run: cp tests/Fixtures.php.tpl cp tests/Fixtures.php
+
+      - name: Run Test
+        run: php test.php
 
       - name: Execute tests
         run: ./vendor/bin/phpunit
