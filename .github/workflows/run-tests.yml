@@ -45,7 +45,6 @@ jobs:
       - name: Install dependencies
         run: |
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
-          composer require --dev --with-all-dependencies vlucas/phpdotenv
 
       - name: Run the switcheroo
         run: php test.php

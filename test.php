@@ -7,5 +7,5 @@
 //$dotenv = Dotenv::createImmutable(__DIR__);
 //$dotenv->safeLoad();
 
-var_dump($_ENV);
-var_dump($_SERVER);
+var_dump($_SERVER['AFRICASTALKING_USERNAME']);
+var_dump($_SERVER['AFRICASTALKING_API_KEY']);
