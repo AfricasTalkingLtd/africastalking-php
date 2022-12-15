@@ -1,6 +1,6 @@
 <?php
 
-$contents = file_get_contents('./tests/Fixtures.php');
+$contents = file_get_contents('./tests/Fixtures.php.tpl');
 
 $username = $_SERVER['AFRICASTALKING_USERNAME'] ?? '';
 $api = $_SERVER['AFRICASTALKING_API_KEY'] ?? '';
