@@ -47,7 +47,7 @@ jobs:
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Create test Fixture.php
-        run: cp tests/Fixtures.php.tpl cp tests/Fixtures.php
+        run: cp tests/Fixtures.php.tpl tests/Fixtures.php
 
       - name: Run Test
         run: php test.php
