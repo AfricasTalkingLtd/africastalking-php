@@ -41,9 +41,6 @@ jobs:
 
       - name: Create test Fixture.php
         run: cp tests/Fixtures.php.tpl tests/Fixtures.php
-        env:
-          AFRICASTALKING_USERNAME: ${{ secrets.AFRICASTALKING_USERNAME }}
-          AFRICASTALKING_API_KEY: ${{ secrets.AFRICASTALKING_API_KEY }}
 
       - name: Install dependencies
         run: |
@@ -52,6 +49,9 @@ jobs:
 
       - name: Run the switcheroo
         run: php test.php
+        env:
+          AFRICASTALKING_USERNAME: ${{ secrets.AFRICASTALKING_USERNAME }}
+          AFRICASTALKING_API_KEY: ${{ secrets.AFRICASTALKING_API_KEY }}
 
       - name: Execute tests
         run: ./vendor/bin/phpunit
