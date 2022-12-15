@@ -45,6 +45,7 @@ jobs:
       - name: Install dependencies
         run: |
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+          composer require --dev vlucas/phpdotenv
 
       - name: Create test Fixture.php
         run: cp tests/Fixtures.php.tpl tests/Fixtures.php
