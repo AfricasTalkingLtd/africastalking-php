@@ -76,7 +76,6 @@ Instantiating the class will give you an object with available methods
 
     - **$options:** optional associative array with the following keys:
         - `idempotencyKey`: Key to use when making idempotent requests
-        - `maxNumRetry`: Number of times a request will be retried
 
 ### SMS
 
