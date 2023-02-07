@@ -41,6 +41,10 @@ class Airtime extends Service
 			'recipients' 	=> json_encode($parameters['recipients'])
 		];
 
+        if (isset($options['maxNumRetry']) && is_numeric($options['maxNumRetry']) && $options['maxNumRetry'] > 0) {
+            $data['maxNumRetry'] = $options['maxNumRetry'];
+        }
+
         $requestOptions = [
             'form_params' => $data,
         ];
