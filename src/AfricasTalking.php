@@ -19,7 +19,8 @@ class AfricasTalking
 	public $baseUrl;
 	protected $contentUrl;
 	protected $voiceUrl;
-	protected $paymentUrl;
+	protected $paymentsUrl; 
+	protected $checkoutTokenUrl;
 
 	public function __construct($username, $apiKey)
 	{
@@ -32,52 +33,16 @@ class AfricasTalking
 		$this->contentUrl = "https://content." . $this->base_domain() . "/version1/";
 		$this->checkoutTokenUrl = "https://api." . $this->base_domain() . "/";
 
-		$this->client = new Client([
-			'base_uri' => $this->baseUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/x-www-form-urlencoded',
-				'Accept' => 'application/json'
-			]
-		]);
+		$this->client = new Client($this->client_request($this->baseUrl));
 
-		$this->contentClient = new Client([
-			'base_uri' => $this->contentUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/x-www-form-urlencoded',
-				'Accept' => 'application/json'
-			]
-		]);
+		$this->contentClient = new Client($this->client_request($this->contentUrl));
 
-		$this->voiceClient = new Client([
-			'base_uri' => $this->voiceUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/x-www-form-urlencoded',
-				'Accept' => 'application/json'
-			]
-		]);
+		$this->voiceClient = new Client($this->client_request($this->voiceUrl));
 
-		$this->paymentsClient = new Client([
-			'base_uri' => $this->paymentsUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/json',
-				'Accept' => 'application/json'
-			]
-		]);
+		$this->paymentsClient = new Client($this->client_request($this->paymentsUrl));
 
-		$this->tokenClient = new Client([
-			'base_uri' => $this->checkoutTokenUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/json',
-				'Accept' => 'application/json'
-			]
-		]);
+		$this->tokenClient = new Client($this->client_request($this->checkoutTokenUrl));
 	}
-
 
 	public function base_domain(){
 		define(BASE_DOMAIN, "africastalking.com");
@@ -90,6 +55,17 @@ class AfricasTalking
 		}
 
 		return $this->baseDomain;
+	}
+
+	public function client_request($url) {
+		return [
+			'base_uri' => $url,
+			'headers' => [
+				'apikey' => $this->apiKey,
+				'Content-Type' => 'application/json',
+				'Accept' => 'application/json'
+			]
+		];
 	}
 
 	public function sms()
