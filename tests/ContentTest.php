@@ -32,14 +32,10 @@ class ContentTest extends \PHPUnit\Framework\TestCase
 
     public function testCreateSubscription()
 	{
-        $checkoutTokenResponse = $this->tokenClient->createCheckoutToken([
-            'phoneNumber' => Fixtures::$phoneNumber
-        ]);
 		$response = $this->client->createSubscription([
 			'phoneNumber' 	=> Fixtures::$phoneNumber,
 			'shortCode'		=> Fixtures::$shortCode,
 			'keyword'		=> Fixtures::$keyword,
-            'checkoutToken' => $checkoutTokenResponse['data']->token
 		]);
 
         $this->assertArrayHasKey('status',$response);
