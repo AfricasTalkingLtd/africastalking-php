@@ -23,14 +23,14 @@ class AfricasTalking
 
 	public function __construct($username, $apiKey)
 	{
+		$this->username = $username;
+		$this->apiKey = $apiKey;
+
 		$this->baseUrl = "https://api." . $this->base_domain() . "/version1/";
 		$this->voiceUrl = "https://voice." . $this->base_domain(). "/";
 		$this->paymentsUrl = "https://payments." . $this->base_domain() . "/";
-		$this->contentUrl = ($username === "sandbox") ? ($this->baseUrl) : ("https://content." . $this->base_domain() . "/version1/");
+		$this->contentUrl = "https://content." . $this->base_domain() . "/version1/";
 		$this->checkoutTokenUrl = "https://api." . $this->base_domain() . "/";
-
-		$this->username = $username;
-		$this->apiKey = $apiKey;
 
 		$this->client = new Client([
 			'base_uri' => $this->baseUrl,
