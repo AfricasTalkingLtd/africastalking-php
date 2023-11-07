@@ -39,8 +39,8 @@ class AfricasTalkingTest extends \PHPUnit\Framework\TestCase
 		$this->assertInstanceOf(\AfricasTalking\SDK\Application::class, $this->client->application());
 	}
 	
-	public function testPaymentsClass()
+	public function testMobileDataClass()
 	{
-		$this->assertInstanceOf(\AfricasTalking\SDK\Payments::class, $this->client->payments());
+		$this->assertInstanceOf(\AfricasTalking\SDK\MobileData::class, $this->client->mobileData());
 	}
 }

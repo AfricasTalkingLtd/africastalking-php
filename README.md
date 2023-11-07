@@ -6,7 +6,7 @@
 
 ## Documentation
 
-Take a look at the [API docs here](http://docs.africastalking.com).
+Take a look at the [API docs here](https://developers.africastalking.com).
 
 ## Install
 
@@ -56,7 +56,7 @@ Instantiating the class will give you an object with available methods
   - [SMS Service](#sms): `$sms = $AT->sms()`
   - [Content Service](#content): `$content = $AT->content()`
   - [Airtime Service](#airtime): `$airtime = $AT->airtime()`
-  - [Payments Service](#payments): `$payments = $AT->payments()`
+  - [Mobile Data Service](#mobiledata): `$mobileData = $AT->mobileData()`
   - [Voice Service](#voice): `$voice = $AT->voice()`
   - [Token Service](#token): `$token = $AT->token()`
   - [Application Service](#application): `$application = $AT->application()`
@@ -125,53 +125,9 @@ Instantiating the class will give you an object with available methods
   - `keyword`: Premium keyword under the above short code and is also mapped to your account. `REQUIRED`
   - `phoneNumber`: PhoneNumber to be subscribed `REQUIRED`
 
-### Payments
+### Mobile Data
 
-- `mobileCheckout($parameters, $options)`: Charge a customers mobile money account
-
-  - **$parameters:** associative array with the following keys:
-
-    - `productName`: Payment product on Africa's Talking. `REQUIRED`
-    - `providerChannel`: Provider channel to consider when charging.
-    - `phoneNumber`: Customer phone number (in international format). `REQUIRED`
-    - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
-    - `amount`: Amount to charge. `REQUIRED`
-    - `metadata`: Additional data to associate with the transaction. `REQUIRED`
-  - **$options:** optional associative array with the following keys:
-
-    - `idempotencyKey`: Key to use when making idempotent requests
-- `mobileB2C($parameters, $options)`: Send mobile money to customers
-
-  - **$parameters:** associative array with the following keys:
-
-    - `productName`: Payment product on Africa's Talking. `REQUIRED`
-    - `recipients`: A list of **up to 10** recipients. Each recipient has:
-
-      - `phoneNumber`: Customer phone number (in international format). `REQUIRED`
-      - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
-      - `amount`: Amount to pay. `REQUIRED`
-      - `reason`: The purpose of the payment. See `payments::REASON*` for supported reasons. `REQUIRED`
-      - `metadata`: Additional data to associate with the tranasction. `REQUIRED`
-  - **$options:** optional associative array with the following keys:
-
-    - `idempotencyKey`: Key to use when making idempotent requests
-- `mobileB2B($parameters, $options)`: Send mobile money to businesses e.g banks
-
-  - **$parameters:** associative array with the following keys:
-
-    - `productName`: Payment product on Africa's Talking. `REQUIRED`
-    - `provider`: Payment provider that is facilitating this transaction. See `payments::PROVIDER*` for supported providers. `REQUIRED`
-    - `transferType`: Describes the type of payment being made. See `payments::TRANSFER_TYPE*` for supported transfer types. `REQUIRED`
-    - `destinationChannel`: Name or number of the channel that will receive payment by the provider. `REQUIRED`
-    - `destinationAccount`: Name used by the business to receive money on the provided destinationChannel. `REQUIRED`
-    - `currencyCode`: 3-digit ISO format currency code (e.g `KES`, `USD`, `UGX` etc). `REQUIRED`
-    - `amount`: Amount to pay. `REQUIRED`
-    - `requester`: PhoneNumber through which KPLC will send tokens when using B2B to buy electricity tokens.
-    - `metadata`: Additional data to associate with the transaction. `REQUIRED`
-  - **$options:** optional associative array with the following keys:
-
-    - `idempotencyKey`: Key to use when making idempotent requests
-- `mobileData($parameters, $options)`: Send mobile data to customers
+- `send($parameters, $options)`: Send mobile data to customers
 
   - **$parameters:** associative array with the following keys:
 
@@ -183,115 +139,17 @@ Instantiating the class will give you an object with available methods
       - `unit`: Mobile data unit. Can either be `MB` or `GB`. `REQUIRED`
       - `validity`: How long the mobile data is valid for. Must be one of `Day`, `Week` and `Month`. `REQUIRED`
       - `metadata`: Additional data to associate with the tranasction. `REQUIRED`
+
+    - `isPromoBundle`: This is an optional field that can be either `true` or `false`.
+    
   - **$options:** optional associative array with the following keys:
 
     - `idempotencyKey`: Key to use when making idempotent requests
-- `bankCheckoutCharge($parameters, $options)`: Charge a customers bank account
-
-  - **$parameters:** associative array with the following keys:
-
-    - `productName`: Payment product on Africa's Talking. `REQUIRED`
-    - `bankAccount`: Bank account to be charged:
-
-      - `accountName`: Name of the bank account. `REQUIRED`
-      - `accountNumber`: Account number. `REQUIRED`
-      - `bankCode`: A [6-Digit Integer Code](http://docs.africastalking.com/bank/checkout#bankCodes) for the bank that we allocate. See `payments::BANK*` for supported banks. `REQUIRED`
-      - `dateOfBirth`: Date of birth of the account owner (in the format `YYYY-MM-DD`). Required for Zenith Bank Nigeria.
-    - `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported at present). `REQUIRED`
-    - `amount`: Amount to charge. `REQUIRED`
-    - `narration`: A short description of the transaction. `REQUIRED`
-    - `metadata`: Additional data to associate with the transaction. `REQUIRED`
-  - **$options:** optional associative array with the following keys:
-
-    - `idempotencyKey`: Key to use when making idempotent requests
-- `bankCheckoutValidate($parameters)`: Validate a bank checkout charge
-
-  - `transactionId`: Transaction id returned from a bank charge request. `REQUIRED`
-  - `otp`: One Time Password provided by the customer you're charging. `REQUIRED`
-- `bankTransfer($parameters, $options)`: Send money to a bank account
-
-  - **$parameters:** associative array with the following keys:
-
-    - `productName`: Payment product on Africa's Talking. `REQUIRED`
-    - `recipients`: A list of recipients. Each recipient has:
-
-      - `bankAccount`: Bank account to receive money:
-
-        - `accountName`: Name of the bank account. `REQUIRED`
-        - `accountNumber`: Account number. `REQUIRED`
-        - `bankCode`: A [6-Digit Integer Code](http://docs.africastalking.com/bank/checkout#bankCodes) for the bank that we allocate. See `payments::BANK*` for supported banks. `REQUIRED`
-        - `dateOfBirth`: Date of birth of the account owner (in the format `YYYY-MM-DD`). Required for Zenith Bank Nigeria.
-      - `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported at present). `REQUIRED`
-      - `amount`: Amount to pay. `REQUIRED`
-      - `narration`: A short description of the transaction. `REQUIRED`
-      - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
-  - **$options:** optional associative array with the following keys:
-
-    - `idempotencyKey`: Key to use when making idempotent requests
-- `cardCheckoutCharge($parameters, $options)`: Charge a customers payment card
-
-  - **$parameters:** associative array with the following keys:
-
-    - `productName`: Payment product on Africa's Talking. `REQUIRED`
-    - `paymentCard`: Payment card to be charged:
-
-      - `number`: Payment card number. `REQUIRED`
-      - `cvvNumber`: 3 or 4 digit card verification Value. `REQUIRED`
-      - `expiryMonth`: Expiration month on the card (e.g `8`). `REQUIRED`
-      - `authToken`: Payment card's ATM PIN. `REQUIRED`
-      - `countryCode`: 2-Digit countryCode where the card was issued (only `NG` is supported at present). `REQUIRED`
-    - `checkoutToken`: A token that has been generated by our APIs as as result of charging a customers payment card in a previous transaction. When using a `checkoutToken`, the `paymentCard` data should NOT be populated.
-    - `currencyCode`: 3-digit ISO format currency code (only `NGN` is supported at present). `REQUIRED`
-    - `amount`: Amount to charge. `REQUIRED`
-    - `narration`: A short description of the transaction. `REQUIRED`
-    - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
-  - **$options:** optional associative array with the following keys:
-
-    - `idempotencyKey`: Key to use when making idempotent requests
-- `cardCheckoutValidate($parameters)`: Validate a card checkout charge
-
-  - `transactionId`: Transaction id returned from a card charge request. `REQUIRED`
-  - `otp`: One Time Password provided by the customer you're charging. `REQUIRED`
-- `walletTransfer($parameters)`: Move money from one payment product to another
-
-  - `productName`: Payment product on Africa's Talking. `REQUIRED`
-  - `targetProductCode`: Unique code ode of payment product receiving funds on Africa's Talking. `REQUIRED`
-  - `currencyCode`: 3-digit ISO format currency code. `REQUIRED`
-  - `amount`: Amount to transfer. `REQUIRED`
-  - `metadata`: Additional data to associate with the transation. `REQUIRED`
-- `topupStash($parameters)`: Move money from a payment product to an applications stash
-
-  - `productName`: Payment product on Africa's Talking. `REQUIRED`
-  - `currencyCode`: 3-digit ISO format currency code. `REQUIRED`
-  - `amount`: Amount to transfer. `REQUIRED`
-  - `metadata`: Additonal data to associate with the transaction. `REQUIRED`
-- `fetchProductTransactions($parameters)`: Fetch payment product transactions
-
-  - `productName`: Payment product on Africa's Talking. `REQUIRED`
-  - `filters`: Filters to use when fetching transactions:
-
-    - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
-    - `count`: Number of results to fetch. `REQUIRED`
-    - `startDate`: Start Date to consider when fetching.
-    - `endDate`: End Date to consider when fetching.
-    - `category`: Category to consider when fetching.
-    - `provider`: Provider to consider when fetching.
-    - `status`: Status to consider when fetching.
-    - `source`: Source to consider when fetching.
-    - `destination`: Destination to consider when fetching.
-    - `providerChannel`: Provider channel to consider when fetching.
-- `fetchWalletTransactions($parameters)`: Fetch payment wallet transactions
-
-  - `filters`: Filters to use when fetching transactions:
-
-    - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
-    - `count`: Number of results to fetch. `REQUIRED`
-    - `startDate`: Start Date to consider when fetching.
-    - `endDate`: End Date to consider when fetching.
-    - `categories`: Comma delimited list of categories to consider when fetching.
+  
 - `findTransaction($parameters)`: Find a particular transaction
 
   - `transactionId`: ID of trancation to find. `REQUIRED`
+
 - `fetchWalletBalance()`: Fetch your payment wallet balance
 
 ### Voice
@@ -380,7 +238,7 @@ To run available tests, from the root of the project run:
 cp tests/Fixtures.php.tpl tests/Fixtures.php
 
 # Run tests
-phpunit
+phpunit --testdox
 ```
 
 ## Issues

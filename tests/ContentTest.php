@@ -27,7 +27,7 @@ class ContentTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing Premium...'
 		]);
 
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+		$this->assertObjectHasProperty('SMSMessageData', $response['data']);
     }
 
     public function testCreateSubscription()
@@ -61,6 +61,6 @@ class ContentTest extends \PHPUnit\Framework\TestCase
 			'keyword'		=> Fixtures::$keyword
         ]);
 
-		$this->assertObjectHasAttribute('responses', $response['data']);
+		$this->assertObjectHasProperty('responses', $response['data']);
 	} 
 }

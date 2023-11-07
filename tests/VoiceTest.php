@@ -22,7 +22,7 @@ class VoiceTest extends \PHPUnit\Framework\TestCase
 			'from' => Fixtures::$voicePhoneNumber,
 			'to' => Fixtures::$voicePhoneNumber2
 		]);
-		$this->assertObjectHasAttribute('entries', $response['data']);
+		$this->assertObjectHasProperty('entries', $response['data']);
         
     }
 
