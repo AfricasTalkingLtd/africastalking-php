@@ -63,10 +63,6 @@ class MobileData extends Service
             'recipients' => $recipients,
         ];
 
-        if (isset($parameters['isPromoBundles'])) {
-            $requestData['isPromoBundle'] = $parameters['isPromoBundles'];
-        }
-
         $requestOptions = [
             'json' => $requestData,
         ];

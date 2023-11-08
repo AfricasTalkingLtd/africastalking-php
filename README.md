@@ -139,8 +139,6 @@ Instantiating the class will give you an object with available methods
       - `unit`: Mobile data unit. Can either be `MB` or `GB`. `REQUIRED`
       - `validity`: How long the mobile data is valid for. Must be one of `Day`, `Week` and `Month`. `REQUIRED`
       - `metadata`: Additional data to associate with the tranasction. `REQUIRED`
-
-    - `isPromoBundle`: This is an optional field that can be either `true` or `false`.
     
   - **$options:** optional associative array with the following keys:
 
