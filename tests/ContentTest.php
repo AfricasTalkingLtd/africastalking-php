@@ -28,19 +28,15 @@ class ContentTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing Premium...'
 		]);
 
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+		$this->assertObjectHasProperty('SMSMessageData', $response['data']);
     }
 
     public function testCreateSubscription()
 	{
-        $checkoutTokenResponse = $this->tokenClient->createCheckoutToken([
-            'phoneNumber' => Fixtures::$phoneNumber
-        ]);
 		$response = $this->client->createSubscription([
 			'phoneNumber' 	=> Fixtures::$phoneNumber,
 			'shortCode'		=> Fixtures::$shortCode,
 			'keyword'		=> Fixtures::$keyword,
-            'checkoutToken' => $checkoutTokenResponse['data']->token
 		]);
 
         $this->assertArrayHasKey('status',$response);
@@ -66,6 +62,6 @@ class ContentTest extends \PHPUnit\Framework\TestCase
 			'keyword'		=> Fixtures::$keyword
         ]);
 
-		$this->assertObjectHasAttribute('responses', $response['data']);
+		$this->assertObjectHasProperty('responses', $response['data']);
 	} 
 }

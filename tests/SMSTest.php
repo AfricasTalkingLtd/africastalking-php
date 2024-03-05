@@ -45,7 +45,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing SMS...'
 		]);
 
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+		$this->assertObjectHasProperty('SMSMessageData', $response['data']);
 	}
 
 	public function testMultipleSMSSending()
@@ -55,7 +55,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing multiple sending...'
 		]);
 
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+		$this->assertObjectHasProperty('SMSMessageData', $response['data']);
 	}
 
 	public function testSMSSendingWithShortcode()
@@ -66,7 +66,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'from'		=> Fixtures::$shortCode
 		]);
 
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+		$this->assertObjectHasProperty('SMSMessageData', $response['data']);
 	}
 
 	public function testSMSSendingWithAlphanumeric()
@@ -77,7 +77,7 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'from'		=> Fixtures::$alphanumeric
 		]);
 
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+		$this->assertObjectHasProperty('SMSMessageData', $response['data']);
 	}
 
 	public function testPremiumSMSSending()
@@ -90,26 +90,22 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'message' 	=> 'Testing Premium...'
 		]);
 
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+		$this->assertObjectHasProperty('SMSMessageData', $response['data']);
 	}
 
 	public function testFetchMessages()
 	{
 		$response = $this->client->fetchMessages(['lastReceivedId' => '8796']);
 
-		$this->assertObjectHasAttribute('SMSMessageData', $response['data']);
+		$this->assertObjectHasProperty('SMSMessageData', $response['data']);
 	}
 
 	public function testCreateSubscription()
 	{
-        $checkoutTokenResponse = $this->tokenClient->createCheckoutToken([
-            'phoneNumber' => Fixtures::$phoneNumber
-        ]);
 		$response = $this->client->createSubscription([
 			'phoneNumber' 	=> Fixtures::$phoneNumber,
 			'shortCode'		=> Fixtures::$shortCode,
 			'keyword'		=> Fixtures::$keyword,
-            'checkoutToken' => $checkoutTokenResponse['data']->token
 		]);
 
         $this->assertArrayHasKey('status',$response);
@@ -137,6 +133,6 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 			'keyword'		=> Fixtures::$keyword
 		]);
 
-		$this->assertObjectHasAttribute('responses', $response['data']);
+		$this->assertObjectHasProperty('responses', $response['data']);
 	}
 }

@@ -17,15 +17,6 @@ class TokenTest extends \PHPUnit\Framework\TestCase
 			$this->client 	= $at->token();		
     }
 
-    public function testCreateCheckoutToken()
-    {
-			$response = $this->client->createCheckoutToken([
-                'phoneNumber' => Fixtures::$phoneNumber
-            ]);
-
-			$this->assertEquals('Success', $response['data']->description);
-    }
-
     public function testGenerateAuthToken()
     {
 			$response = $this->client->generateAuthToken();

@@ -14,16 +14,16 @@ class AfricasTalking
 	protected $client;
 	protected $contentClient;
 	protected $voiceClient;
-	protected $paymentsClient;
 	protected $tokenClient;
+	protected $mobileDataClient;
 
 	protected $baseDomain;
 
 	public $baseUrl;
-	protected $contentUrl;
 	protected $voiceUrl;
-	protected $paymentsUrl;
-	protected $checkoutTokenUrl;
+    protected $checkoutTokenUrl;
+	protected $contentUrl;
+	protected $mobileDataUrl;
 
 	public function __construct($username, $apiKey)
 	{
@@ -35,7 +35,7 @@ class AfricasTalking
 
 		$this->baseUrl = "https://api." . $this->baseDomain . "/version1/";
 		$this->voiceUrl = "https://voice." . $this->baseDomain . "/";
-		$this->paymentsUrl = "https://payments." . $this->baseDomain . "/";
+		$this->mobileDataUrl = "https://bundles." . $this->baseDomain . "/";
 		$this->contentUrl = ($username === "sandbox") ? ($this->baseUrl) : ("https://content." . $this->baseDomain . "/version1/");
 		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . "/";
 
@@ -73,8 +73,8 @@ class AfricasTalking
 			]
 		]);
 
-		$this->paymentsClient = new Client([
-			'base_uri' => $this->paymentsUrl,
+		$this->mobileDataClient = new Client([
+			'base_uri' => $this->mobileDataUrl,
 			'headers' => [
 				'apikey' => $this->apiKey,
 				'Content-Type' => 'application/json',
@@ -123,10 +123,10 @@ class AfricasTalking
 		return $application;
 	}
 
-	public function payments()
+	public function mobileData()
 	{
-		$payments = new Payments($this->paymentsClient, $this->username, $this->apiKey);		
-		return $payments;
+		$mobileData = new MobileData($this->mobileDataClient, $this->username, $this->apiKey);		
+		return $mobileData;
 	}
 
 	public function token()

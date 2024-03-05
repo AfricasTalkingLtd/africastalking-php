@@ -42,41 +42,6 @@ $router->map( 'POST', '/airtime/[*:phone]', function ($phone) {
     echo json_encode($response);
 });
 
-$router->map( 'POST', '/mobile/checkout/[*:phone]', function ($phone) {
-    global $AT;
-    $payments = $AT->payments();
-    $response = $payments->mobileCheckout(array(
-        "productName" => "TestProduct",
-        "phoneNumber" => $phone,
-        "currencyCode" => explode(" ", $_GET["amount"])[0],
-        "amount" => explode(" ", $_GET["amount"])[1]
-    ));
-    header("Content-Type: application/json; charset=UTF-8");
-    echo json_encode($response);
-});
-
-$router->map( 'POST', '/mobile/b2c/[*:phone]', function ($phone) {
-    global $AT;
-    $payments = $AT->payments();
-    $response = $payments->mobileB2C(array(
-        "productName" => "TestProduct",
-        "recipients" => array(
-            array(
-                "phoneNumber" => $phone,
-                "currencyCode" => explode(" ", $_GET["amount"])[0],
-                "amount" => explode(" ", $_GET["amount"])[1],
-                "name" => "Test Guy",
-                "metadata" => array(
-                    "nothing" => "no data"
-                )
-            )
-        ),
-
-    ));
-    header("Content-Type: application/json; charset=UTF-8");
-    echo json_encode($response);
-});
-
 $match = $router->match();
 if( $match && is_callable( $match['target'] ) ) {
 	call_user_func_array( $match['target'], $match['params'] ); 
