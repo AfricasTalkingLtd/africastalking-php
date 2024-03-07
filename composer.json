@@ -21,7 +21,11 @@
     },
     "autoload": {
         "psr-4": {
-            "AfricasTalking\\SDK\\": "src/",
+            "AfricasTalking\\SDK\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "AfricasTalking\\SDK\\Tests\\": "tests"
         }
     }
