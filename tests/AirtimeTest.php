@@ -4,6 +4,7 @@ namespace AfricasTalking\SDK\Tests;
 use AfricasTalking\SDK\AfricasTalking;
 use GuzzleHttp\Exception\GuzzleException;
 
+#[\AllowDynamicProperties]
 class AirtimeTest extends \PHPUnit\Framework\TestCase
 {
 	public function setup(): void

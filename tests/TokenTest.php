@@ -4,6 +4,7 @@ namespace AfricasTalking\SDK\Tests;
 use AfricasTalking\SDK\AfricasTalking;
 use GuzzleHttp\Exception\GuzzleException;
 
+#[\AllowDynamicProperties]
 class TokenTest extends \PHPUnit\Framework\TestCase
 {
 	public function setUp(): void

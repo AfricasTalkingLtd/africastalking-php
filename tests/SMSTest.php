@@ -4,6 +4,7 @@ namespace AfricasTalking\SDK\Tests;
 use AfricasTalking\SDK\AfricasTalking;
 use GuzzleHttp\Exception\GuzzleException;
 
+#[\AllowDynamicProperties]
 class SMSTest extends \PHPUnit\Framework\TestCase
 {
 	public function setUp(): void
@@ -108,7 +109,9 @@ class SMSTest extends \PHPUnit\Framework\TestCase
 		]);
 
         $this->assertArrayHasKey('status',$response);
+        $this->assertArrayHasKey('data',$response);
         $this->assertEquals('success',$response['status']);
+        $this->assertEquals('Success',$response['data']->status);
 	}
 
 	public function testDeleteSubscription()

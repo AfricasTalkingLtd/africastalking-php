@@ -68,6 +68,16 @@ class Content extends Service
 			'keyword' 		=> $options['keyword']
 		];
 
+        /**
+         * checkoutToken Key was removed in commit:339f7057d8ff640ffa9802b4d3a812848b1072a9.
+         * To prevent breaking applications in production, we conditionally add it to
+         * the request otherwise previous behaviour persists.
+         **/
+
+        if(array_key_exists('checkoutToken',$options)){
+            $data['checkoutToken'] = $options['checkoutToken'];
+        }
+
 		$response = $this->client->post('subscription/create', ['form_params' => $data ] );
 
 		return $this->success($response);
