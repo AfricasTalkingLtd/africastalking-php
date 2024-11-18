@@ -1,0 +1,21 @@
+name: Security Audit
+
+on: [push, pull_request, schedule]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+
+      - name: Install Composer Dependencies
+        run: composer install --no-scripts --no-progress --no-suggest
+
+      - name: Run Composer Security Audit
+        run: composer audit

@@ -1,0 +1,34 @@
+name: Dependency Update
+
+on:
+  schedule:
+    - cron: '0 3 * * 1' # Runs every Monday at 3:00 AM UTC
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+
+      - name: Install Composer Dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Update Dependencies
+        run: composer update --no-progress --no-suggest
+
+      - name: Commit Updated Dependencies
+        run: |
+          git config --local user.name "Daggie Douglas Mwangi
+          git config --local user.email "douglas.mwangi@africastalking.com"
+          git add composer.lock
+          git commit -m "Update Composer dependencies" || echo "No changes to commit"
+      - name: Push Changes
+        run: git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

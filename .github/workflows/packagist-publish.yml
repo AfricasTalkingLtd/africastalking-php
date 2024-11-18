@@ -1,0 +1,39 @@
+name: Publish SDK Package to Packagist
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up PHP environment
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'  # Specify the PHP version
+
+      # Step 3: Install dependencies
+      - name: Install Composer Dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
+
+      # Step 4: Run tests (optional, but recommended)
+      - name: Run Tests
+        run: ./vendor/bin/phpunit
+        env:
+          APP_ENV: testing
+
+      # Step 5: Trigger Packagist Update
+      - name: Publish to Packagist
+        env:
+          PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+        run: |
+          curl -X POST https://packagist.org/api/update-package?username=africastalking \
+          -H "Authorization: Bearer $PACKAGIST_TOKEN" \
+          -d '{"repository":{"url":"https://github.com/AfricasTalkingLtd/africastalking-php"}}'
