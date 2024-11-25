@@ -1,10 +1,14 @@
 <?php
-require 'vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
+use Dotenv\Dotenv;
 use AfricasTalking\SDK\AfricasTalking;
 
-$username = "sandbox";
-$apiKey = getenv("API_KEY");
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$username = $_ENV['USERNAME'];
+$apiKey = $_ENV['API_KEY'];
 
 $AT = new AfricasTalking($username, $apiKey);
 
