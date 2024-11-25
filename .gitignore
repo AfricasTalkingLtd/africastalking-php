@@ -4,3 +4,4 @@ tests/Fixtures.php
 /.phpunit.result.cache
 .phpunit.cache/
 *.env
+*composer.lock
