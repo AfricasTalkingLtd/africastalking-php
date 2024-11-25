@@ -1,9 +1,9 @@
 {
-    "name": "africastalking-example",
-    "description": "Simple SDK usage",
+    "description": "Simple AfricasTalking PHP SDK usage",
     "require": {
         "php": ">=5.3.0",
         "africastalking/africastalking": "dev-develop",
-        "altorouter/altorouter": "1.1.0"
+        "altorouter/altorouter": "1.1.0",
+        "vlucas/phpdotenv": "^5.6"
     }
 }
