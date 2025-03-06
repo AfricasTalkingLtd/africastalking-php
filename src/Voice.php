@@ -232,9 +232,9 @@ class Voice extends Service
         $finishOnKey = $options['finishOnKey'];
         
         // Get callbackURL
-        if (isset($options['callBackUrl'])) {
-            $callBackUrl = $options['callBackUrl'];
-            if (!$this->isValidURL($callBackUrl)) {
+        if (isset($options['callbackUrl'])) {
+            $callbackUrl = $options['callbackUrl'];
+            if (!$this->isValidURL($callbackUrl)) {
                 return $this->error('Please set a valid callback URL');
             }
         }        
@@ -252,8 +252,8 @@ class Voice extends Service
         if (!empty($numDigits)) {
             $getDigitsString .= ' numDigits="'. $numDigits .'"';
         }
-        if (!empty($callBackUrl)) {
-            $getDigitsString .= ' callBackUrl="'. $callBackUrl .'"';
+        if (!empty($callbackUrl)) {
+            $getDigitsString .= ' callbackUrl="'. $callbackUrl .'"';
         }
         $getDigitsString .= '>';
 
@@ -401,9 +401,9 @@ class Voice extends Service
         $playBeep ? $playBeep = "true" : $playBeep ="false";
 
         // Get callbackURL
-        if (isset($options['callBackUrl'])) {
-            $callBackUrl = $options['callBackUrl'];
-            if (!$this->isValidURL($callBackUrl)) {
+        if (isset($options['callbackUrl'])) {
+            $callbackUrl = $options['callbackUrl'];
+            if (!$this->isValidURL($callbackUrl)) {
                 return $this->error('Please set a valid callback URL');
             }
         }
@@ -425,8 +425,8 @@ class Voice extends Service
         if (!empty($playBeep)) {
             $playBeep .= ' playBeep="'. $playBeep .'"';
         }
-        if (!empty($callBackUrl)) {
-            $getDigitsString .= ' callBackUrl="'. $callBackUrl .'"';
+        if (!empty($callbackUrl)) {
+            $getDigitsString .= ' callbackUrl="'. $callbackUrl .'"';
         }
         $recordString .= ' />';
 
