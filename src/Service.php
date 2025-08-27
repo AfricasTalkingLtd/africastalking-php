@@ -1,33 +1,31 @@
 <?php
+
 namespace AfricasTalking\SDK;
 
-abstract class Service 
+use GuzzleHttp\Client;
+use Psr\Http\Message\ResponseInterface;
+
+abstract class Service
 {
-	protected $client;
+    public function __construct(
+        protected Client $client,
+        protected string $username,
+        protected string $apiKey,
+    ) {}
 
-	protected $username;
+    protected static function error(string $data): array
+    {
+        return [
+            'status' => 'error',
+            'data' => $data,
+        ];
+    }
 
-	protected $apiKey;
-
-	public function __construct($client, $username, $apiKey)
-	{
-		$this->client 	= $client;
-		$this->username = $username;
-		$this->apiKey 	= $apiKey;
-	}
-
-	protected static function error($data) {
-		return [
-			'status' 	=> 'error',
-			'data'		=> $data
-		];
-	}
-
-
-	protected static function success($data) {
-		return [
-			'status' 	=> 'success',
-			'data'		=> json_decode($data->getBody()->getContents())
-		];
-	}
+    protected static function success(ResponseInterface $data): array
+    {
+        return [
+            'status' => 'success',
+            'data' => json_decode($data->getBody()->getContents()),
+        ];
+    }
 }

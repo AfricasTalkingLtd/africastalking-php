@@ -1,137 +1,142 @@
 <?php
+
 namespace AfricasTalking\SDK;
 
 use GuzzleHttp\Client;
 
 class AfricasTalking
 {
-	const BASE_DOMAIN         = "africastalking.com";
-	const BASE_SANDBOX_DOMAIN = "sandbox." . self::BASE_DOMAIN;
-	
-	protected $username;
-	protected $apiKey;
+    public const BASE_DOMAIN = 'africastalking.com';
 
-	protected $client;
-	protected $contentClient;
-	protected $voiceClient;
-	protected $tokenClient;
-	protected $mobileDataClient;
+    public const BASE_SANDBOX_DOMAIN = 'sandbox.' . self::BASE_DOMAIN;
 
-	protected $baseDomain;
+    protected string $username;
 
-	public $baseUrl;
-	protected $voiceUrl;
-    protected $checkoutTokenUrl;
-	protected $contentUrl;
-	protected $mobileDataUrl;
+    protected string $apiKey;
 
-	public function __construct($username, $apiKey)
-	{
-		if($username === 'sandbox') {
-			$this->baseDomain = self::BASE_SANDBOX_DOMAIN;
-		} else {
-			$this->baseDomain = self::BASE_DOMAIN;
-		}
+    protected Client $client;
 
-		$this->baseUrl = "https://api." . $this->baseDomain . "/version1/";
-		$this->voiceUrl = "https://voice." . $this->baseDomain . "/";
-		$this->mobileDataUrl = "https://bundles." . $this->baseDomain . "/";
-		$this->contentUrl = ($username === "sandbox") ? ($this->baseUrl) : ("https://content." . $this->baseDomain . "/version1/");
-		$this->checkoutTokenUrl = "https://api." . $this->baseDomain . "/";
+    protected Client $contentClient;
 
-		if ($username === 'sandbox') {
-			$this->contentUrl = $this->baseUrl;
-		}
+    protected Client $voiceClient;
 
-		$this->username = $username;
-		$this->apiKey = $apiKey;
+    protected Client $tokenClient;
 
-		$this->client = new Client([
-			'base_uri' => $this->baseUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/x-www-form-urlencoded',
-				'Accept' => 'application/json'
-			]
-		]);
+    protected Client $mobileDataClient;
 
-		$this->contentClient = new Client([
-			'base_uri' => $this->contentUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/x-www-form-urlencoded',
-				'Accept' => 'application/json'
-			]
-		]);
+    protected string $baseDomain;
 
-		$this->voiceClient = new Client([
-			'base_uri' => $this->voiceUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/x-www-form-urlencoded',
-				'Accept' => 'application/json'
-			]
-		]);
+    public string $baseUrl;
 
-		$this->mobileDataClient = new Client([
-			'base_uri' => $this->mobileDataUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/json',
-				'Accept' => 'application/json'
-			]
-		]);
+    protected string $voiceUrl;
 
-		$this->tokenClient = new Client([
-			'base_uri' => $this->checkoutTokenUrl,
-			'headers' => [
-				'apikey' => $this->apiKey,
-				'Content-Type' => 'application/json',
-				'Accept' => 'application/json'
-			]
-		]);
-	}
+    protected string $checkoutTokenUrl;
 
-	public function sms()
-	{
-		$content = new Content($this->contentClient, $this->username, $this->apiKey);
-		$sms = new SMS($this->client, $this->username, $this->apiKey, $content);
-		return $sms;
-	}
+    protected string $contentUrl;
 
-	public function content()
-	{
-		$content = new Content($this->contentClient, $this->username, $this->apiKey);
-		return $content;
-	}
+    protected string $mobileDataUrl;
 
-	public function airtime()
-	{
-		$airtime = new Airtime($this->client, $this->username, $this->apiKey);		
-		return $airtime;
-	}
+    public function __construct(string $username, string $apiKey)
+    {
+        if ($username === 'sandbox') {
+            $this->baseDomain = self::BASE_SANDBOX_DOMAIN;
+        } else {
+            $this->baseDomain = self::BASE_DOMAIN;
+        }
 
-	public function voice()
-	{
-		$voice = new Voice($this->voiceClient, $this->username, $this->apiKey);
-		return $voice;
-	}
+        $this->baseUrl = 'https://api.' . $this->baseDomain . '/version1/';
+        $this->voiceUrl = 'https://voice.africastalking.com/';
+        $this->mobileDataUrl = 'https://bundles.' . $this->baseDomain . '/';
+        $this->contentUrl = ($username === 'sandbox') ? ($this->baseUrl) : ('https://content.' . $this->baseDomain . '/version1/');
+        $this->checkoutTokenUrl = 'https://api.' . $this->baseDomain . '/';
 
-	public function application()
-	{
-		$application = new Application($this->client, $this->username, $this->apiKey);		
-		return $application;
-	}
+        if ($username === 'sandbox') {
+            $this->contentUrl = $this->baseUrl;
+        }
 
-	public function mobileData()
-	{
-		$mobileData = new MobileData($this->mobileDataClient, $this->username, $this->apiKey);		
-		return $mobileData;
-	}
+        $this->username = $username;
+        $this->apiKey = $apiKey;
 
-	public function token()
-	{
-		$token = new Token($this->tokenClient, $this->username, $this->apiKey);
-		return $token;
-	}
+        $this->client = new Client([
+            'base_uri' => $this->baseUrl,
+            'headers' => [
+                'apikey' => $this->apiKey,
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Accept' => 'application/json',
+            ],
+        ]);
+
+        $this->contentClient = new Client([
+            'base_uri' => $this->contentUrl,
+            'headers' => [
+                'apikey' => $this->apiKey,
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Accept' => 'application/json',
+            ],
+        ]);
+
+        $this->voiceClient = new Client([
+            'base_uri' => $this->voiceUrl,
+            'headers' => [
+                'apikey' => $this->apiKey,
+                'Content-Type' => 'application/x-www-form-urlencoded',
+                'Accept' => 'application/json',
+            ],
+        ]);
+
+        $this->mobileDataClient = new Client([
+            'base_uri' => $this->mobileDataUrl,
+            'headers' => [
+                'apikey' => $this->apiKey,
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ],
+        ]);
+
+        $this->tokenClient = new Client([
+            'base_uri' => $this->checkoutTokenUrl,
+            'headers' => [
+                'apikey' => $this->apiKey,
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ],
+        ]);
+    }
+
+    public function sms(): SMS
+    {
+        $content = new Content($this->contentClient, $this->username, $this->apiKey);
+
+        return new SMS($this->client, $this->username, $this->apiKey, $content);
+    }
+
+    public function content(): Content
+    {
+        return new Content($this->contentClient, $this->username, $this->apiKey);
+    }
+
+    public function airtime(): Airtime
+    {
+        return new Airtime($this->client, $this->username, $this->apiKey);
+    }
+
+    public function voice(): Voice
+    {
+        return new Voice($this->voiceClient, $this->username, $this->apiKey);
+    }
+
+    public function application(): Application
+    {
+        return new Application($this->client, $this->username, $this->apiKey);
+    }
+
+    public function mobileData(): MobileData
+    {
+        return new MobileData($this->mobileDataClient, $this->username, $this->apiKey);
+    }
+
+    public function token(): Token
+    {
+        return new Token($this->tokenClient, $this->username, $this->apiKey);
+    }
 }
