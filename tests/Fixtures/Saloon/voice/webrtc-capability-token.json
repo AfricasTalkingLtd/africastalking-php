@@ -1,0 +1,12 @@
+{
+    "statusCode": 201,
+    "headers": {
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT",
+        "Content-Type": "application\/json",
+        "Content-Length": "420",
+        "Connection": "keep-alive",
+        "Strict-Transport-Security": "max-age=42000420; includeSubDomains"
+    },
+    "data": "{\"clientName\":\"Bond-007\",\"incoming\":true,\"lifeTimeSec\":\"420\",\"outgoing\":true,\"token\":\"ATCAPtkn_definitelyaninvalidkeythatsomecleverindividualw-ontattempttouse-\"}",
+    "context": []
+}

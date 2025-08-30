@@ -1,0 +1,12 @@
+{
+    "statusCode": 201,
+    "headers": {
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT",
+        "Content-Type": "application\/json",
+        "Content-Length": "388",
+        "Connection": "keep-alive",
+        "Strict-Transport-Security": "max-age=42000420; includeSubDomains"
+    },
+    "data": "{\"SMSMessageData\":{\"Message\":\"Sent to 2\/2 Total Cost: KES 1.6000\",\"Recipients\":[{\"cost\":\"KES 0.8000\",\"messageId\":\"ATXid_therandomstringfromatwouldgohere\",\"messageParts\":1,\"number\":\"+254730731000\",\"status\":\"Success\",\"statusCode\":100},{\"cost\":\"KES 0.8000\",\"messageId\":\"ATXid_yetanotherstringfromatwouldgohere\",\"messageParts\":1,\"number\":\"+254730731000\",\"status\":\"Success\",\"statusCode\":100}]}}",
+    "context": []
+}

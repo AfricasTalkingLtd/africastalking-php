@@ -1,0 +1,10 @@
+{
+    "statusCode": 201,
+    "headers": {
+        "Content-Length": "276",
+        "Content-Type": "application\/json",
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT"
+    },
+    "data": "{\"errorMessage\":\"None\",\"numSent\":1,\"responses\":[{\"amount\":\"KES 100.0000\",\"discount\":\"KES 4.0000\",\"errorMessage\":\"None\",\"phoneNumber\":\"+254711082000\",\"requestId\":\"ATQid_therandomstringfromatwouldgohere\",\"status\":\"Sent\"}],\"totalAmount\":\"KES 96.0000\",\"totalDiscount\":\"KES 4.0000\"}",
+    "context": []
+}

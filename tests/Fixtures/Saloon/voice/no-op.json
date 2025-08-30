@@ -1,0 +1,12 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT",
+        "Content-Type": "application\/json",
+        "Content-Length": "420",
+        "Connection": "keep-alive",
+        "X-Current-Queue-Size": "1"
+    },
+    "data": "{\"entries\":[{\"phoneNumber\":\"+254700000000\",\"sessionId\":\"ATVId_therandomstringfromatwouldgohere\",\"status\":\"Queued\"}],\"errorMessage\":\"None\"}",
+    "context": []
+}

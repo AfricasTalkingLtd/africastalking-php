@@ -1,0 +1,10 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Content-Length": "98",
+        "Content-Type": "application\/json",
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT"
+    },
+    "data": "{\"responses\":[],\"status\":\"ProductNotFound\",\"transactionId\":\"f5d014cf-b027-488a-b264-cbf84415136c\"}",
+    "context": []
+}

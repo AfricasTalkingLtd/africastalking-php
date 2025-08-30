@@ -1,0 +1,10 @@
+{
+    "statusCode": 201,
+    "headers": {
+        "Content-Length": "316",
+        "Content-Type": "application\/json",
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT"
+    },
+    "data": "{\"entries\":[{\"phoneNumber\":\"+254711082000\",\"provider\":\"Safaricom\",\"status\":\"Queued\",\"transactionId\":\"ATPxid_therandomstringfromatwouldgohere\",\"value\":\"KES 100.0000\"},{\"phoneNumber\":\"+256783879001\",\"provider\":\"MTN Uganda\",\"status\":\"Queued\",\"transactionId\":\"ATPxid_therandomstringfromatwouldgoher3\",\"value\":\"UGX 5000.0000\"}]}",
+    "context": []
+}

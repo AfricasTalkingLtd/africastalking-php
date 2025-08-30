@@ -1,0 +1,12 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT",
+        "Content-Type": "application\/json",
+        "Content-Length": "38",
+        "Connection": "keep-alive",
+        "Strict-Transport-Security": "max-age=42000420; includeSubDomains"
+    },
+    "data": "{\"UserData\":{\"balance\":\"USD 420.0042\"}}",
+    "context": []
+}

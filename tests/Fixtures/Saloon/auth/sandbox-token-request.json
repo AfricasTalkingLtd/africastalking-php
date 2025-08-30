@@ -1,0 +1,10 @@
+{
+    "statusCode": 201,
+    "headers": {
+        "Content-Length": "107",
+        "Content-Type": "application\/json",
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT"
+    },
+    "data": "{\"lifetimeInSeconds\":3600,\"token\":\"ATtkn_definitelyaninvalidkeythatsomecleverindividualwillnotattempttous\"}",
+    "context": []
+}

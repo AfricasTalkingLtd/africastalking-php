@@ -1,25 +1,51 @@
 <?php
-namespace AfricasTalking\SDK\Tests;
 
-use AfricasTalking\SDK\AfricasTalking;
-use GuzzleHttp\Exception\GuzzleException;
+declare(strict_types=1);
 
-#[\AllowDynamicProperties]
-class ApplicationTest extends \PHPUnit\Framework\TestCase
-{
-	public function setUp(): void
-	{
-		$this->username = Fixtures::$username;
-		$this->apiKey 	= Fixtures::$apiKey;
+use Africastalking\Africastalking;
+use Africastalking\DTO\Response\ApplicationBalance;
+use Africastalking\Saloon\Application\BalanceRequest;
+use Africastalking\Services\Application;
+use Saloon\Http\Faking\MockClient;
+use Saloon\Http\Faking\MockResponse;
 
-		$at 			= new AfricasTalking($this->username, $this->apiKey);
+it('can be initialized', function (): void {
+    $subject = Africastalking::make(
+        $_ENV['USERNAME'],
+        $_ENV['API_KEY'],
+    )->application();
 
-		$this->client 	= $at->application();		
-	}
-    
-	public function testFetchAplication()
-	{
-		$response = $this->client->fetchApplicationData();
-		$this->assertObjectHasProperty('UserData', $response['data']);
-	}
-}
+    expect($subject)->toBeInstanceOf(Application::class);
+});
+
+it('fetches user balance', function (): void {
+    MockClient::global([
+        BalanceRequest::class => MockResponse::fixture('application/balance'),
+    ]);
+
+    $subject = Africastalking::make(
+        $_ENV['USERNAME'],
+        $_ENV['API_KEY'],
+    )->application()->balance();
+
+    expect($subject)
+        ->toBeInstanceOf(ApplicationBalance::class)
+        ->amount->toBe(420.0042)
+        ->currency->toBe('USD');
+});
+
+it('fetches user balance using an alias', function (): void {
+    MockClient::global([
+        BalanceRequest::class => MockResponse::fixture('application/balance'),
+    ]);
+
+    $subject = Africastalking::make(
+        $_ENV['USERNAME'],
+        $_ENV['API_KEY'],
+    )->application()->bal();
+
+    expect($subject)
+        ->toBeInstanceOf(ApplicationBalance::class)
+        ->amount->toBe(420.0042)
+        ->currency->toBe('USD');
+});

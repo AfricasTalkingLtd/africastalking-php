@@ -1,0 +1,10 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Content-Length": "25",
+        "Content-Type": "application\/json",
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT"
+    },
+    "data": "{\"balance\":\"KES 116085350.3080\",\"status\":\"Success\"}",
+    "context": []
+}

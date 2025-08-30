@@ -1,0 +1,10 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Content-Length": "389",
+        "Content-Type": "application\/json",
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT"
+    },
+    "data": "{\"responses\":[{\"cost\":{\"amount\":5,\"currencyCode\":\"KES\"},\"phoneNumber\":{\"carrierName\":\"Safaricom\",\"countryCode\":254,\"networkCode\":\"Safaricom\",\"number\":\"+254711082000\",\"numberType\":\"Mobile\"},\"requestId\":\"ATXSwid_c0096db4ee2bd7148b268cf384f3c8a6\",\"status\":\"Queued\"}],\"status\":\"Processed\",\"totalCost\":{\"amount\":0.05,\"currencyCode\":\"USD\"},\"transactionId\":\"f5d014cf-b027-488a-b264-cbf84415136c\"}",
+    "context": []
+}

@@ -1,9 +1,12 @@
 {
-    "name": "africastalking/africastalking",
-    "description": "Official Africa's Talking PHP SDK",
-    "keywords": ["sms", "voice", "ussd", "text message", "airtime", "api", "africastalking"],
-    "homepage": "http://github.com/AfricasTalkingLtd/africastalking-php",
-    "type": "library",
+    "name": "africastalking/sdk",
+    "description": "PHP SDK for interacting with Africa's Talking APIs",
+    "keywords": [
+        "africastalking",
+        "Africa's Talking",
+        "php-sdk"
+    ],
+    "homepage": "https://github.com/samuelmwangiw/php-sdk",
     "license": "MIT",
     "authors": [
         {
@@ -13,20 +16,43 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
-        "guzzlehttp/guzzle": "^6.0 || ^7.0"
+        "php": "^8.3",
+        "saloonphp/saloon": "^3.14"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.3"
+        "laravel/pint": "^1.24",
+        "pestphp/pest": "^4.0",
+        "phpstan/phpstan": "^2.1",
+        "roave/security-advisories": "dev-latest",
+        "spatie/ray": "^1.42"
+    },
+    "conflict": {
+        "africastalking/africastalking": "*"
     },
     "autoload": {
         "psr-4": {
-            "AfricasTalking\\SDK\\": "src/"
+            "Africastalking\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AfricasTalking\\SDK\\Tests\\": "tests"
+            "Africastalking\\Tests\\": "tests"
         }
-    }
+    },
+    "scripts": {
+        "pest": "vendor/bin/pest",
+        "phpstan": "vendor/bin/phpstan",
+        "test": "vendor/bin/pest && vendor/bin/phpstan",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

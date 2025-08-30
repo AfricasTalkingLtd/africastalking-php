@@ -1,0 +1,12 @@
+{
+    "statusCode": 201,
+    "headers": {
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT",
+        "Content-Type": "application\/json",
+        "Content-Length": "148",
+        "Connection": "keep-alive",
+        "Strict-Transport-Security": "max-age=42000420; includeSubDomains"
+    },
+    "data": "{\"errorMessage\":\"Request is over the trial limit. Submit your KYC to remove limit\",\"numSent\":0,\"responses\":[],\"totalAmount\":\"0\",\"totalDiscount\":\"0\"}",
+    "context": []
+}

@@ -1,0 +1,10 @@
+{
+    "statusCode": 201,
+    "headers": {
+        "Content-Length": "163",
+        "Content-Type": "application\/json",
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT"
+    },
+    "data": "{\"entries\":[{\"phoneNumber\":\"+254711082000\",\"provider\":\"Safaricom\",\"status\":\"Queued\",\"transactionId\":\"ATPxid_therandomstringfromatwouldgohere\",\"value\":\"KES 10.0000\"}]}",
+    "context": []
+}

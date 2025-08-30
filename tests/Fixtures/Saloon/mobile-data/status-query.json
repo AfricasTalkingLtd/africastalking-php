@@ -1,0 +1,10 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Content-Length": "481",
+        "Content-Type": "application\/json",
+        "Date": "Sat, 23 Aug 2042 00:00:00 GMT"
+    },
+    "data": "{\"data\":{\"category\":\"MobileData\",\"creationTime\":\"2042-08-23 00:00:00\",\"description\":\"MobileData Payment Request for 15.0 MB (Day)\",\"destination\":\"+254711082000\",\"destinationType\":\"PhoneNumber\",\"productName\":\"Mobile Data\",\"provider\":\"Athena\",\"providerChannel\":\"MobileData\",\"providerMetadata\":{},\"requestMetadata\":{},\"source\":\"PaymentWallet\",\"sourceType\":\"Wallet\",\"status\":\"Queued\",\"transactionId\":\"ATPxid_therandomstringfromatwouldgohere\",\"value\":\"KES 10.0000\"},\"status\":\"Success\"}",
+    "context": []
+}
