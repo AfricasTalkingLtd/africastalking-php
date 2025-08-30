@@ -2,9 +2,9 @@
 
 # Africa's Talking PHP SDK
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/africastalking/sdk.svg?style=flat-square)](https://packagist.org/packages/africastalking/sdk)
-[![Tests](https://img.shields.io/github/actions/workflow/status/SamuelMwangiW/php-sdk/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/samuelmwangiw/php-sdk/actions/workflows/run-tests.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/africastalking/sdk.svg?style=flat-square)](https://packagist.org/packages/africastalking/sdk)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/africastalking/africastalking.svg?style=flat-square)](https://packagist.org/packages/africastalking/africastalking)
+[![Tests](https://img.shields.io/github/actions/workflow/status/AfricasTalkingLtd/africastalking-php/run-tests.yml?branch=develop&label=tests&style=flat-square)](https://github.com/AfricasTalkingLtd/africastalking-php/actions/workflows/run-tests.yml)
+[![Static Analysis](https://img.shields.io/github/actions/workflow/status/AfricasTalkingLtd/africastalking-php/phpstan.yml?branch=develop&label=tests&style=flat-square)](https://github.com/AfricasTalkingLtd/africastalking-php/actions/workflows/phpstan.yml)
 
 > This SDK provides convenient access to the Africa's Talking API for applications written in PHP.
 
