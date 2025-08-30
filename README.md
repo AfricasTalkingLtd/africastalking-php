@@ -4,7 +4,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/africastalking/africastalking.svg?style=flat-square)](https://packagist.org/packages/africastalking/africastalking)
 [![Tests](https://img.shields.io/github/actions/workflow/status/AfricasTalkingLtd/africastalking-php/run-tests.yml?branch=develop&label=tests&style=flat-square)](https://github.com/AfricasTalkingLtd/africastalking-php/actions/workflows/run-tests.yml)
-[![Static Analysis](https://img.shields.io/github/actions/workflow/status/AfricasTalkingLtd/africastalking-php/phpstan.yml?branch=develop&label=tests&style=flat-square)](https://github.com/AfricasTalkingLtd/africastalking-php/actions/workflows/phpstan.yml)
+[![Static Analysis](https://img.shields.io/github/actions/workflow/status/AfricasTalkingLtd/africastalking-php/phpstan.yml?branch=develop&label=Static+Analysis&style=flat-square)](https://github.com/AfricasTalkingLtd/africastalking-php/actions/workflows/phpstan.yml)
 
 > This SDK provides convenient access to the Africa's Talking API for applications written in PHP.
 
